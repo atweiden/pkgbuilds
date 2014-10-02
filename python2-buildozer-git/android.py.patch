@@ -1,0 +1,11 @@
+--- ./buildozer/targets/android.py	2014-06-05 16:39:55.956081374 -0700
++++ ./buildozer/targets/android.py	2014-06-05 16:40:17.799414130 -0700
+@@ -126,7 +126,7 @@
+         self.buildozer.environ['PATH'] = ':'.join(path)
+         checkbin = self.buildozer.checkbin
+         checkbin('Git (git)', 'git')
+-        checkbin('Cython (cython)', 'cython')
++        checkbin('Cython2 (cython2)', 'cython2')
+         checkbin('Java compiler (javac)', self.javac_cmd)
+         checkbin('Java keytool (keytool)', self.keytool_cmd)
+ 

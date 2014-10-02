@@ -1,0 +1,28 @@
+post_install() {
+  _mksymlinks
+}
+
+post_upgrade() {
+  post_remove
+  post_install
+}
+
+post_remove() {
+  _rmsymlinks
+}
+
+_mksymlinks() {
+  echo -n "Symlinking binaries..."
+  for _appbin in ssdb-cli ssdb-repair ssdb-bench ssdb-dump ssdb-server; do
+    ln -s /usr/share/ssdb/$_appbin /usr/bin/$_appbin
+  done
+  echo "done"
+}
+
+_rmsymlinks() {
+  echo -n "Removing symlinks..."
+  for _appbin in ssdb-cli ssdb-repair ssdb-bench ssdb-dump ssdb-server; do
+    rm -f /usr/bin/$_appbin
+  done
+  echo "done"
+}

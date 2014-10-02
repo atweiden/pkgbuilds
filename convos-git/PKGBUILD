@@ -1,0 +1,43 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=convos-git
+pkgver=20140209
+pkgrel=1
+pkgdesc="The simplest way to use IRC"
+url="http://convos.by/"
+license=('unknown')
+depends=('ruby-sass')
+makedepends=('git')
+source=(git+https://github.com/Nordaaker/convos
+        convos.service)
+sha256sums=('SKIP'
+            '5396f8cff335488a3832ed3ab6705032921e2a23f862e74a9ce6bb2c3bd48cd8')
+provides=('convos')
+conflicts=('convos')
+install=convos.install
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Fetching deps using carton bundled with the repo...'
+  ./vendor/bin/carton
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing...'
+  install -dm 755 ${pkgdir}/usr/share/convos
+  tar -c . | tar -x -C ${pkgdir}/usr/share/convos
+
+  msg 'Installing systemd service file...'
+  install -Dm644 "$srcdir/convos.service" "$pkgdir/usr/lib/systemd/system/convos.service"
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}

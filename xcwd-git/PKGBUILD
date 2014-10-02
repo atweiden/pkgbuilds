@@ -1,0 +1,38 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=xcwd-git
+pkgver=20131224
+pkgrel=1
+pkgdesc="A simple tool which prints the current working directory of the currently focused window"
+arch=('i686' 'x86_64')
+makedepends=('gcc' 'git' 'make')
+url="https://github.com/schischi-a/xcwd"
+license=('BSD')
+source=(git+https://github.com/schischi-a/xcwd)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Building...'
+  make
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing docs...'
+  install -Dm 644 README.md "$pkgdir/usr/share/doc/xcwd/README.md"
+
+  msg 'Installing...'
+  install -Dm 755 xcwd "$pkgdir/usr/bin/xcwd"
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

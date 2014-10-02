@@ -1,0 +1,92 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgbase=btcd
+pkgname=('btcd' 'btcwallet' 'btcgui')
+pkgver=20131205
+pkgrel=1
+arch=('any')
+makedepends=('go')
+url="https://opensource.conformal.com/wiki/btcd"
+license=('ISC')
+options=('!strip' '!emptydirs')
+provides=('btcd')
+install=btcd.install
+
+build() {
+  GOPATH="$srcdir" go get -fix -v -x github.com/conformal/btcd
+  GOPATH="$srcdir" go get -fix -v -x github.com/conformal/btcwallet
+  GOPATH="$srcdir" go get -fix -v -x github.com/conformal/btcgui
+}
+
+check() {
+  source /etc/profile.d/go.sh
+  GOPATH="$GOPATH:$srcdir" go test -v -x github.com/conformal/btcd || return 0
+  GOPATH="$GOPATH:$srcdir" go test -v -x github.com/conformal/btcwallet || return 0
+  GOPATH="$GOPATH:$srcdir" go test -v -x github.com/conformal/btcgui || return 0
+}
+
+package_btcd() {
+  pkgdesc="An alternative full node Bitcoin implementation written in Go"
+
+  source /etc/profile.d/go.sh
+  mkdir -p "$pkgdir/$GOPATH"
+  cp -Rv --preserve=timestamps ${srcdir}/{src,pkg,bin} "$pkgdir/$GOPATH"
+
+  # Package license (if available)
+  for f in LICENSE COPYING LICENSE.* COPYING.*; do
+    if [ -e "$srcdir/src/$_gourl/$f" ]; then
+      install -Dm644 "$srcdir/src/$_gourl/$f" \
+        "$pkgdir/usr/share/licenses/$pkgname/$f"
+    fi
+  done
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+  find "$pkgdir" -type d -name .hg -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .hgignore -exec rm -r '{}' +
+}
+
+package_btcwallet() {
+  pkgdesc="Daemon handling Bitcoin wallet functions, with asynchronous blockchain queries and notifications over websockets"
+
+  source /etc/profile.d/go.sh
+  mkdir -p "$pkgdir/$GOPATH"
+  cp -Rv --preserve=timestamps ${srcdir}/{src,pkg,bin} "$pkgdir/$GOPATH"
+
+  # Package license (if available)
+  for f in LICENSE COPYING LICENSE.* COPYING.*; do
+    if [ -e "$srcdir/src/$_gourl/$f" ]; then
+      install -Dm644 "$srcdir/src/$_gourl/$f" \
+        "$pkgdir/usr/share/licenses/$pkgname/$f"
+    fi
+  done
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+  find "$pkgdir" -type d -name .hg -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .hgignore -exec rm -r '{}' +
+}
+
+package_btcgui() {
+  pkgdesc="Graphical frontend to btcwallet and btcd written using gotk3"
+
+  source /etc/profile.d/go.sh
+  mkdir -p "$pkgdir/$GOPATH"
+  cp -Rv --preserve=timestamps ${srcdir}/{src,pkg,bin} "$pkgdir/$GOPATH"
+
+  # Package license (if available)
+  for f in LICENSE COPYING LICENSE.* COPYING.*; do
+    if [ -e "$srcdir/src/$_gourl/$f" ]; then
+      install -Dm644 "$srcdir/src/$_gourl/$f" \
+        "$pkgdir/usr/share/licenses/$pkgname/$f"
+    fi
+  done
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+  find "$pkgdir" -type d -name .hg -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .hgignore -exec rm -r '{}' +
+}

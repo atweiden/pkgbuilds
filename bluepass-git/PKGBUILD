@@ -1,0 +1,43 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=bluepass-git
+pkgver=20140101
+pkgrel=1
+pkgdesc="Next-generation password manager"
+arch=('any')
+depends=('python2' 'python2-gevent' 'python2-greenlet' 'python2-six' 'python2-python-tdbus')
+makedepends=('git' 'python2-setuptools')
+url="https://github.com/geertj/bluepass"
+license=('GPL3')
+source=(git+https://github.com/geertj/bluepass)
+sha256sums=('SKIP')
+provides=('bluepass')
+conflicts=('bluepass')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%-git}
+
+  msg 'Fixing Python version...'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python#/usr/bin/python2#g'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python#/usr/bin/env python2#g'
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing documentation...'
+  install -d "$pkgdir/usr/share/doc/${pkgname%-git}"
+  cp docs/* "$pkgdir/usr/share/doc/${pkgname%-git}"
+
+  msg 'Installing...'
+  python2 setup.py install --root="$pkgdir" --optimize=1
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

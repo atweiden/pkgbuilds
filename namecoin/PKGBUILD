@@ -1,0 +1,64 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=namecoin-git
+pkgver=nc0.3.50.00.74.g8b3530d
+pkgrel=2
+pkgdesc="Peer to peer naming system based on Bitcoin"
+arch=('i686' 'x86_64')
+url="https://dot-bit.org/"
+depends=('qt4>=4.6' 'libpng>=1.4' 'expat' 'gcc-libs' 'boost-libs>=1.46' 'miniupnpc>=1.5' 'openssl')
+makedepends=('git' 'boost' 'gcc' 'make' 'automoc4')
+conflicts=('namecoin-bin' 'namecoin' 'namecoind' 'namecoin-daemon' 'namecoin-qt')
+provides=('namecoin')
+license=('MIT')
+source=(${pkgname%-git}::git+https://github.com/namecoin-qt/namecoin-qt
+        Makefile.patch)
+sha256sums=('SKIP'
+            'f19a9091180ec055ba0d6e37ee48403133f09cdaa1abda214dd823f7cd585ab9')
+install=namecoin-qt.install
+
+## files & commands for building
+makefile_unix=Makefile
+qmake=qmake-qt4
+
+pkgver() {
+  cd ${pkgname%-git}
+  git describe --always | sed 's|-|.|g'
+}
+
+prepare() {
+  cd ${pkgname%-git}
+
+  msg "Patching $makefile_unix..."
+  patch -p1 < ${srcdir}/Makefile.patch
+}
+
+build() {
+  cd ${pkgname%-git}/src
+
+  msg "Patching $makefile_unix..."
+  sed -i $makefile_unix \
+    -e 's/CXXFLAGS/CPPFLAGS/g' \
+    -e 's/-O[0-3]/${CXXFLAGS}/g' \
+    -e 's/$(DEBUGFLAGS)//g'
+
+  # make namecoind
+  msg "Starting make for namecoind..."
+  make USE_UPNP= USE_SSL=1 $MAKEFLAGS -f $makefile_unix namecoind
+
+  # and make qt gui
+  msg "Starting make for namecoin-qt..."
+  cd ..
+  $qmake
+  make $MAKEFLAGS
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  find $pkgdir/usr/share/ -type f | xargs chmod -x
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

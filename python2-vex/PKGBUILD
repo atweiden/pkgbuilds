@@ -1,0 +1,32 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=python2-vex
+pkgver=0.0.12
+pkgrel=1
+pkgdesc="Run commands in a virtualenv without modifying the current shell environment"
+arch=('any')
+depends=('python2')
+makedepends=('python2-setuptools')
+url="https://github.com/sashahart/vex"
+license=('MIT')
+options=(!emptydirs)
+source=(https://pypi.python.org/packages/source/v/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
+md5sums=('308514aa1f106e8054d9da260ab4ce4d')
+sha256sums=('bae6d02488526465cdf2c6b4d37a1ff7ec086c533ba20e1e1c7d975fa3e091e6')
+
+build() {
+  cd $srcdir/${pkgname#python2-}-$pkgver
+
+  msg 'Building...'
+  python2 setup.py build
+}
+
+package() {
+  cd $srcdir/${pkgname#python2-}-$pkgver
+
+  msg 'Installing...'
+  python2 setup.py install --root="$pkgdir" --optimize=1
+
+  msg 'Renaming binary to vex2...'
+  mv "$pkgdir/usr/bin/vex" "$pkgdir/usr/bin/vex2"
+}

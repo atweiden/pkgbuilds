@@ -1,0 +1,43 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=birsh-git
+pkgver=20130728
+pkgrel=1
+pkgdesc="libvirt replacement in bash, without XML files"
+arch=('any')
+depends=('iptables' 'multipath-tools' 'qemu' 'screen' 'socat')
+makedepends=('git')
+url="https://github.com/Kdecherf/birsh"
+license=('ISC')
+source=(git+https://github.com/Kdecherf/birsh
+        settings.patch)
+sha256sums=('SKIP'
+            'b3ee58c101b7b27b2165f51eae79a3c5f4bee9d3051287d15443cac88ba5bd52')
+provides=('birsh')
+conflicts=('birsh')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%-git}
+
+  msg "Patching settings..."
+  patch -p1 < ${srcdir}/settings.patch
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing...'
+  mkdir -p "$pkgdir"/mnt/${pkgname%-git}
+  mkdir -p "$pkgdir"/tmp/${pkgname%-git}
+  mkdir -p "$pkgdir"/usr/bin
+  mkdir -p "$pkgdir"/usr/share/${pkgname%-git}
+  make DESTDIR="$pkgdir" install
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}

@@ -1,0 +1,25 @@
+# Contributor: Juan Diego Tascon
+# Contributor: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=ruby-rexec
+pkgver=1.6.0
+pkgrel=1
+pkgdesc="RExec (Remote Execution) is a simple tool for running distributed Ruby code"
+arch=('any')
+url="http://www.codeotaku.com/projects/rexec/index"
+license=('GPL2')
+depends=('ruby')
+source=(https://rubygems.org/downloads/${pkgname#*-}-${pkgver}.gem)
+sha256sums=('fc600e416c2ca52759c3c2a90e8475fb51064b8c98cec8037553785d6c15e979')
+noextract=("${pkgname#*-}-${pkgver}.gem")
+
+package() {
+  cd "$srcdir"
+
+  msg 'Installing...'
+  gem install \
+    --no-user-install \
+    --ignore-dependencies \
+    -i "$pkgdir$(ruby -rubygems -e'puts Gem.default_dir')" \
+    ${pkgname#*-}-$pkgver.gem
+}

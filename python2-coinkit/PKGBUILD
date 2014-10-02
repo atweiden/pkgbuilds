@@ -1,0 +1,29 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=python2-coinkit
+pkgver=0.5.2
+pkgrel=1
+pkgdesc="Keypair, address, brain wallet & deterministic wallet creation for Bitcoin, Litecoin, Dogecoin, Namecoin and others"
+arch=('any')
+depends=('python2' 'python2-characters' 'python2-ecdsa')
+makedepends=('python2-setuptools')
+url="https://github.com/onenameio/coinkit"
+license=('MIT')
+options=(!emptydirs)
+source=(https://pypi.python.org/packages/source/c/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
+md5sums=('a8368960e03085314450b69e1275943e')
+sha256sums=('1c9d44b43b008928fa15e31ceb05a9a1e17d4026614e6dc2aaf52737e03dd587')
+
+build() {
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
+
+  msg 'Building...'
+  python2 setup.py build
+}
+
+package() {
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
+
+  msg 'Installing...'
+  python2 setup.py install --root="$pkgdir" --optimize=1
+}

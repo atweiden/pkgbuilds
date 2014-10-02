@@ -1,0 +1,50 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=ethereum
+pkgver=0.6.0
+pkgrel=1
+pkgdesc="Next-generation distributed cryptographic ledger"
+arch=('i686' 'x86_64')
+depends=('boost' 'boost-libs' 'crypto++' 'gmp' 'leveldb' 'miniupnpc' 'ncurses' 'openssl' 'python2' 'qt5-base' 'qt5-declarative' 'qt5-quick1' 'qt5-quickcontrols' 'qt5-webkit' 'readline' 'snappy')
+makedepends=('autoconf' 'automake' 'cmake' 'gcc' 'glibc' 'libtool' 'yasm')
+url="https://code.ethereum.org/"
+license=('GPL')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/ethereum/cpp-$pkgname/tar.gz/poc-6)
+sha256sums=('b75391d8a0733af5d12c05a1bcd5dffbd70bc0918da0669bc12d1a059cb52652')
+provides=('alethzero' 'cpp-ethereum' 'ethereum' 'lllc' 'sc' 'testeth' 'third')
+conflicts=('alethzero' 'cpp-ethereum' 'ethereum' 'lllc' 'sc' 'secp256k1' 'testeth' 'third')
+
+prepare() {
+  cd "$srcdir/cpp-$pkgname-poc-6"
+
+  msg 'Fixing cryptopp...'
+  find . -type f -print0 | xargs -0 sed -i 's@#include <sha3.h>@#include <cryptopp/sha3.h>@g'
+  find . -type f -print0 | xargs -0 sed -i 's@#include <sha.h>@#include <cryptopp/sha.h>@g'
+  find . -type f -print0 | xargs -0 sed -i 's@#include <ripemd.h>@#include <cryptopp/ripemd.h>@g'
+
+  msg 'Fixing CMakeLists.txt...'
+  sed -i "s@jsonrpc/rpc.h@rpc/rpc.h@" CMakeLists.txt
+
+  msg 'Fixing Python version...'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python#/usr/bin/python2#g'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python#/usr/bin/env python2#g'
+}
+
+build() {
+  cd "$srcdir/cpp-$pkgname-poc-6"
+
+  msg 'Building...'
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DCMAKE_THREAD_LIBS_INIT=pthread ./
+  make
+}
+
+package() {
+  cd "$srcdir/cpp-$pkgname-poc-6"
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+  install -Dm 755 libqethereum/libqethereum.so "$pkgdir/usr/lib/libqethereum.so"
+  install -Dm 755 alethzero/alethzero "$pkgdir/usr/bin/alethzero"
+  install -Dm 755 test/testeth        "$pkgdir/usr/bin/testeth"
+  install -Dm 755 third/third         "$pkgdir/usr/bin/third"
+}

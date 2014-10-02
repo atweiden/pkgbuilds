@@ -1,0 +1,58 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: Dennis Fink <the_metalgamer@hackerspace.lu>
+
+pkgname=python-acrylamid-git
+pkgver=20140116
+pkgrel=1
+pkgdesc="Static blog compiler with incremental updates"
+arch=('any')
+depends=('python' 'python-jinja' 'python-markdown' 'python2-translitcodec')
+makedepends=('git' 'python-setuptools')
+optdepends=('discount: Discount'
+            'python-asciimathml: AsciiMathML to MathML'
+            'python-ansi2html: ANSI escape codes in HTML code examples'
+            'python-docutils: reStructuredText'
+            'python-magic: Non-ASCII text detection'
+            'python-mako: Mako Templating'
+            'python-pygments: Syntax Highlighting'
+            'python-smartypants: Typography enhancements'
+            'python-textile: Textile'
+            'python-twitter: Twitter'
+            'python-unidecode: Cyrillic/Chinese ASCII slugs'
+            'python-yaml: YAML parser')
+url="http://posativ.org/acrylamid/"
+license=('BSD')
+source=(${pkgname%-git}::git+https://github.com/posativ/acrylamid)
+sha256sums=('SKIP')
+provides=('acrylamid' 'python-acrylamid')
+conflicts=('acrylamid' 'python-acrylamid')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%-git}
+
+  msg 'Fixing Jinja version...'
+  find . -type f -print0 | xargs -0 sed -i 's#Jinja2==2.6#Jinja2>=2.6#g'
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Building...'
+  python setup.py build
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing...'
+  python setup.py install --root="$pkgdir" --optimize=1
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

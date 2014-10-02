@@ -1,0 +1,41 @@
+# Contributor: MatToufoutu <mattoufootu[at]gmail.com>
+# Contributor: Grzegorz Wierzowiecki <gwpublic[atat]wp.pl>
+# Contributor: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=sydbox
+pkgver=0.7.6
+pkgrel=1
+pkgdesc="ptrace based sandbox"
+arch=('i686' 'x86_64')
+depends=('pinktrace')
+makedepends=('autoconf' 'automake' 'make')
+url="http://dev.exherbo.org/~alip/sydbox/sydbox.html"
+license=('GPL2')
+source=(http://dev.exherbo.org/~alip/sydbox/${pkgname}-${pkgver}.tar.bz2
+        http://dev.exherbo.org/~alip/sydbox/${pkgname}-${pkgver}.tar.bz2.asc)
+sha1sums=('22bb3bb670af1a9e1b829ad4e16669bc2287f659'
+          '2cfc7634e90a2530dfb52ab7ec74420196a1bf69')
+sha256sums=('3c758c94c86c4ac72895c9fdaefa767f6b9256d8e658c5b70a850133a119c72b'
+            '460f39355130d100e89a78398553241e7965b9bcb8235526785cf4ea603ce9b6')
+provides=('sydbox')
+
+build() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+
+  msg 'Building...'
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib/sydbox \
+    --sysconfdir=/etc \
+    --sharedstatedir=/usr/share/sydbox \
+    --localstatedir=/var/lib/sydbox
+  make
+}
+
+package() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+}

@@ -1,0 +1,42 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=vim-lightline-git
+pkgver=20140727
+pkgrel=1
+pkgdesc="A light and configurable statusline/tabline for Vim (like Powerline)"
+arch=('any')
+depends=('vim')
+makedepends=('git')
+groups=('vim-plugins')
+url="https://github.com/itchyny/lightline.vim"
+license=('MIT')
+source=(${pkgname%-git}::git+https://github.com/itchyny/lightline.vim)
+sha256sums=('SKIP')
+provides=('vim-lightline')
+conflicts=('vim-lightline')
+install=vimdoc.install
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing license...'
+  install -Dm 644 LICENSE "$pkgdir/usr/share/licenses/vim-lightline/LICENSE"
+
+  msg 'Installing docs...'
+  install -Dm 644 README.md "$pkgdir/usr/share/doc/vim-lightline/README.md"
+
+  msg 'Installing dirs...'
+  install -dm 755 "$pkgdir/usr/share/vim/vimfiles"
+  for _dir in autoload doc plugin; do
+    cp -dpr --no-preserve=ownership $_dir "$pkgdir/usr/share/vim/vimfiles/$_dir"
+  done
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

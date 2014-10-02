@@ -1,0 +1,10 @@
+post_install() {
+  printf "$ethereal\n"
+}
+
+read -d '' ethereal <<'EOF'
+To start Ethereal:
+
+    $ ethereal -asset_path /usr/share/ethereal/src/github.com/ethereum/go-ethereum/ethereal/assets
+
+EOF

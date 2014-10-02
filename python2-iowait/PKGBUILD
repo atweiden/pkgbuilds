@@ -1,0 +1,32 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=python2-iowait
+pkgver=0.2
+pkgrel=1
+pkgdesc="Build complex pipelines of batch jobs, with dependency resolution, workflow management, and visualization"
+arch=('any')
+depends=('python2')
+makedepends=('python2-setuptools')
+url="https://launchpad.net/python-iowait"
+license=('GPL3')
+options=(!emptydirs)
+source=(https://pypi.python.org/packages/source/i/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
+md5sums=('f49ca7766fe4a67e03a731e575614f87')
+sha256sums=('ab1bc2eb84c22ccf61f17a0024f9fb6df781b39f1852764a66a7769d5adfb299')
+provides=('iowait')
+conflicts=('iowait')
+
+prepare(){
+  cd $srcdir/${pkgname#python2-}-$pkgver
+
+  msg 'Fixing Python version...'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python#/usr/bin/python2#g'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python#/usr/bin/env python2#g'
+}
+
+package() {
+  cd $srcdir/${pkgname#python2-}-$pkgver
+
+  msg 'Installing...'
+  python2 setup.py install --root="$pkgdir" --optimize=1
+}

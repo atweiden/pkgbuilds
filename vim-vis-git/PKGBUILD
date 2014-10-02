@@ -1,0 +1,41 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=vim-vis-git
+pkgver=20130426
+pkgrel=2
+pkgdesc="Extended Vim visual mode commands, substitutes, and searches"
+arch=('any')
+depends=('vim' 'vim-align' 'vim-cecutil')
+makedepends=('git')
+groups=('vim-plugins')
+url="https://github.com/vim-scripts/vis"
+license=('MIT')
+source=(${pkgname%-git}::git+https://github.com/vim-scripts/vis)
+sha256sums=('SKIP')
+provides=('vim-vis')
+conflicts=('vim-vis')
+install=vimdoc.install
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing docs...'
+  install -Dm 644 README "$pkgdir/usr/share/doc/vim-vis/README"
+
+  msg 'Installing dirs...'
+  install -dm 755 "$pkgdir/usr/share/vim/vimfiles"
+  for _dir in autoload doc plugin; do
+    cp -dpr --no-preserve=ownership $_dir "$pkgdir/usr/share/vim/vimfiles/$_dir"
+  done
+
+  msg 'Removing cecutil.vim (vim-align provides this)...'
+  rm -f $pkgdir/usr/share/vim/vimfiles/plugin/cecutil.vim
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}

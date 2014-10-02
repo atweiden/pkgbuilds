@@ -1,0 +1,127 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=primecoin-hp-git
+pkgver=20140205
+pkgrel=1
+pkgdesc="Primecoin high performance version (mikaelh)"
+arch=('i686' 'x86_64')
+url="http://www.primecoin.org/"
+depends=('qt4>=4.6' 'libpng>=1.4' 'expat' 'gcc-libs' 'boost-libs>=1.46' 'miniupnpc>=1.5' 'openssl')
+makedepends=('git' 'boost' 'gcc' 'make' 'automoc4')
+conflicts=('primecoin-bin' 'primecoin' 'primecoind' 'primecoin-daemon' 'primecoin-hp' 'primecoin-git' 'primecoin-qt')
+provides=('primecoin-hp')
+license=('MIT')
+#source=(git+https://github.com/mikaelh2/primecoin)
+#source=(${pkgname%-git}::git+https://bitbucket.org/pankkake/mikaelh2-primecoin/)
+source=(${pkgname%-git}::git+https://bitbucket.org/mikaelh/primecoin-hp)
+sha256sums=('SKIP')
+install=primecoin-qt.install
+
+## files & commands for building
+makefile_unix=makefile.unix
+qmake="qmake-qt4 bitcoin-qt.pro"
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%-git}
+
+  msg "Patching bitcoind to primecoind..."
+  find contrib -type f -print0 | xargs -0 sed -i 's#bitcoin#primecoin#g'
+
+  msg "Renaming files..."
+  mv contrib/debian/bitcoind.bash-completion contrib/debian/primecoind.bash-completion
+  mv contrib/debian/bitcoind.examples contrib/debian/primecoind.examples
+  mv contrib/debian/bitcoind.install contrib/debian/primecoind.install
+  mv contrib/debian/bitcoind.lintian-overrides contrib/debian/primecoind.lintian-overrides
+  mv contrib/debian/bitcoind.manpages contrib/debian/primecoind.manpages
+  mv contrib/debian/bitcoin-qt.desktop contrib/debian/primecoin-qt.desktop
+  mv contrib/debian/bitcoin-qt.install contrib/debian/primecoin-qt.install
+  mv contrib/debian/bitcoin-qt.lintian-overrides contrib/debian/primecoin-qt.lintian-overrides
+  mv contrib/debian/bitcoin-qt.protocol contrib/debian/primecoin-qt.protocol
+  mv contrib/debian/examples/bitcoin.conf contrib/debian/examples/primecoin.conf
+  mv contrib/debian/manpages/bitcoin.conf.5 contrib/debian/manpages/primecoin.conf.5
+  mv contrib/debian/manpages/bitcoind.1 contrib/debian/manpages/primecoind.1
+  mv contrib/debian/manpages/bitcoin-qt.1 contrib/debian/manpages/primecoin-qt.1
+  mv contrib/homebrew/bitcoin.qt.pro.patch contrib/homebrew/primecoin.qt.pro.patch
+  mv contrib/test-patches/bitcoind-comparison.patch contrib/test-patches/primecoind-comparison.patch
+  mv doc/bitcoin_logo_doxygen.png doc/primecoin_logo_doxygen.png
+  mv share/pixmaps/bitcoin128.png share/pixmaps/primecoin128.png
+  mv share/pixmaps/bitcoin128.xpm share/pixmaps/primecoin128.xpm
+  mv share/pixmaps/bitcoin16.png share/pixmaps/primecoin16.png
+  mv share/pixmaps/bitcoin16.xpm share/pixmaps/primecoin16.xpm
+  mv share/pixmaps/bitcoin256.png share/pixmaps/primecoin256.png
+  mv share/pixmaps/bitcoin256.xpm share/pixmaps/primecoin256.xpm
+  mv share/pixmaps/bitcoin32.png share/pixmaps/primecoin32.png
+  mv share/pixmaps/bitcoin32.xpm share/pixmaps/primecoin32.xpm
+  mv share/pixmaps/bitcoin64.png share/pixmaps/primecoin64.png
+  mv share/pixmaps/bitcoin64.xpm share/pixmaps/primecoin64.xpm
+  mv share/pixmaps/bitcoin-bc.ico share/pixmaps/primecoin-bc.ico
+  mv share/pixmaps/bitcoin.ico share/pixmaps/primecoin.ico
+}
+
+build() {
+  cd ${pkgname%-git}/src
+
+  msg "Patching $makefile_unix..."
+  sed -i $makefile_unix \
+    -e 's/CXXFLAGS/CPPFLAGS/g' \
+    -e 's/-O[0-3]/${CXXFLAGS}/g' \
+    -e 's/$(DEBUGFLAGS)//g'
+
+  # make primecoind
+  msg "Starting make..."
+  make USE_UPNP=1 USE_SSL=1 $MAKEFLAGS -f $makefile_unix primecoind
+
+  # and make qt gui
+  cd ..
+  $qmake
+  make $MAKEFLAGS
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  ## Grab debian .install files here.
+  ## First, create directories:
+  cat contrib/debian/*.install | cut -d\  -f2 | sort | uniq | xargs -I{} mkdir -p $pkgdir/{}
+
+  ## Copy needed files into created dir-s:
+  cat contrib/debian/*.install | deb_paths_pp | apply_deb_install
+
+  ## Copy mans
+  cat contrib/debian/*.manpages | deb_paths_pp | install_man
+
+  ## Copy examples
+  mkdir -p $pkgdir/usr/share/primecoin
+  cat contrib/debian/*.examples | deb_paths_pp | xargs -I{} install {} $pkgdir/usr/share/primecoin/
+
+  find $pkgdir/usr/share/ -type f | xargs chmod -x
+}
+
+## convert paths from .install and other files: "debian/" -> "contrib/debian/"
+deb_paths_pp() { sed -e 's@^\(debian\)@contrib/\1@'; }
+
+## reading input in "<from> <to>"-manner and convert it
+apply_deb_install() {
+    while read from to ; do
+    install $from $pkgdir/$to
+    done
+}
+
+## guess correct /usr/share/man's subdirectory for man every file
+## FIXME Uber-fat crunch. It should another, simple way...
+install_man() {
+    while read man; do
+    local man_d="$pkgdir/usr/share/man/man${man#${man%?}}/"
+    mkdir -p $man_d
+    install -D $man $man_d
+    done
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

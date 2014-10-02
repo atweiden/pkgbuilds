@@ -1,0 +1,46 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=macao-git
+pkgver=20130912
+pkgrel=1
+pkgdesc="Bitcoin point-of-sale system"
+arch=('i686' 'x86_64')
+depends=('python2' 'python2-qrtools' 'qt4')
+makedepends=('git' 'make')
+url="https://github.com/genjix/macao"
+license=('AGPL3')
+source=(git+https://github.com/genjix/macao/)
+sha256sums=('SKIP')
+provides=('macao')
+conflicts=('macao')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%-git}
+
+  msg 'Fixing Python version...'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python#/usr/bin/python2#g'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python#/usr/bin/env python2#g'
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Building...'
+  qmake-qt4 wallet/wallet.pro
+  make
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}

@@ -1,0 +1,17 @@
+[Unit]
+Description=Convos Web service
+Requires=redis.service
+After=redis.service
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/run/convos.pid
+User=convos
+Group=convos
+ExecStartPre=/usr/share/convos/vendor/bin/carton exec script/convos backend
+ExecStart=/usr/share/convos/vendor/bin/carton exec hypnotoad script/convos
+ExecStop=/usr/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

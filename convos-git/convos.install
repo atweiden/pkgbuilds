@@ -1,0 +1,16 @@
+post_install() {
+  getent passwd convos &>/dev/null || {
+    echo -n "Creating convos user... "
+    grep -E "^convos:" /etc/group >/dev/null || groupadd convos
+    useradd -M -g convos -s /usr/bin/nologin convos
+    echo "done"
+  }
+  chown -R convos:convos /usr/share/convos
+}
+
+post_remove() {
+  echo -n "Removing convos user... "
+  userdel -rf convos 2>/dev/null
+  echo "done"
+  rm -rf /usr/share/convos
+}

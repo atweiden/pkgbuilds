@@ -1,0 +1,51 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: Dennis Fink <the_metalgamer@hackerspace.lu>
+
+pkgname=python-acrylamid
+pkgver=0.7.7
+pkgrel=1
+pkgdesc="Static blog compiler with incremental updates"
+arch=('any')
+depends=('python' 'python-jinja' 'python-markdown' 'python2-translitcodec')
+makedepends=('python-setuptools')
+optdepends=('discount: Discount'
+            'python-asciimathml: AsciiMathML to MathML'
+            'python-ansi2html: ANSI escape codes in HTML code examples'
+            'python-docutils: reStructuredText'
+            'python-magic: Non-ASCII text detection'
+            'python-mako: Mako Templating'
+            'python-pygments: Syntax Highlighting'
+            'python-smartypants: Typography enhancements'
+            'python-textile: Textile'
+            'python-twitter: Twitter'
+            'python-unidecode: Cyrillic/Chinese ASCII slugs'
+            'python-yaml: YAML parser')
+url="http://posativ.org/acrylamid/"
+license=('BSD')
+options=(!emptydirs)
+source=(https://pypi.python.org/packages/source/a/${pkgname#python-}/${pkgname#python-}-$pkgver.zip)
+md5sums=('6df82819da4a8f4493807c441580fdcb')
+sha256sums=('b4eba31787a5bf953b8fc6a53978df637a70f43ef3827e218f2902a9e248e9d1')
+provides=('acrylamid' 'python-acrylamid')
+conflicts=('acrylamid')
+
+prepare() {
+  cd $srcdir/${pkgname#python-}-$pkgver
+
+  msg 'Fixing Jinja version...'
+  find . -type f -print0 | xargs -0 sed -i 's#Jinja2==2.6#Jinja2>=2.6#g'
+}
+
+build() {
+  cd $srcdir/${pkgname#python-}-$pkgver
+
+  msg 'Building...'
+  python setup.py build
+}
+
+package() {
+  cd $srcdir/${pkgname#python-}-$pkgver
+
+  msg 'Installing...'
+  python setup.py install --root="$pkgdir" --optimize=1
+}

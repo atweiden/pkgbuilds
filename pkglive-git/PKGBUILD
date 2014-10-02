@@ -1,0 +1,30 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=pkglive-git
+pkgver=1a965f8
+pkgrel=2
+pkgdesc="Automated LiveCD build system"
+arch=('x86-64')
+depends=('archiso' 'perl' 'perl-archlinux-term' 'perl-data-dump' 'perl-file-find-rule' 'perl-list-compare' 'sudo' 'wgetpkg')
+makedepends=('git')
+url="https://github.com/atweiden/pkglive"
+license=('GPL3')
+source=(git+https://github.com/atweiden/pkglive)
+sha256sums=('SKIP')
+provides=('pkglive')
+conflicts=('pkglive')
+install=pkglive.install
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing...'
+  mkdir -p "${pkgdir}"/opt/pkglive
+  cp -R ./pkglive "${pkgdir}"/opt/pkglive/pkglive
+  install -D -m755 pkglive.pl "${pkgdir}"/usr/bin/pkglive
+}

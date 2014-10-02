@@ -1,0 +1,37 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=coinvault-git
+pkgver=20140129
+pkgrel=1
+pkgdesc="Secure CryptoCoin Storage & Account Management"
+#depends=('boost' 'boost-libs' 'libodb' 'libodbc++' 'libodb-sqlite' 'openssl' 'qt5-base' 'qt5-connectivity')
+depends=('boost' 'boost-libs' 'libodb' 'libodb-sqlite' 'openssl' 'qt5-base' 'qt5-connectivity')
+makedepends=('gcc' 'git' 'make')
+license=('GPL2' 'MIT')
+source=(${pkgname%-git}::git+https://github.com/ciphrex/CoinVault)
+sha256sums=('SKIP')
+provides=('coinvault')
+conflicts=('coinvault')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Building...'
+  ./build-all.sh linux
+}
+
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}

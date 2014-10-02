@@ -1,0 +1,51 @@
+# Maintainer: Grzegorz Wierzowiecki <gwpublic[atat]wp.pl>
+# Contributor: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=pinktrace
+pkgver=0.1.2
+pkgrel=1
+pkgdesc="Lightweight C99 library that eases the writing of tracing applications"
+arch=('i686' 'x86_64')
+depends=('glibc' 'pkg-config')
+makedepends=('autoconf' 'automake' 'check' 'gcc' 'libtool' 'm4' 'make')
+url="http://dev.exherbo.org/~alip/pinktrace/"
+license=('BSD')
+source=(http://dev.exherbo.org/~alip/sydbox/${pkgname}-${pkgver}.tar.bz2
+        http://dev.exherbo.org/~alip/sydbox/${pkgname}-${pkgver}.tar.bz2.asc)
+sha1sums=('a40f2b0e816edbbbb49432879a6c710f34736eb2'
+          '76714ce210f1aea512ad5164f6b7918141fa2007')
+sha256sums=('6051d57d9ffc979a12455fb1e104782b33c24cf4e7b748f30577ffe50f2b5ac6'
+            '5b9d3fbdeb6a010ba956e4f7ff89ff65ad30fe4c69b527abc1ffafa25e8635d4')
+provides=('pinktrace')
+install=pinktrace.install
+
+build() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+
+  msg 'Building...'
+  ./autogen.sh
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib/pinktrace \
+    --sysconfdir=/etc \
+    --sharedstatedir=/usr/share/pinktrace \
+    --localstatedir=/var/lib/pinktrace \
+    --enable-easy \
+    --enable-ipv6
+  make
+}
+
+check() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+
+  msg 'Testing...'
+  make check
+}
+
+package() {
+  cd ${srcdir}/${pkgname}-${pkgver}
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+}

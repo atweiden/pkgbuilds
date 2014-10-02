@@ -1,0 +1,42 @@
+post_install() {
+  _mkuser
+  chown -R obelisk:obelisk /srv/blockchain /usr/share/obelisk /var/log/obelisk
+  printf "$obelisk\n"
+}
+
+post_install() {
+  post_install
+}
+
+post_remove() {
+  _rmuser
+  rm -rf /srv/blockchain /usr/share/obelisk /var/log/obelisk
+}
+
+_mkuser() {
+  getent passwd obelisk &>/dev/null || {
+    echo -n "Creating obelisk user... "
+    grep -E "^obelisk:" /etc/group >/dev/null || groupadd obelisk
+    useradd -m -d /etc/obelisk -g obelisk -s /usr/bin/nologin obelisk
+    echo "done"
+  }
+}
+
+_rmuser() {
+  echo -n "Removing obelisk user... "
+  userdel -rf obelisk 2>/dev/null
+  echo "done"
+}
+
+read -d '' obelisk <<'EOF'
+########################################################################
+########################################################################
+##                                                                    ##
+##  Obelisk of Light                                                  ##
+##  ________________                                                  ##
+##                                                                    ##
+##    systemctl start obelisk                                         ##
+##                                                                    ##
+########################################################################
+########################################################################
+EOF

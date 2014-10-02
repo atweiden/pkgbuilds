@@ -1,0 +1,23 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=ruby-vimdeck
+pkgver=0.0.9
+pkgrel=1
+pkgdesc="VIM as a presentation tool"
+arch=('any')
+url="https://github.com/tybenz/vimdeck"
+license=('MIT')
+depends=('ruby' 'vim-syntaxrange-git')
+source=("https://rubygems.org/downloads/${pkgname#*-}-${pkgver}.gem")
+sha256sums=('45826c7ef68a02398b68f6a39521fdc47fc0846b7a411b5795e3b33d4a884ef7')
+noextract=("${pkgname#*-}-${pkgver}.gem")
+
+package() {
+  cd "$srcdir"
+
+  gem install \
+    --no-user-install \
+    --ignore-dependencies \
+    -i "$pkgdir$(ruby -rubygems -e'puts Gem.default_dir')" \
+    ${pkgname#*-}-$pkgver.gem
+}

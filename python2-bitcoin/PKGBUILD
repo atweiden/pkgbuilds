@@ -1,0 +1,39 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=python2-bitcoin
+pkgver=1.1.15
+pkgrel=1
+pkgdesc="Python Bitcoin Tools"
+arch=('any')
+depends=('python2')
+makedepends=('python2-setuptools')
+url="https://github.com/vbuterin/pybitcointools"
+license=('MIT')
+options=(!emptydirs)
+source=(https://pypi.python.org/packages/source/b/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
+md5sums=('d382f67eaf911d04d6feb5fa695167f1')
+sha256sums=('d9b55685791c9fd5ff2dbc2f5efeeabd09ef2466bda3b11ffa4f33606125a5ea')
+provides=('pybtctool' 'python2-bitcoin')
+conflicts=('pybtctool')
+
+prepare(){
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
+
+  msg 'Fixing Python version...'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python#/usr/bin/python2#g'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python#/usr/bin/env python2#g'
+}
+
+build() {
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
+
+  msg 'Building...'
+  python2 setup.py build
+}
+
+package() {
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
+
+  msg 'Installing...'
+  python2 setup.py install --root="$pkgdir" --optimize=1
+}

@@ -1,0 +1,29 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=ssdb
+pkgver=1.6.8.4
+pkgrel=1
+pkgdesc="A fast NoSQL database for storing big list of data"
+arch=('i686' 'x86_64')
+depends=('leveldb' 'snappy')
+makedepends=('gcc' 'jemalloc' 'make')
+url="http://www.ideawu.com/ssdb/"
+license=('BSD')
+source=($pkgname-$pkgver.tar.gz::https://github.com/ideawu/ssdb/archive/stable-$pkgver.tar.gz)
+sha256sums=('6ee6b288805eb592bfd45935700f91c213680c1753ea923ea7e726460f30ccd7')
+install=ssdb.install
+
+build() {
+  cd $pkgname-stable-$pkgver
+
+  msg 'Building...'
+  make
+}
+
+package() {
+  cd $pkgname-stable-$pkgver
+
+  msg 'Installing...'
+  install -dm 755 $pkgdir/usr/share/ssdb
+  make PREFIX="$pkgdir/usr/share/ssdb" install
+}

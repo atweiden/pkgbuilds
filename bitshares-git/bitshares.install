@@ -1,0 +1,11 @@
+post_install() {
+  echo "******"
+  echo "*"
+  echo "* blockparser requires a current Satoshi client blockchain in ~/.bitcoin"
+  echo "*"
+  echo "******"
+}
+
+post_upgrade() {
+  post_install
+}

@@ -1,0 +1,28 @@
+# To Do's
+
+- change \*.install files to `printf` text encircled in ASCII
+- fix \*.install files with user additions based on:
+  - argyllcms
+  - backuppc
+  - bind
+  - chrony
+  - colord
+  - couchdb
+  - docker
+  - elasticsearch
+  - fcron
+  - gearmand
+  - memcached
+  - mpd
+  - nbd
+  - nsd
+  - nss-pam-ldapd
+  - openntpd
+  - opensmtpd
+  - pdnsd
+  - postfwd
+  - rpcbind
+  - squid
+  - typespeed
+  - unbound
+  - usbmuxd

@@ -1,0 +1,68 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: Daniel YC Lin <dlin.tw at gmail.com>
+# Contributor: boypt <pentie at gmail.com>
+# Contributor: Kyle Keen <keenerd@gmail.com>
+
+pkgname=zeromq-git
+pkgver=20140924
+pkgrel=1
+pkgdesc="ØMQ libzmq core library -- development trunk"
+arch=('i686' 'x86_64')
+depends=('gcc-libs' 'libsodium' 'util-linux')
+makedepends=('asciidoc' 'gcc' 'git' 'libtool' 'python2' 'xmlto')
+url="https://github.com/zeromq/libzmq"
+license=('LGPL3')
+source=(${pkgname%-git}::git+https://github.com/zeromq/libzmq
+        https://raw.github.com/zeromq/cppzmq/master/zmq.hpp)
+sha256sums=('SKIP'
+            'SKIP')
+provides=('zeromq')
+conflicts=('zeromq')
+options=('staticlibs')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Building...'
+  ./autogen.sh
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib/zeromq \
+    --sysconfdir=/etc \
+    --sharedstatedir=/usr/share/zeromq \
+    --localstatedir=/var/lib/zeromq \
+    --with-gnu-ld \
+    --with-pgm \
+    --with-libsodium
+  sed -i 's/python$/&2/' foreign/openpgm/build-staging/openpgm/pgm/{Makefile,version_generator.py}
+  make
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing license...'
+  install -D -m644 COPYING        "$pkgdir/usr/share/licenses/zeromq/COPYING"
+  install -D -m644 COPYING.LESSER "$pkgdir/usr/share/licenses/zeromq/COPYING.LESSER"
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+
+  msg 'Installing zmq.hpp...'
+  install -Dm 644 "$srcdir/zmq.hpp" "$pkgdir/usr/include/zmq.hpp"
+
+  msg 'Renaming binary...'
+  for _bin in curve_keygen; do
+    mv "$pkgdir/usr/bin/$_bin" "$pkgdir/usr/bin/zmq_$_bin"
+  done
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

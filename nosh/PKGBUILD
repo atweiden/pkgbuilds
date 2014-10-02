@@ -1,0 +1,36 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=nosh
+pkgver=1.7
+pkgrel=1
+pkgdesc="Suite of system-level utilities for initializing and running a BSD or Linux system, and for managing daemons - a superset of Bernstein's daemontools mechanism"
+arch=('i686' 'x86_64')
+makedepends=('gcc' 'redo')
+url="http://homepage.ntlworld.com/jonathan.deboynepollard/Softwares/nosh.html"
+license=('custom:ISC')
+source=(http://homepage.ntlworld.com/jonathan.deboynepollard/Softwares/$pkgname-$pkgver.tar.bz2)
+sha256sums=('6673d85e8c4b71d2a0237fda79829b85616324335d18921e4db6236a7b7a19ce')
+
+prepare() {
+  cd "$srcdir"
+
+  msg 'Fixing calls to event.h...'
+  find . -type f -print0 | xargs -0 sed -i "s@sys/event.h@event.h@g"
+}
+
+build() {
+  cd "$srcdir"
+
+  msg 'Building...'
+  ./package/compile
+}
+
+package() {
+  cd "$srcdir"
+
+  msg 'Installing license...'
+  install -Dm 644 source/COPYING "$pkgdir/usr/share/licenses/nosh/COPYING"
+
+  msg 'Installing...'
+  ./package/export "$pkgdir/usr/"
+}

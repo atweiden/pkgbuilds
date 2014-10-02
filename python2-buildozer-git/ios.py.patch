@@ -1,0 +1,14 @@
+--- ./buildozer/targets/ios.py	2014-06-05 16:45:49.942738682 -0700
++++ ./buildozer/targets/ios.py	2014-06-05 16:46:14.166071373 -0700
+@@ -67,9 +67,9 @@
+         checkbin('Xcode xcodebuild', 'xcodebuild')
+         checkbin('Xcode xcode-select', 'xcode-select')
+         checkbin('Git git', 'git')
+-        checkbin('Cython', 'cython')
++        checkbin('Cython2', 'cython2')
+         checkbin('Mercurial', 'hg')
+-        checkbin('Cython cython', 'cython')
++        checkbin('Cython2 cython2', 'cython2')
+         checkbin('pkg-config', 'pkg-config')
+         checkbin('autoconf', 'autoconf')
+         checkbin('automake', 'automake')

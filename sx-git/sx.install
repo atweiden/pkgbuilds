@@ -1,0 +1,66 @@
+post_install() {
+  printf "$unsystem\n"
+  _rmsymlink
+  _mksymlink
+}
+
+post_upgrade() {
+  post_install
+}
+
+post_remove() {
+  _rmsymlink
+}
+
+_mksymlink() {
+  echo -n "Symlinking sx tools to /usr/bin..."
+  ln -s /usr/share/sx/tools/paper-wallet.sh /usr/bin/sx-paper-wallet
+  ln -s /usr/share/sx/tools/sx-gui.sh /usr/bin/sx-gui
+  echo "done"
+}
+
+_rmsymlink() {
+  echo -n "Removing symlinks..."
+  rm -f /usr/bin/sx-paper-wallet
+  rm -f /usr/bin/sx-gui
+  echo "done"
+}
+
+read -d '' unsystem <<'EOF'
+########################################################################
+########################################################################
+##                                                                    ##
+## --> Installation of sx finished!                                   ##
+##                                                                    ##
+##  Config files are in /etc:                                         ##
+##                                                                    ##
+##  * obelisk configuration files: /etc/obelisk/*.cfg                 ##
+##  * sx configuration file: ~/.sx.cfg                                ##
+##                                                                    ##
+##  See /usr/share/sx/sx.cfg for an example config file.              ##
+##                                                                    ##
+##  Documentation is available in /usr/share/doc:                     ##
+##                                                                    ##
+##  * libbitcoin doc: /usr/share/doc/libbitcoin                       ##
+##  * obelisk doc:    /usr/share/doc/obelisk                          ##
+##  * sx doc:         /usr/share/doc/sx                               ##
+##                                                                    ##
+##  sx tools are symlinked from /usr/share/sx/tools to /usr/bin:      ##
+##                                                                    ##
+##    /usr/bin/sx-gui                                                 ##
+##    /usr/bin/sx-paper-wallet                                        ##
+##                                                                    ##
+##  To setup an obelisk node:                                         ##
+##                                                                    ##
+##    systemctl start obelisk                                         ##
+##                                                                    ##
+##  This PKGBUILD intends to implement the instructions found in      ##
+##  /usr/share/obelisk/scripts/setup.sh:                              ##
+##                                                                    ##
+##  * creates user 'obelisk'                                          ##
+##  * configures obelisk worker.cfg                                   ##
+##  * installs obelisk.service and related sx-initchain.service       ##
+##                                                                    ##
+########################################################################
+########################################################################
+EOF

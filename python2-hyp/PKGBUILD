@@ -1,0 +1,29 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=python2-hyp
+pkgver=0.5.0
+pkgrel=1
+pkgdesc="JSON-API responses in Python"
+arch=('i686' 'x86_64')
+depends=('python2' 'python2-inflection' 'python2-marshmallow' 'python2-schematics')
+makedepends=('python2-setuptools')
+url="https://github.com/kalasjocke/hyp"
+license=('MIT')
+options=(!emptydirs)
+source=(https://pypi.python.org/packages/source/h/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
+md5sums=('85a28c74e69af0006f8328a6311fcf16')
+sha256sums=('8d49809bb715251b41b4840531e6b773ebb5197396250c8b392e2ecf9554d090')
+
+build() {
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
+
+  msg 'Building...'
+  python2 setup.py build
+}
+
+package() {
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
+
+  msg 'Installing...'
+  python2 setup.py install --root="$pkgdir" --optimize=1
+}

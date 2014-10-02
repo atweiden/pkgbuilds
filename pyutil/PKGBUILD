@@ -1,0 +1,27 @@
+# Maintainer: Nicolas Pouillard <nicolas.pouillard@gmail.com>
+# Contributor: Peter Simons <simons@cryp.to>
+# Contributor: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=pyutil
+pkgver=1.9.7
+pkgrel=1
+pkgdesc="general-purpose python library (used by tahoe-lafs)"
+arch=('any')
+url='http://pypi.python.org/pypi/pyutil'
+license=('GPL2')
+depends=('python2')
+makedepends=('darcsver' 'python2-simplejson' 'setuptools' 'setuptools_darcs' 'zbase32') # missing: setuptools_trial
+source=(https://pypi.python.org/packages/source/p/$pkgname/$pkgname-$pkgver.tar.gz)
+md5sums=('5a20ccae479d967d3fa11b905d0e10f6')
+sha256sums=('0aaa2dad8f280bc26311799622d5fdda392a0ecd7ad1a1b80ec79fbf2fcfbd74')
+
+build(){
+  cd "$srcdir/$pkgname-$pkgver"
+  python2 setup.py build
+  python2 setup.py trial
+}
+
+package(){
+  cd "$srcdir/$pkgname-$pkgver"
+  python2 setup.py install --root="$pkgdir" --optimize=1
+}

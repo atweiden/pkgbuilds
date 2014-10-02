@@ -1,0 +1,50 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=dcd
+pkgver=0.3.0
+pkgrel=1
+pkgdesc="The D Completion Daemon is an auto-complete program for the D programming language"
+arch=('i686' 'x86_64')
+makedepends=('dmd' 'git' 'libphobos' 'make')
+url="https://github.com/Hackerpilot/DCD"
+license=('GPL3')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/Hackerpilot/$pkgname/tar.gz/v$pkgver
+        containers::git+https://github.com/economicmodeling/containers
+	      datapicked::git+https://github.com/blackwhale/datapicked
+        ktexteditor::git+https://github.com/Dav1dde/lumen
+        libdparse::git+https://github.com/Hackerpilot/libdparse
+        msgpack-d::git+https://github.com/msgpack/msgpack-d)
+sha256sums=('0352767b9401a54790949c0b43699e3dc16a9eadb3843a3934b1dc897f4a8147'
+            'SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
+options=('!strip') #Because it's small anyway and symbols are useful as it is still in development
+
+prepare() {
+  cd "$srcdir/DCD-$pkgver"
+
+  msg 'Fetching Git submodules...'
+  git submodule init
+  git config submodule.containers.url "$srcdir/containers"
+  git config submodule.datapicked.url "$srcdir/datapicked"
+  git config submodule.editors/ktexteditor.url "$srcdir/ktexteditor"
+  git config submodule.libdparse.url "$srcdir/libdparse"
+  git config submodule.msgpack-d.url "$srcdir/msgpack-d"
+  git submodule update
+}
+
+build() {
+  cd "$srcdir/DCD-$pkgver"
+
+  msg 'Building...'
+  make
+}
+
+package() {
+  cd "$srcdir/DCD-$pkgver"
+
+  msg 'Installing license...'
+  install -Dm 644 License.txt "$pkgdir/usr/share/licenses/$pkgname/License.txt"
+
+  msg 'Installing binaries...'
+  install -Dm 755 bin/dcd-client "$pkgdir/usr/bin/dcd-client"
+  install -Dm 755 bin/dcd-server "$pkgdir/usr/bin/dcd-server"
+}

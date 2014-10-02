@@ -1,0 +1,49 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=libwallet-git
+pkgver=20140525
+pkgrel=1
+pkgdesc="Bitcoin client side library for wallet functionality such as working with addresses, deterministic wallets and different key formats"
+arch=('i686' 'x86_64')
+depends=('boost-libs' 'libbitcoin-leveldb-git')
+makedepends=('gcc' 'git' 'make' 'pkg-config')
+url="https://github.com/libbitcoin/libwallet"
+license=('AGPL3')
+source=(git+https://github.com/libbitcoin/libwallet)
+sha256sums=('SKIP')
+provides=('libwallet')
+conflicts=('libwallet')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Building...'
+  ./autogen.sh
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib/libwallet \
+    --sysconfdir=/etc \
+    --sharedstatedir=/usr/share/libwallet \
+    --localstatedir=/var/lib/libwallet \
+    --with-gnu-ld
+  make
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing license...'
+  install -Dm 644 LICENSE "${pkgdir}/usr/share/licenses/libwallet/LICENSE"
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}

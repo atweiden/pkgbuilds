@@ -1,0 +1,32 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=go-ethereum
+pkgver=20140908
+pkgrel=1
+pkgdesc="Ethereum Go developer client"
+arch=('any')
+depends=('gmp' 'leveldb')
+makedepends=('git' 'go' 'mercurial')
+url="https://github.com/ethereum/go-ethereum"
+license=('GPL')
+options=('!strip' '!emptydirs')
+install=go-ethereum.install
+
+build() {
+  GOPATH="$srcdir" go get -v github.com/ethereum/go-ethereum/ethereum
+}
+
+package() {
+  [[ -f /etc/profile.d/go.sh ]] && source /etc/profile.d/go.sh
+
+  msg 'Installing binaries...'
+  for _bin in `find "$srcdir/bin" -mindepth 1 -maxdepth 1 -type f -printf '%f\n'`; do
+    install -Dm 755 "$srcdir/bin/$_bin" "$pkgdir/usr/bin/$_bin"
+  done
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+  find "$pkgdir" -type d -name .hg -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .hgignore -exec rm -r '{}' +
+}

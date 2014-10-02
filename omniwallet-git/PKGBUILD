@@ -1,0 +1,98 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=omniwallet-git
+pkgver=20140307
+pkgrel=1
+pkgdesc="Mastercoin hybrid Web-wallet"
+arch=('i686' 'x86_64')
+depends=('nginx' 'nodejs' 'python2' 'python2-ecdsa' 'python2-gitpython' 'python2-pycoin' 'python2-simplejson' 'sx' 'uwsgi' 'uwsgi-plugin-python2')
+makedepends=('git' 'nodejs-bower' 'nodejs-grunt-cli' 'nodejs-uglify-js')
+optdepends=('obelisk: backend server for sx')
+url="https://github.com/mastercoin-MSC/omniwallet"
+license=('AGPL3')
+source=(git+https://github.com/mastercoin-MSC/omniwallet
+        omniwallet.logrotate
+        omniwallet.service)
+sha256sums=('SKIP'
+            '198242bebbbb33e30914c43dc6c43487a33bbe4c280b8ef21d942b50fd483895'
+            '5add13911242113f83751c59b4dda02991db2c7424ca1badbb88246648e55209')
+backup=('etc/nginx/sites-available/default')
+provides=('omniwallet')
+conflicts=('omniwallet')
+install=omniwallet.install
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%-git}
+
+  msg 'Configure parsed.log location...'
+  sed -i 's#PARSE_LOG.*#PARSE_LOG=/var/log/omniwallet/parsed.log#' app.sh
+
+  msg 'Configure validated.log location...'
+  sed -i 's#VALIDATE_LOG.*#VALIDATE_LOG=/var/log/omniwallet/validated.log#' app.sh
+
+  msg 'Configure archived.log location...'
+  sed -i 's#ARCHIVE_LOG.*#ARCHIVE_LOG=/var/log/omniwallet/archived.log#' app.sh
+
+  msg 'Configure apps.log location...'
+  sed -i 's#--logto $DATADIR/apps.log#--logto /var/log/omniwallet/apps.log#' app.sh
+
+  msg 'Configure nginx sites-available...'
+  sed -i 's#root /home/cmlacy/omniwallet/www/#root /usr/share/omniwallet/www/#' etc/nginx/sites-available/default
+
+  msg 'Fixing Python version...'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python#/usr/bin/python2#g'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python#/usr/bin/env python2#g'
+  sed -i 's#python#python2#' app.sh
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Fetching NPM dependencies...'
+  npm install --development
+
+  msg 'Fetching Web assets...'
+  bower install --allow-root --config.interactive=false
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing license...'
+  install -Dm 644 LICENSE $pkgdir/usr/share/licenses/omniwallet/LICENSE
+
+  msg 'Installing documentation...'
+  install -dm 755 $pkgdir/usr/share/doc/omniwallet
+  for _doc in design README.md; do
+    cp -dpr --no-preserve=ownership $_doc $pkgdir/usr/share/doc/omniwallet/$_doc
+  done
+
+  msg 'Installing omniwallet...'
+  install -dm 755 $pkgdir/usr/share/omniwallet
+  install -dm 755 $pkgdir/var/lib/omniwallet
+  install -dm 755 $pkgdir/var/log/omniwallet
+  for _appdir in api lib www; do
+    cp -dpr --no-preserve=ownership $_appdir $pkgdir/usr/share/omniwallet/$_appdir
+  done
+  for _appfile in app.sh bower.json .bowerrc Gruntfile.js package.json serve-static.js; do
+    cp -dpr --no-preserve=ownership $_appfile $pkgdir/usr/share/omniwallet/$_appfile
+  done
+
+  msg 'Installing nginx sites-available...'
+  install -Dm 644 etc/nginx/sites-available/default $pkgdir/etc/nginx/sites-available/default
+
+  msg 'Installing omniwallet.service...'
+  install -Dm 644 $srcdir/omniwallet.service $pkgdir/usr/lib/systemd/system/omniwallet.service
+
+  msg 'Installing omniwallet.logrotate...'
+  install -Dm 644 $srcdir/omniwallet.logrotate $pkgdir/etc/logrotate.d/omniwallet
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

@@ -1,0 +1,13 @@
+post_install() {
+  printf "$fuzzy\n"
+}
+
+read -d '' fuzzy <<'EOF'
+Optional fzf key bindings have been placed here:
+
+    /etc/profile.d/fzf.sh
+
+To utilize, add the following to your bash config:
+
+    . /etc/profile.d/fzf.sh
+EOF
