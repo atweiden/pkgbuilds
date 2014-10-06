@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=ripple-client
-pkgver=1.0.0
+pkgver=1.0.9
 pkgrel=1
 pkgdesc="Web UI for the Ripple payment network"
 arch=('i686' 'x86_64')
@@ -10,22 +10,23 @@ makedepends=('nodejs-bower' 'nodejs-grunt-cli')
 url="https://github.com/ripple/ripple-client"
 license=('MIT')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/ripple/$pkgname/tar.gz/$pkgver)
-sha256sums=('8436208ca6fa16703472c7083aec6f66ed735cf3c04dd5189b3eea3a5e7da15d')
+sha256sums=('26c59efb20a0d576c36596769ff594076b7aced9db8d580489f3b5bb4786c322')
 options=('!strip')
 install=ripple-client.install
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
 
-  msg 'Creating default config.js file...'
-  cp "src/js/config-example.js" "src/js/config.js"
+  msg 'Creating default config files...'
+  cp -dpr --no-preserve=ownership src/js/config-example.js src/js/config.js
+  cp -dpr --no-preserve=ownership config-example.json config.json
 }
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg 'Installing NPM dependencies...'
-  npm install
+  npm install --python=python2
 
   msg 'Fetching Web assets...'
   bower install --allow-root --config.interactive=false
@@ -46,7 +47,7 @@ package() {
 
   msg 'Installing appdirs...'
   install -dm 755 "$pkgdir/usr/share/ripple-client"
-  for _appdir in build compat deps fonts img l10n node_modules res scripts src test zipzap; do
+  for _appdir in `find . -mindepth 1 -maxdepth 1 -type d`; do
     cp -dpr --no-preserve=ownership "$_appdir" "$pkgdir/usr/share/ripple-client/$_appdir"
   done
 

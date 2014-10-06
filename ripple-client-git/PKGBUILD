@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=ripple-client-git
-pkgver=20140710
+pkgver=20141003
 pkgrel=1
 pkgdesc="Web UI for the Ripple payment network"
 arch=('i686' 'x86_64')
@@ -24,15 +24,16 @@ pkgver() {
 prepare() {
   cd ${pkgname%-git}
 
-  msg 'Creating default config.js file...'
-  cp src/js/config-example.js src/js/config.js
+  msg 'Creating default config files...'
+  cp -dpr --no-preserve=ownership src/js/config-example.js src/js/config.js
+  cp -dpr --no-preserve=ownership config-example.json config.json
 }
 
 build() {
   cd ${pkgname%-git}
 
   msg 'Installing NPM dependencies...'
-  npm install
+  npm install --python=python2
 
   msg 'Fetching Web assets...'
   bower install --allow-root --config.interactive=false
@@ -53,7 +54,7 @@ package() {
 
   msg 'Installing appdirs...'
   install -dm 755 "$pkgdir/usr/share/ripple-client"
-  for _appdir in build compat deps fonts img l10n node_modules res scripts src test zipzap; do
+  for _appdir in `find . -mindepth 1 -maxdepth 1 -type d`; do
     cp -dpr --no-preserve=ownership "$_appdir" "$pkgdir/usr/share/ripple-client/$_appdir"
   done
 
