@@ -1,21 +1,29 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=nosh
-pkgver=1.7
+pkgver=1.9
 pkgrel=1
 pkgdesc="Suite of system-level utilities for initializing and running a BSD or Linux system, and for managing daemons - a superset of Bernstein's daemontools mechanism"
 arch=('i686' 'x86_64')
 makedepends=('gcc' 'redo')
 url="http://homepage.ntlworld.com/jonathan.deboynepollard/Softwares/nosh.html"
 license=('custom:ISC')
-source=(http://homepage.ntlworld.com/jonathan.deboynepollard/Softwares/$pkgname-$pkgver.tar.bz2)
-sha256sums=('6673d85e8c4b71d2a0237fda79829b85616324335d18921e4db6236a7b7a19ce')
+source=(http://homepage.ntlworld.com/jonathan.deboynepollard/Softwares/$pkgname-$pkgver.tar.bz2
+        tools.patch)
+sha256sums=('b5e7ccfe459613dea89b476fc64a5ef11fed16743155456d6d9bc4ce92ead6b5'
+            '1b3bb86ac6797c893c956f45281443c6b617c23903d854197b794ce65a76d9de')
 
 prepare() {
   cd "$srcdir"
 
+  msg 'Fixing compile tools...'
+  patch -p1 < "$srcdir/tools.patch"
+
   msg 'Fixing calls to event.h...'
   find . -type f -print0 | xargs -0 sed -i "s@sys/event.h@event.h@g"
+
+  msg 'Fixing export utility...'
+  sed -i "s@man/man1@share/man/man1@g" package/export
 }
 
 build() {

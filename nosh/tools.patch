@@ -1,0 +1,34 @@
+--- ./package/tools	2014-10-19 09:28:36.165365938 -0700
++++ ./package/tools	2014-10-19 09:29:03.352034114 -0700
+@@ -14,17 +14,17 @@
+ 	echo ar > ar
+ 	echo rc > arflags
+ fi
+-if type >/dev/null clang++
++if type >/dev/null g++
+ then
+-	echo clang++ > cxx
++	echo g++ > cxx
+ 	echo > cppflags
+-	echo -g -pthread -Os -Wall -Wextra -Wshadow -Wcast-qual -Wsynth -Woverloaded-virtual -Wcast-align -integrated-as > cxxflags
++	echo -g -pthread -Os -Wall -Wextra -Wshadow -Wcast-qual -Wsynth -Woverloaded-virtual -Wcast-align > cxxflags
+ 	echo -g -pthread > ldflags
+-elif type >/dev/null g++
++elif type >/dev/null clang++
+ then
+-	echo g++ > cxx
++	echo clang++ > cxx
+ 	echo > cppflags
+-	echo -g -pthread -Os -Wall -Wextra -Wshadow -Wcast-qual -Wsynth -Woverloaded-virtual -Wcast-align > cxxflags
++	echo -g -pthread -Os -Wall -Wextra -Wshadow -Wcast-qual -Wsynth -Woverloaded-virtual -Wcast-align -integrated-as > cxxflags
+ 	echo -g -pthread > ldflags
+ elif type >/dev/null owcc
+ then
+@@ -39,6 +39,6 @@
+ 	echo -g -pthread -Os -Wall -Wextra -Wc,-xs -Wc,-xr > cxxflags
+ 	echo -g -pthread > ldflags
+ else
+-	echo "Cannot find clang++, g++, or owcc." 1>&2
++	echo "Cannot find g++, clang++, or owcc." 1>&2
+ 	false
+ fi
