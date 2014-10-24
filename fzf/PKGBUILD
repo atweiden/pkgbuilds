@@ -17,7 +17,7 @@ optdepends=('ctags: fzf && select tags'
 url="https://github.com/junegunn/fzf"
 license=('MIT')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/$pkgver
-        fzf_key_bindings.fish
+        fzf.fish
         fzf.sh
         fzf.zsh)
 sha256sums=('cd979113f1df2cd33d462dffc3e35e4a56926da8c3241d09bb2f64268d96f6cb'
@@ -41,7 +41,7 @@ package() {
   install -Dm 644 fzf-completion.bash "$pkgdir/usr/share/bash-completion/completions/fzf"
 
   msg 'Placing optional key bindings...'
-  install -Dm 644 "$srcdir/fzf_key_bindings.fish" "$pkgdir/usr/share/fish/functions/fzf_key_bindings.fish"
+  install -Dm 644 "$srcdir/fzf.fish" "$pkgdir/usr/share/fish/functions/fzf.fish"
   install -Dm 755 "$srcdir/fzf.sh" "$pkgdir/etc/profile.d/fzf.sh"
   install -Dm 755 "$srcdir/fzf.zsh" "$pkgdir/etc/profile.d/fzf.zsh"
 }

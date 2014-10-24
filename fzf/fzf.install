@@ -17,7 +17,7 @@ Or for zsh, add the following to your config:
 
 For fish, key bindings are in:
 
-    /usr/share/fish/functions/fzf_key_bindings.fish
+    /usr/share/fish/functions/fzf.fish
 
 Add support for zsh and fish completion upstream
 
