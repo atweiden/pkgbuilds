@@ -15,11 +15,11 @@ Or for zsh, add the following to your config:
 
     . /etc/profile.d/fzf.zsh
 
-Or for fish, add the following to your config:
-
-    . /etc/profile.d/fzf.fish
-
 For fish, key bindings are in:
 
     /usr/share/fish/functions/fzf_key_bindings.fish
+
+Add support for zsh and fish completion upstream
+
+    https://github.com/junegunn/fzf
 EOF
