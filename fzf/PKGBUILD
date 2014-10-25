@@ -44,7 +44,6 @@ package() {
   msg 'Installing executable...'
   install -Dm 755 fzf "$pkgdir/usr/bin/fzf"
 
-
   msg 'Placing optional completion and keybindings...'
 
   # bash
