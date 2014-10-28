@@ -1,0 +1,28 @@
+post_install() {
+  _mkuser
+  chown -R aether:aether /etc/aether /usr/share/aether
+}
+
+post_upgrade() {
+  post_install
+}
+
+post_remove() {
+  _rmuser
+  rm -rf /etc/aether /usr/share/aether
+}
+
+_mkuser() {
+  getent passwd aether &>/dev/null || {
+    echo -n "Creating aether user... "
+    grep -E "^aether:" /etc/group >/dev/null || groupadd aether
+    useradd -m -d /etc/aether -g aether -s /usr/bin/nologin aether
+    echo "done"
+  }
+}
+
+_rmuser() {
+  echo -n "Removing aether user... "
+  userdel -rf aether 2>/dev/null
+  echo "done"
+}
