@@ -13,7 +13,6 @@ source=(${pkgname%-git}::git+https://github.com/nehbit/aether-public
         aether.sh)
 sha256sums=('SKIP'
             '7dee50b26626046bf8c4c010b10c4780e6bfb3c73a95c2bfe96d8e3f26d29f81')
-install=aether.install
 
 pkgver() {
   cd ${pkgname%-git}
