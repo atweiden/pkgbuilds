@@ -37,7 +37,7 @@ package() {
   install -dm 755 "$pkgdir/usr/share/aether"
   find . -mindepth 1 -maxdepth 1 \
     -prune ! -name "README.md" \
-    -prune ! -name "LICENSE" \
+    -prune ! -name "LICENSE.md" \
     -exec cp -dpr --no-preserve=ownership '{}' "$pkgdir/usr/share/aether" \;
 
   msg 'Installing executable...'
