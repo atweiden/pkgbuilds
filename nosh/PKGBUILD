@@ -8,7 +8,7 @@ arch=('i686' 'x86_64')
 makedepends=('gcc' 'redo')
 url="http://homepage.ntlworld.com/jonathan.deboynepollard/Softwares/nosh.html"
 license=('custom:ISC')
-source=(http://homepage.ntlworld.com/jonathan.deboynepollard/Softwares/$pkgname-$pkgver.tar.bz2
+source=(http://homepage.ntlworld.com/jonathan.deboynepollard/Softwares/$pkgname/$pkgname-$pkgver.tar.bz2
         tools.patch)
 sha256sums=('b5e7ccfe459613dea89b476fc64a5ef11fed16743155456d6d9bc4ce92ead6b5'
             '1b3bb86ac6797c893c956f45281443c6b617c23903d854197b794ce65a76d9de')
