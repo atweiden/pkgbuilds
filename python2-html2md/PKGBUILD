@@ -17,14 +17,14 @@ provides=('html2md' 'python2-html2md')
 conflicts=('html2md')
 
 build() {
-  cd $srcdir/${pkgname#python2-}-$pkgver
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
 
   msg 'Building...'
   python2 setup.py build
 }
 
 package() {
-  cd $srcdir/${pkgname#python2-}-$pkgver
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
 
   msg 'Installing...'
   python2 setup.py install --root="$pkgdir" --optimize=1
