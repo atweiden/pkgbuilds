@@ -3,7 +3,7 @@ post_install() {
     /usr/bin/vim --noplugins -u NONE -U NONE \
         --cmd ":helptags /usr/share/vim/vimfiles/doc" --cmd ":q" > /dev/null 2>&1
     echo "done."
-    printf "$nimrod\n"
+    printf "$nim\n"
 }
 
 post_upgrade() {
@@ -17,8 +17,8 @@ post_remove() {
     echo "done."
 }
 
-read -d '' nimrod <<'EOF'
-# vim-nimrod-git
+read -d '' nim <<'EOF'
+# vim-nim-git
 Next you need to add this to your ~/.vimrc:
 
 fun! JumpToDef()
@@ -33,11 +33,11 @@ endf
 nn <M-g> :call JumpToDef()<cr>
 ino <M-g> <esc>:call JumpToDef()<cr>i
 
-The JumpToDef function hooks the nimrod.vim plugin to invoke the nimrod
-compiler with the appropriate idetools command. Pressing meta+g will
-then jump to the definition of the word your cursor is on. This uses the
-nimrod compiler instead of ctags, so it works on any nimrod file which
-is compilable without requiring you to maintain a database file.
+The JumpToDef function hooks the nim.vim plugin to invoke the nim compiler
+with the appropriate idetools command. Pressing meta+g will then jump to
+the definition of the word your cursor is on. This uses the nim compiler
+instead of ctags, so it works on any nim file which is compilable without
+requiring you to maintain a database file.
 EOF
 
 op=$1
