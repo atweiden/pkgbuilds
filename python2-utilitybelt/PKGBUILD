@@ -1,18 +1,18 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=python2-characters
-pkgver=0.1.0
+pkgname=python2-utilitybelt
+pkgver=0.1.7
 pkgrel=1
-pkgdesc="Tools for manipulating characters, strings, and character sets"
+pkgdesc="Miscellaneous Python utilities"
 arch=('any')
 depends=('python2')
 makedepends=('python2-setuptools')
-url="https://github.com/halfmoonlabs/characters"
+url="https://github.com/onenameio/utilitybelt"
 license=('MIT')
 options=(!emptydirs)
-source=(https://pypi.python.org/packages/source/c/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
-md5sums=('9406a608b83c75ef318d442f7727779f')
-sha256sums=('cbd749d58de6ce9b116d189853430ae2c58b954a5375acc325d1960a436dd8f2')
+source=(https://pypi.python.org/packages/source/u/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
+md5sums=('b5af0e13b9e4739a56b22afbd998faa0')
+sha256sums=('1574063a95f8db5d1b454ded89458c76368a00b9c6fac7740d4d59ad2dad6650')
 
 build() {
   cd "$srcdir/${pkgname#python2-}-$pkgver"
