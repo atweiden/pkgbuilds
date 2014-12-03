@@ -1,17 +1,17 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=go-ethereum
+pkgname=mist
 pkgver=20141203
 pkgrel=1
-pkgdesc="Ethereum Go developer client (CLI)"
+pkgdesc="Ether Browser"
 arch=('i686' 'x86_64')
-depends=('gmp' 'leveldb' 'readline')
+depends=('gmp' 'leveldb' 'qt5-base' 'qt5-declarative' 'qt5-quickcontrols' 'readline')
 makedepends=('git' 'go' 'mercurial')
-optdepends=('mist: Ether Browser')
+optdepends=('go-ethereum: Ethereum Go developer client (CLI)')
 url="https://github.com/ethereum/go-ethereum"
 license=('GPL')
 options=('!strip' '!emptydirs')
-install=go-ethereum.install
+install=mist.install
 
 prepare() {
   msg 'Fetching ethereum-serpent go bindings...'
@@ -21,20 +21,30 @@ prepare() {
 }
 
 build() {
-  msg 'Building ethereum go client...'
-  GOPATH="$srcdir" go get -u github.com/ethereum/go-ethereum/ethereum
+  msg 'Building...'
+  #GOPATH="$srcdir" go get -u -a github.com/ethereum/go-ethereum/mist
+  GOPATH="$srcdir" go get -fix -v -x github.com/ethereum/go-ethereum/mist
 }
 
 package() {
   [[ -f /etc/profile.d/go.sh ]] && source /etc/profile.d/go.sh
 
+  msg 'Installing srclibs...'
+  install -dm 755 "$pkgdir/usr/share/mist/src"
+  for _lib in `find "$srcdir/src" -mindepth 1 -maxdepth 1 -printf '%f\n'`; do
+    cp -dpr --no-preserve=ownership "$srcdir/src/$_lib" "$pkgdir/usr/share/mist/src/$_lib"
+  done
+
+  msg 'Installing pkglibs...'
+  install -dm 755 "$pkgdir/usr/share/mist/pkg"
+  for _pkg in `find "$srcdir/pkg" -mindepth 1 -maxdepth 1 -printf '%f\n'`; do
+    cp -dpr --no-preserve=ownership "$srcdir/pkg/$_pkg" "$pkgdir/usr/share/mist/pkg/$_pkg"
+  done
+
   msg 'Installing binaries...'
   for _bin in `find "$srcdir/bin" -mindepth 1 -maxdepth 1 -type f -printf '%f\n'`; do
     install -Dm 755 "$srcdir/bin/$_bin" "$pkgdir/usr/bin/$_bin"
   done
-
-  msg 'Renaming binaries...'
-  mv "$pkgdir/usr/bin/ethereum" "$pkgdir/usr/bin/go-ethereum"
 
   msg 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
