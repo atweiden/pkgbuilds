@@ -7,6 +7,7 @@ pkgdesc="Bitcoin Blockchain Query Privacy Protocol"
 arch=('i686' 'x86_64')
 depends=('boost' 'boost-libs' 'czmq-git' 'czmqpp-git' 'gmp' 'libbitcoin-git' 'libsodium' 'protobuf' 'zeromq')
 makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'pkg-config')
+groups=('libbitcoin')
 url="https://github.com/libbitcoin/libbitcoin-protocol"
 license=('AGPL3')
 source=(git+https://github.com/libbitcoin/libbitcoin-protocol)
