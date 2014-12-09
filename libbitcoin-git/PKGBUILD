@@ -1,19 +1,20 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
-# Contributor: Brian Knox <taotetek at gmail.com>
+# Contributor: Dave Reisner <d@falconindy.com>
+# Contributor: William Giokas (KaiSforza) <1007380@gmail.com>
 
-pkgname=czmq-git
+pkgname=libbitcoin-git
 pkgver=20141208
 pkgrel=1
-pkgdesc="High-level C binding for ØMQ"
+pkgdesc="The Bitcoin Development Library"
 arch=('i686' 'x86_64')
-depends=('gcc-libs' 'libsodium' 'zeromq')
+depends=('boost' 'boost-libs' 'curl' 'gmp' 'leveldb' 'openssl' 'secp256k1-git')
 makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'pkg-config')
-url="https://github.com/zeromq/czmq"
-license=('LGPL3')
-source=(git+https://github.com/zeromq/czmq)
+url="https://github.com/libbitcoin/libbitcoin"
+license=('AGPL3')
+source=(git+https://github.com/libbitcoin/libbitcoin)
 sha256sums=('SKIP')
-provides=('czmq')
-conflicts=('czmq')
+provides=('libbitcoin')
+conflicts=('libbitcoin')
 
 pkgver() {
   cd ${pkgname%-git}
@@ -28,10 +29,10 @@ build() {
   ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
-    --libexecdir=/usr/lib/czmq \
+    --libexecdir=/usr/lib/libbitcoin \
     --sysconfdir=/etc \
-    --sharedstatedir=/usr/share/czmq \
-    --localstatedir=/var/lib/czmq \
+    --sharedstatedir=/usr/share/libbitcoin \
+    --localstatedir=/var/lib/libbitcoin \
     --with-gnu-ld
   make
 }
@@ -40,15 +41,10 @@ package() {
   cd ${pkgname%-git}
 
   msg 'Installing license...'
-  install -Dm 644 LICENSE "$pkgdir/usr/share/licenses/czmq/LICENSE"
+  install -Dm 644 COPYING "$pkgdir/usr/share/licenses/libbitcoin/COPYING"
 
   msg 'Installing...'
   make DESTDIR="$pkgdir" install
-
-  msg 'Renaming binaries...'
-  for _bin in `find "$pkgdir/usr/bin" -type f -printf '%f\n'`; do
-    mv "$pkgdir/usr/bin/$_bin" "$pkgdir/usr/bin/czmq_$_bin"
-  done
 
   msg 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
