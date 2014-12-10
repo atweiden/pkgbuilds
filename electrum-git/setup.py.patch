@@ -1,0 +1,14 @@
+--- ./setup.py	2014-12-10 13:57:14.660978355 -0800
++++ ./setup.py	2014-12-10 13:57:47.534311041 -0800
+@@ -22,11 +22,6 @@
+     print "Including all files"
+     data_files = []
+     usr_share = util.usr_share_dir()
+-    if not os.access(usr_share, os.W_OK):
+-        try:
+-            os.mkdir(usr_share)
+-        except:
+-            sys.exit("Error: cannot write to %s.\nIf you do not have root permissions, you may install Electrum in a virtualenv.\nAlso, please note that you can run Electrum without installing it on your system."%usr_share)
+ 
+     data_files += [
+         (os.path.join(usr_share, 'applications/'), ['electrum.desktop']),
