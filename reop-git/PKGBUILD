@@ -1,0 +1,47 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=reop-git
+pkgver=20141201
+pkgrel=1
+pkgdesc="reasonable expectation of privacy"
+arch=('i686' 'x86_64')
+depends=('libsodium')
+makedepends=('gcc' 'git' 'make')
+url="https://github.com/tedu/reop"
+license=('unknown')
+source=(git+https://github.com/tedu/reop)
+sha256sums=('SKIP')
+provides=('reop')
+conflicts=('reop')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Building...'
+  CPPFLAGS="-I/usr/include -Iother" \
+  CFLAGS="-std=c99 -Wall -Werror -Wno-pointer-sign -Wno-unused-result -O2" \
+  LDFLAGS="-L/usr/lib -lsodium" \
+  make -f GNUmakefile
+}
+
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing documentation...'
+  for _doc in README devnotes.txt; do
+    install -Dm 644 $_doc "$pkgdir/usr/share/doc/reop/$_doc"
+  done
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" PREFIX="/usr" install
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}
