@@ -3,7 +3,7 @@
 pkgname=secp256k1-git
 pkgver=20141201
 pkgrel=1
-pkgdesc="Eliptic Curve Library for libbitcoin"
+pkgdesc="Elliptic Curve Library for libbitcoin"
 arch=('i686' 'x86_64')
 url="https://github.com/libbitcoin/secp256k1"
 depends=('gmp' 'openssl')
