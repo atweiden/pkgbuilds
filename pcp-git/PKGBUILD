@@ -1,12 +1,12 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=pcp-git
-pkgver=20141219
+pkgver=20141220
 pkgrel=1
 pkgdesc="Pretty Curved Privacy"
 arch=('i686' 'x86_64')
 depends=('libsodium')
-makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'make')
+makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'make' 'pkg-config')
 url="https://github.com/TLINDEN/pcp"
 license=('GPL3')
 source=(git+https://github.com/TLINDEN/pcp)
@@ -37,7 +37,6 @@ build() {
   make
 }
 
-
 package() {
   cd ${pkgname%-git}
 
@@ -52,6 +51,7 @@ package() {
   done
 
   msg 'Installing...'
+  sed -i "s@^DOXDIR.*@DOXDIR = ${pkgdir}/usr/share/doc/libpcp-\$(VERSION)@" man/Makefile*
   make DESTDIR="$pkgdir" install
 
   msg 'Cleaning up pkgdir...'
