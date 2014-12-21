@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=pcp-git
-pkgver=20141220
+pkgver=20141221
 pkgrel=1
 pkgdesc="Pretty Curved Privacy"
 arch=('i686' 'x86_64')
