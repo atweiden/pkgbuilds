@@ -1,8 +1,8 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=python2-dopy
-pkgver=0.2.2
-pkgrel=2
+pkgver=0.3.0
+pkgrel=1
 pkgdesc="Digital Ocean API Python wrapper"
 arch=('any')
 depends=('python2' 'python2-requests')
@@ -10,10 +10,11 @@ makedepends=('python2-distribute')
 url="https://pypi.python.org/pypi/dopy"
 license=('MIT')
 source=(https://pypi.python.org/packages/source/d/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
-md5sums=('69572c0bf5b1a0edecf8cf5c4b4b71c4')
+md5sums=('433c18922c2b71cdace0c90a611c5633')
+sha256sums=('071f386145ba782db56c9a697e340063fae422b6ec72ea28e06b1d7b9594c959')
 
 prepare() {
-  cd $srcdir/${pkgname#python2-}-$pkgver
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
 
   msg 'Fixing Python version...'
   find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python#/usr/bin/python2#g'
@@ -21,14 +22,14 @@ prepare() {
 }
 
 build() {
-  cd $srcdir/${pkgname#python2-}-$pkgver
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
 
   msg 'Building...'
   python2 setup.py build
 }
 
 package() {
-  cd $srcdir/${pkgname#python2-}-$pkgver
+  cd "$srcdir/${pkgname#python2-}-$pkgver"
 
   msg 'Installing...'
   python2 setup.py install --root="$pkgdir" --optimize=1
