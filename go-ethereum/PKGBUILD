@@ -8,6 +8,7 @@ arch=('i686' 'x86_64')
 depends=('gmp' 'leveldb' 'readline')
 makedepends=('git' 'go' 'mercurial')
 optdepends=('mist: Ether Browser')
+groups=('ethereum')
 url="https://github.com/ethereum/go-ethereum"
 license=('GPL')
 options=('!strip' '!emptydirs')
