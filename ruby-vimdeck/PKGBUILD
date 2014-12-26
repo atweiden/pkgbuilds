@@ -1,16 +1,19 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=ruby-vimdeck
-pkgver=0.0.9
+pkgver=0.2.7
 pkgrel=1
 pkgdesc="VIM as a presentation tool"
 arch=('any')
 url="https://github.com/tybenz/vimdeck"
 license=('MIT')
-depends=('ruby' 'vim-syntaxrange-git')
+depends=('ruby' 'ruby-artii' 'ruby-asciiart' 'ruby-redcarpet')
+optdepends=('vim-syntaxrange-git: SyntaxRange plugin must be installed')
 source=("https://rubygems.org/downloads/${pkgname#*-}-${pkgver}.gem")
-sha256sums=('45826c7ef68a02398b68f6a39521fdc47fc0846b7a411b5795e3b33d4a884ef7')
+sha256sums=('93f7d78f6ca3966145368ebb8b2ab627e25040ca47121d6437e219488f17a5d2')
 noextract=("${pkgname#*-}-${pkgver}.gem")
+provides=('ruby-vimdeck' 'vimdeck')
+conflicts=('vimdeck')
 
 package() {
   cd "$srcdir"

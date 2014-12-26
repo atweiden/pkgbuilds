@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=ruby-binman
-pkgver=3.3.2
+pkgver=4.0.0
 pkgrel=1
 pkgdesc="Produces UNIX manual pages for executable scripts"
 arch=('any')

@@ -1,18 +1,18 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=ruby-md2man
-pkgver=4.0.0
+pkgname=ruby-artii
+pkgver=2.1.0
 pkgrel=1
-pkgdesc="Converts markdown documents into UNIX manual pages"
+pkgdesc="System Information Gatherer And Reporter"
 arch=('any')
-url="http://sunaku.github.io/md2man/"
-license=('ISC')
-depends=('ruby' 'ruby-binman' 'ruby-redcarpet')
+depends=('ruby')
+url="https://github.com/miketierney/artii"
+license=('MIT')
 source=(https://rubygems.org/downloads/${pkgname#*-}-${pkgver}.gem)
-sha256sums=('c9ee3f4a244510022f33d7624d8f0e1be59c23dba656e732c91c715dd8134555')
+sha256sums=('4fa369d507d6bba22581b72c841abfe8385c13f6cc3995068cb7eed008643e92')
 noextract=("${pkgname#*-}-${pkgver}.gem")
-provides=('md2man' 'ruby-md2man')
-conflicts=('md2man')
+provides=('artii' 'ruby-artii')
+conflicts=('artii')
 
 package() {
   cd "$srcdir"

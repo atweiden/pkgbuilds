@@ -1,18 +1,18 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=ruby-md2man
-pkgver=4.0.0
+pkgname=ruby-asciiart
+pkgver=0.0.8
 pkgrel=1
-pkgdesc="Converts markdown documents into UNIX manual pages"
+pkgdesc="A command line tool to turn images into ASCII art"
 arch=('any')
-url="http://sunaku.github.io/md2man/"
-license=('ISC')
-depends=('ruby' 'ruby-binman' 'ruby-redcarpet')
+depends=('ruby' 'ruby-rainbow' 'ruby-rmagick')
+url="https://github.com/nodanaonlyzuul/asciiart"
+license=('MIT')
 source=(https://rubygems.org/downloads/${pkgname#*-}-${pkgver}.gem)
-sha256sums=('c9ee3f4a244510022f33d7624d8f0e1be59c23dba656e732c91c715dd8134555')
+sha256sums=('0a7783c51b9426a31b504bdb930e2388b90064f8dc39f74ad574441a61518325')
 noextract=("${pkgname#*-}-${pkgver}.gem")
-provides=('md2man' 'ruby-md2man')
-conflicts=('md2man')
+provides=('asciiart' 'ruby-asciiart')
+conflicts=('asciiart')
 
 package() {
   cd "$srcdir"
