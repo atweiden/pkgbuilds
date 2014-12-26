@@ -3,7 +3,7 @@
 pkgname=ruby-artii
 pkgver=2.1.0
 pkgrel=1
-pkgdesc="System Information Gatherer And Reporter"
+pkgdesc="A Figlet-based ASCII art generator, useful for comand-line based ASCII Art Generation"
 arch=('any')
 depends=('ruby')
 url="https://github.com/miketierney/artii"
