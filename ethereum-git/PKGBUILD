@@ -13,7 +13,7 @@ license=('GPL')
 source=(${pkgname%-git}::git+https://github.com/ethereum/cpp-ethereum)
 sha256sums=('SKIP')
 provides=('alethzero' 'cpp-ethereum' 'eth' 'ethereum' 'lllc' 'mix' 'neth' 'sc' 'solc' 'third')
-provides=('alethzero' 'cpp-ethereum' 'eth' 'ethereum' 'ethereum-serpent' 'lllc' 'mix' 'neth' 'sc' 'secp256k1' 'solc' 'third')
+conflicts=('alethzero' 'cpp-ethereum' 'eth' 'ethereum' 'ethereum-serpent' 'lllc' 'mix' 'neth' 'sc' 'secp256k1' 'solc' 'third')
 
 pkgver() {
   cd ${pkgname%-git}
