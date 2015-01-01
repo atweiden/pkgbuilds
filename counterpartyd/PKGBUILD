@@ -35,7 +35,7 @@ source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/CounterpartyXCP/$pk
         counterpartyd.logrotate
         counterpartyd.service)
 sha256sums=('d8b1652f21ada0f6855c72d499b1ed2fe8237afde8f76ba4b91c3da8776abbca'
-            'adc50cb97b31f7b4bb5d8657322369b7d015364c1561aca14ff29c3286ccc12b'
+            '5c3cd805b4b4cfca66394383bf3776067ba3111bc2031dd1cedb11c94c1bc73f'
             '0977538447f05ef133f76784fb88e02410ad4f7b0e01b4525efca1cd39cc15d1'
             '1ab7d2ec9f43887e4cc1971e8493f273f6214528f70565b6358bb98d0b618fc8')
 install=counterpartyd.install

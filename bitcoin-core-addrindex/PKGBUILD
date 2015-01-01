@@ -52,7 +52,7 @@ package() {
   install -Dm 644 contrib/debian/manpages/bitcoin.conf.5 "$pkgdir/usr/share/man/man5/bitcoin.conf.5"
 
   msg 'Installing documentation...'
-  install -dm 755 $pkgdir/usr/share/doc/bitcoin
+  install -dm 755 "$pkgdir/usr/share/doc/bitcoin"
   for _doc in `find doc -maxdepth 1 -type f -name "*.md" -printf '%f\n'` release-notes; do
     cp -dpr --no-preserve=ownership doc/$_doc "$pkgdir/usr/share/doc/bitcoin/$_doc"
   done
