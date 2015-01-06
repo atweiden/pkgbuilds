@@ -8,6 +8,7 @@ arch=('any')
 depends=('leveldb'
          'python'
          'python-appdirs'
+         'python-apsw'
          'python-colorlog'
          'python-crypto'
          'python-dateutil'
