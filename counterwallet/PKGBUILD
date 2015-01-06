@@ -9,7 +9,7 @@ makedepends=('nodejs-bower' 'nodejs-grunt-cli')
 optdepends=('counterblockd: extended API services'
             'openresty: web app server')
 groups=('counterparty')
-url="https://counterwallet.co"
+url="https://counterwallet.io"
 license=('CDDL')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/CounterpartyXCP/counterwallet/tar.gz/$pkgver)
 sha256sums=('301f3c72dd206cdbeea4236d7c01d33b6a6d4233000fa38e76e0e10fb00ba2e2')
