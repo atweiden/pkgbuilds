@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=counterpartyd-git
-pkgver=20141231
+pkgver=20150104
 pkgrel=1
 pkgdesc="An open marketplace, built on Bitcoin"
 arch=('any')
@@ -73,23 +73,12 @@ package() {
   msg 'Installing appdirs...'
   install -dm 755 "$pkgdir/usr/share/counterpartyd"
   install -dm 700 "$pkgdir/var/log/counterpartyd"
-  for _appdir in lib test; do
-    cp -dpr --no-preserve=ownership $_appdir "$pkgdir/usr/share/counterpartyd/$_appdir"
-  done
+  find . -mindepth 1 -maxdepth 1 -type d -exec \
+    cp -dpr --no-preserve=ownership '{}' "$pkgdir/usr/share/counterpartyd" \;
 
   msg 'Installing appfiles...'
-  for _appfile in __init__.py \
-                  mainnet_burns.csv \
-                  pip-requirements.txt \
-                  protocol_changes.json \
-                  version.json; do
-    install -Dm 644 $_appfile "$pkgdir/usr/share/counterpartyd/$_appfile"
-  done
-
-  msg 'Installing executables...'
-  for _bin in counterparty-cli.py counterpartyd.py; do
-    install -Dm 755 $_bin "$pkgdir/usr/share/counterpartyd/$_bin"
-  done
+  find . -mindepth 1 -maxdepth 1 -type f -exec \
+    cp -dpr --no-preserve=ownership '{}' "$pkgdir/usr/share/counterpartyd" \;
 
   msg 'Installing counterpartyd.conf...'
   install -Dm 600 "$srcdir/counterpartyd.conf" "$pkgdir/etc/counterpartyd/counterpartyd.conf"

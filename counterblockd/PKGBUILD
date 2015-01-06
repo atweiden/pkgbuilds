@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=counterblockd
-pkgver=0.9.6
+pkgver=1.0.0
 pkgrel=1
 pkgdesc="Provides extended API services to Counterwallet, as well as Counterparty 3rd-party applications"
 arch=('any')
@@ -34,6 +34,7 @@ depends=('cython2'
          'python2-pycoin'
          'python2-pygeoip'
          'python2-pymongo'
+         'python2-python-bitcoinlib'
          'python2-pyzmq'
          'python2-redis'
          'python2-repoze.lru'
@@ -46,8 +47,7 @@ depends=('cython2'
          'zeromq')
 makedepends=('python2-sphinx')
 optdepends=('armory: for armory_utxsvr'
-            'counterpartyd: Counterparty protocol'
-            'insight-bitcore: Bitcoin blockchain API')
+            'counterpartyd: Counterparty protocol')
 groups=('counterparty')
 url="https://github.com/CounterpartyXCP/counterblockd"
 license=('MIT')
@@ -55,17 +55,19 @@ source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/CounterpartyXCP/cou
         counterblockd.conf
         counterblockd.logrotate
         counterblockd.service)
-sha256sums=('59e42532544cd27cb7f04ebb2b91747114677463bb30ebac6941b853a5d5b3bd'
-            '12e4ab1eeebb622a21a9131e3787db030c185a29a3aa58dab368b03379069ef8'
+sha256sums=('e79099a47d02997d4889b97a6df8db42fa708806ac516fd4080881a5dd9aad1a'
+            '689ed406660b8413448c7caffae8128aeac2f0720101d2d0b8693d9366c754aa'
             'c33c46216455937b12af16ff51f01d5b6d0592ad1b86c727e16eb005683aedaf'
-            '4bfd7084aa3d95395cd7ba578b612c79ddeda1b23217b625e8da263439deec59')
+            '5559f009f73197ef542408104ed7117124d3b0c153eae5bfb69f25c44d5199cf')
 install=counterblockd.install
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg 'Fixing Python version...'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python$#/usr/bin/python2#g'
   find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python3#/usr/bin/python2#g'
+  find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python$#/usr/bin/env python2#g'
   find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python3#/usr/bin/env python2#g'
 }
 
@@ -93,22 +95,15 @@ package() {
   msg 'Installing appdirs...'
   install -dm 755 "$pkgdir/usr/share/counterblockd"
   install -dm 700 "$pkgdir/var/log/counterblockd"
-  for _appdir in docs lib schemas; do
-    cp -dpr --no-preserve=ownership $_appdir "$pkgdir/usr/share/counterblockd/$_appdir"
-  done
+  find . -mindepth 1 -maxdepth 1 -type d -exec \
+    cp -dpr --no-preserve=ownership '{}' "$pkgdir/usr/share/counterblockd" \;
 
   msg 'Installing appfiles...'
-  for _appfile in __init__.py; do
-    install -Dm 644 $_appfile "$pkgdir/usr/share/counterblockd/$_appfile"
-  done
-
-  msg 'Installing counterblockd executables...'
-  for _bin in armory_utxsvr.py counterblockd.py; do
-    install -Dm 755 $_bin "$pkgdir/usr/share/counterblockd/$_bin"
-  done
+  find . -mindepth 1 -maxdepth 1 -type f -exec \
+    cp -dpr --no-preserve=ownership '{}' "$pkgdir/usr/share/counterblockd" \;
 
   msg 'Installing counterblockd.conf...'
-  #install -Dm 600 $srcdir/counterblockd.conf $pkgdir/etc/counterblockd/counterblockd.conf
+  #install -Dm 600 "$srcdir/counterblockd.conf" "$pkgdir/etc/counterblockd/counterblockd.conf"
   install -Dm 600 "$srcdir/counterblockd.conf" "$pkgdir/etc/conf.d/counterblockd"
 
   msg 'Installing counterblockd.service'
