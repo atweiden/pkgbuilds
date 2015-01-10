@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=ruby-god
-pkgver=0.13.4
+pkgname=god
+pkgver=0.13.5
 pkgrel=1
 pkgdesc="A process monitoring framework in Ruby"
 arch=('i686' 'x86_64')
@@ -10,12 +10,14 @@ license=('MIT')
 depends=('ruby')
 source=(https://rubygems.org/downloads/${pkgname#*-}-${pkgver}.gem
         god.service)
-sha256sums=('c48bec321884396656d2aea08270fe73cb491317c2906cbf8bb00f718e969610'
-            '753a12224f810c301b073158f8026682889c4df7b30ee5e8eb2fa1e3312d57d8')
+sha256sums=('c3d6cc46a49258850b52b4d60f2921b7bdf9d38dae8c7bc36ad9cecfc5503922'
+            '4b2ec4edbc94dd11b5178ec66846b94232157d1f9710de5f58fc2deb0a1e1596')
 noextract=("${pkgname#*-}-${pkgver}.gem")
 provides=('god' 'ruby-god')
-conflicts=('god')
+conflicts=('god' 'ruby-god')
 install=god.install
+
+_rbver=$(gem env gempath | awk -F: '{print $2}' | sed 's@.*gems/@@')
 
 package() {
   cd "$srcdir"
@@ -29,6 +31,11 @@ package() {
 
   msg 'Readying directories...'
   mkdir -p "$pkgdir"/{etc/god/conf.d,/var/log/god,}
+
+  msg 'Installing executables in /usr/bin...'
+  find "$pkgdir/usr/lib/ruby/gems/$_rbver/bin" -type f -execdir \
+    install -Dm 755 '{}' "$pkgdir/usr/bin/"'{}' \;
+  rm -rf "$pkgdir/usr/bin/home"
 
   msg 'Installing systemd service file...'
   install -Dm644 "$srcdir/god.service" "$pkgdir/usr/lib/systemd/system/god.service"
