@@ -1,6 +1,6 @@
 [Unit]
-Description=Counterblockd API server
-Conflicts=counterblockd-reparse.service
+Description=Counterblockd API server (reparse)
+Conflicts=counterblockd.service
 Wants=counterpartyd.service mongodb.service redis.service
 After=counterpartyd.service mongodb.service redis.service
 
@@ -12,7 +12,8 @@ ExecStart=/usr/bin/counterblockd \
                    --config-file=/etc/counterblockd/counterblockd.conf \
                    --data-dir=/usr/share/counterblockd                 \
                    --log-file=/var/log/counterblockd/counterblockd.log \
-                   --tx-log-file=/var/log/counterblockd/counterblockd-transactions.log
+                   --tx-log-file=/var/log/counterblockd/counterblockd-transactions.log \
+                   --reparse
 
 [Install]
 WantedBy=multi-user.target

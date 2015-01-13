@@ -25,7 +25,8 @@ depends=('leveldb'
          'python-tornado'
          'sqlite')
 makedepends=('python-sphinx')
-optdepends=('bitcoin-core-addrindex: Bitcoin core headless P2P node with addrindex')
+optdepends=('bitcoin-core-addrindex: Bitcoin Core headless P2P node with addrindex'
+            'ethereum-serpent: compile Serpent contract code')
 groups=('counterparty')
 url="http://counterparty.io"
 license=('MIT')
