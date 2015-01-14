@@ -3,7 +3,7 @@
 pkgname=vim-colors-neverland-git
 pkgver=20120511
 pkgrel=1
-pkgdesc="256 colors CLI and GUI. It doesn't suck."
+pkgdesc="Eyes are sober, this is the plan"
 arch=('any')
 depends=('vim')
 makedepends=('git')

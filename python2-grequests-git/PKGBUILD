@@ -4,7 +4,7 @@
 pkgname=python2-grequests-git
 pkgver=20140618
 pkgrel=1
-pkgdesc="Allows you to use Requests with Gevent to make asyncronous HTTP Requests easily."
+pkgdesc="Allows you to use Requests with Gevent to make asyncronous HTTP Requests easily"
 arch=('any')
 depends=('python2' 'python2-greenlet')
 makedepends=('cython2' 'git' 'python2-setuptools')
