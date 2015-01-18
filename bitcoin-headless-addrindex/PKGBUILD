@@ -1,9 +1,9 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=bitcoin-core-addrindex
+pkgname=bitcoin-headless-addrindex
 pkgver=0.10.0.addrindex
 pkgrel=1
-pkgdesc="Bitcoin Core headless P2P node with addrindex"
+pkgdesc="Bitcoin headless wallet with addrindex"
 arch=('i686' 'x86_64')
 url="https://github.com/btcdrak/bitcoin"
 depends=('boost'
@@ -13,28 +13,16 @@ depends=('boost'
 makedepends=('autoconf'
              'automake'
              'binutils'
-             'expect'
              'gcc'
              'libtool'
              'make'
              'pkg-config'
              'yasm')
 license=('MIT')
-source=(${pkgname%%-*}::git+https://github.com/btcdrak/bitcoin#branch=addrindex
-        bitcoin.conf
-        bitcoin.logrotate
-        bitcoin.service
-        bitcoin-reindex.service)
-sha256sums=('SKIP'
-            '8a56413f8946861390a9992411a3730bc085ee02b852c27371cacfa5ec50e939'
-            '8f05207b586916d489b7d25a68eaacf6e678d7cbb5bfbac551903506b32f904f'
-            '5e45f2ceaeb7bfa60aeb66ca4167068191eb4358af03f95ac70fd96d9b006349'
-            '10ad0b8c356559886634eaf658992004045853ec26cddee143d16125cb75e8f1')
-backup=('etc/bitcoin/bitcoin.conf'
-        'etc/logrotate.d/bitcoin')
+source=(${pkgname%%-*}::git+https://github.com/btcdrak/bitcoin#branch=addrindex)
+sha256sums=('SKIP')
 provides=('bitcoin-cli' 'bitcoin-daemon' 'bitcoin-tx')
 conflicts=('bitcoin-cli' 'bitcoin-daemon' 'bitcoin-qt' 'bitcoin-tx')
-install=bitcoin.install
 
 build() {
   cd ${pkgname%%-*}
@@ -49,8 +37,9 @@ build() {
     --sharedstatedir=/usr/share/bitcoin \
     --localstatedir=/var/lib/bitcoin \
     --enable-hardening \
+    --enable-wallet \
     --with-gui=no \
-    --disable-wallet \
+    --with-incompatible-bdb \
     --with-gnu-ld
   make
 }
@@ -78,18 +67,6 @@ package() {
 
   msg 'Installing bitcoin...'
   make DESTDIR="$pkgdir" install
-
-  msg 'Installing bitcoin.conf...'
-  install -Dm 600 "$srcdir/bitcoin.conf" "$pkgdir/etc/bitcoin/bitcoin.conf"
-
-  msg 'Installing bitcoin.service...'
-  install -Dm 644 "$srcdir/bitcoin.service" \
-    "$pkgdir/usr/lib/systemd/system/bitcoin.service"
-  install -Dm 644 "$srcdir/bitcoin-reindex.service" \
-    "$pkgdir/usr/lib/systemd/system/bitcoin-reindex.service"
-
-  msg 'Installing bitcoin.logrotate...'
-  install -Dm 644 "$srcdir/bitcoin.logrotate" "$pkgdir/etc/logrotate.d/bitcoin"
 
   msg 'Installing bash completion...'
   install -Dm 644 contrib/bitcoind.bash-completion \
