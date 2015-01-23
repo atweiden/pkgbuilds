@@ -3,7 +3,7 @@
 # Contributor: Sebastian Lindqvist <dunpin@gmail.com>
 
 pkgname=electrum-server-git
-pkgver=20140827
+pkgver=20141118
 pkgrel=1
 pkgdesc="Server to support Electrum python-based Bitcoin client"
 arch=('i686' 'x86_64')
@@ -64,8 +64,9 @@ package() {
   done
 
   msg 'Installing'
+  install -dm 700 "$pkgdir/usr/share/electrum-server"
   install -dm 700 "$pkgdir/var/log/electrum-server"
-  python2 setup.py install --root="${pkgdir}" --optimize=1
+  python2 setup.py install --root="$pkgdir" --optimize=1
 
   msg 'Installing electrum-server.conf...'
   install -Dm 600 electrum-server.conf.sample "$pkgdir/etc/electrum-server.conf"
