@@ -7,7 +7,14 @@ pkgver=20141118
 pkgrel=1
 pkgdesc="Server to support Electrum python-based Bitcoin client"
 arch=('i686' 'x86_64')
-depends=('leveldb' 'openssl' 'python2' 'python2-irc' 'python2-jsonrpclib' 'python2-plyvel' 'python2-pyopenssl' 'snappy')
+depends=('leveldb'
+         'openssl'
+         'python2'
+         'python2-irc'
+         'python2-jsonrpclib'
+         'python2-plyvel'
+         'python2-pyopenssl'
+         'snappy')
 makedepends=('git' 'python2-setuptools')
 optdepends=('bitcoin-core: Bitcoin core headless P2P node'
             'electrum: Bitcoin thin client')
@@ -70,6 +77,9 @@ package() {
 
   msg 'Installing electrum-server.conf...'
   install -Dm 600 electrum-server.conf.sample "$pkgdir/etc/electrum-server.conf"
+
+  msg 'Installing electrum-server.banner...'
+  touch "$pkgdir/etc/electrum-server.banner"
 
   msg 'Installing electrum-server.service...'
   install -Dm 644 "$srcdir/electrum-server.service" "$pkgdir/usr/lib/systemd/system/electrum-server.service"
