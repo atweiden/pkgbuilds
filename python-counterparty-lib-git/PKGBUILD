@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=python-counterparty-lib-git
-pkgver=20150122
+pkgver=20150126
 pkgrel=1
 pkgdesc="Reference implementation of the Counterparty protocol"
 arch=('any')
@@ -19,6 +19,7 @@ depends=('leveldb'
          'python-prettytable'
          'python-pycoin'
          'python-pysha3'
+         'python-pytest-cov'
          'python-python-bitcoinlib'
          'python-requests'
          'python-tendo'
@@ -44,8 +45,10 @@ prepare() {
   cd ${pkgname%-git}
 
   msg 'Fixing setup.py...'
-  sed -i 's/^install_serpent()//' setup.py
-  sed -i 's/^install_apsw()//' setup.py
+  sed -i "/^# In Windows.*/,/^- Serpent.*/d" setup.py
+  sed -i "s/python-bitcoinlib==.*/python-bitcoinlib'/" setup.py
+  sed -i "s/json-rpc==.*/json-rpc'/" setup.py
+  sed -i "s/python-dateutil==.*/python-dateutil'/" setup.py
 }
 
 build() {

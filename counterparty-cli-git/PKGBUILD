@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=counterparty-cli-git
-pkgver=20150123
+pkgver=20150126
 pkgrel=1
 pkgdesc="An open marketplace, built on Bitcoin"
 arch=('any')
@@ -13,7 +13,6 @@ depends=('python'
          'python-prettytable'
          'python-requests')
 makedepends=('git'
-             'python-certifi'
              'python-setuptools')
 optdepends=('bitcoin-core-addrindex: Bitcoin Core headless P2P node with addrindex'
             'bitcoin-headless-addrindex: Bitcoin headless wallet with addrindex'
@@ -32,6 +31,14 @@ install=counterparty-cli.install
 pkgver() {
   cd ${pkgname%-git}
   git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%-git}
+
+  msg 'Fixing setup.py...'
+  sed -i "s/requests==.*/requests'/" setup.py
+  sed -i "s/python-dateutil==.*/python-dateutil'/" setup.py
 }
 
 build() {

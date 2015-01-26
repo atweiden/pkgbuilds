@@ -1,4 +1,4 @@
-/var/log/counterblockd/*.log
+/var/log/counterblock/*.log
 {
         rotate 5
         copytruncate
