@@ -1,0 +1,28 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=ttf-input
+pkgver=1.0
+pkgrel=1
+pkgdesc="Flexible system of fonts designed specifically for code by David Jonathan Ross"
+arch=('any')
+depends=('fontconfig'
+         'xorg-fonts-encodings'
+         'xorg-mkfontdir'
+         'xorg-mkfontscale')
+url="http://input.fontbureau.com"
+license=('custom')
+source=(Input-Font.zip::'http://input.fontbureau.com/build/?fontSelection=whole&a=ss&g=ss&i=serifs&l=serifs&zero=slash&asterisk=0&braces=0&preset=monaco&line-height=1.2&accept=I+do&email=')
+sha256sums=('139f3a164f3fb6939696f4b320a18a2ed9547e198a1e11d2dea51bf99befb9be')
+install=ttf-input.install
+
+package() {
+  cd "$srcdir/Input_Fonts"
+
+  msg 'Installing license...'
+  install -Dm 644 "$srcdir/LICENSE.txt" "$pkgdir/usr/share/licenses/ttf-input/LICENSE.txt"
+
+  msg 'Installing...'
+  install -dm 755 "$pkgdir/usr/share/fonts/TTF"
+  find . -type f -name "*.ttf" -exec \
+    cp -dpr --no-preserve=ownership '{}' "$pkgdir/usr/share/fonts/TTF" \;
+}
