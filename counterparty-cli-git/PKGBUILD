@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=counterparty-cli-git
-pkgver=20150126
+pkgver=20150131
 pkgrel=1
 pkgdesc="An open marketplace, built on Bitcoin"
 arch=('any')
@@ -33,26 +33,31 @@ pkgver() {
   git log -1 --format="%cd" --date=short | sed "s|-||g"
 }
 
-prepare() {
-  cd ${pkgname%-git}
-
-  msg 'Fixing setup.py...'
-  sed -i "s/requests==.*/requests'/" setup.py
-  sed -i "s/python-dateutil==.*/python-dateutil'/" setup.py
-}
-
 build() {
   cd ${pkgname%-git}
 
   msg 'Building...'
-  python setup.py build
+  vex --path "$srcdir/${pkgname%-git}/vex" --always-copy -mr <<EOF
+install -dm 755 "$srcdir/${pkgname%-git}/vex/lib/python3.4/site-packages"
+PYTHONPATH="$srcdir/${pkgname%-git}/vex/lib/python3.4/site-packages" \
+python setup.py install --prefix="$srcdir/${pkgname%-git}/vex" --optimize=1
+cp -dpr --no-preserve=owner "$srcdir/${pkgname%-git}/vex" "$srcdir/${pkgname%-git}/vex.bak"
+EOF
 }
 
 package() {
   cd ${pkgname%-git}
 
   msg 'Installing...'
-  python setup.py install --root="$pkgdir" --optimize=1
+  install -dm 755 "$pkgdir/usr/share/counterparty-cli"
+  find vex.bak -mindepth 1 -maxdepth 1 -exec \
+    cp -dpr --no-preserve=owner '{}' "$pkgdir/usr/share/counterparty-cli" \;
+
+  msg 'Cleaning up Python dist info...'
+  find "$pkgdir" -type f -print0 | xargs -0 sed -i "s@$srcdir/${pkgname%-git}/vex@/usr/share/counterparty-cli@g"
+  sed -i 's@^VIRTUAL_ENV=.*@VIRTUAL_ENV="/usr/share/counterparty-cli"@' "$pkgdir/usr/share/counterparty-cli/bin/activate"
+  sed -i 's@^setenv VIRTUAL_ENV.*@setenv VIRTUAL_ENV "/usr/share/counterparty-cli"@' "$pkgdir/usr/share/counterparty-cli/bin/activate.csh"
+  sed -i 's@^set -gx VIRTUAL_ENV.*@set -gx VIRTUAL_ENV "/usr/share/counterparty-cli"@' "$pkgdir/usr/share/counterparty-cli/bin/activate.fish"
 
   msg 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +

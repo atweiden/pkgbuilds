@@ -1,29 +1,14 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=python-counterparty-lib-git
-pkgver=20150126
+pkgver=20150131
 pkgrel=1
 pkgdesc="Reference implementation of the Counterparty protocol"
 arch=('any')
 depends=('leveldb'
          'python'
-         'python-appdirs'
-         'python-apsw'
-         'python-colorlog'
-         'python-crypto'
-         'python-dateutil'
-         'python-flask'
-         'python-flask-httpauth'
-         'python-json-rpc'
          'python-plyvel'
-         'python-prettytable'
-         'python-pycoin'
-         'python-pysha3'
-         'python-pytest-cov'
-         'python-python-bitcoinlib'
-         'python-requests'
-         'python-tendo'
-         'python-tornado'
+         'python-vex'
          'sqlite')
 makedepends=('git' 'python-setuptools')
 optdepends=('ethereum-serpent: compile Serpent contract code')
@@ -35,6 +20,8 @@ source=(${pkgname%-git}::git+https://github.com/CounterpartyXCP/counterpartyd#br
 sha256sums=('SKIP')
 provides=('python-counterparty-lib')
 conflicts=('python-counterparty-lib')
+options=('!emptydirs' '!strip')
+install=python-counterparty-lib.install
 
 pkgver() {
   cd ${pkgname%-git}
@@ -45,24 +32,34 @@ prepare() {
   cd ${pkgname%-git}
 
   msg 'Fixing setup.py...'
-  sed -i "/^# In Windows.*/,/^- Serpent.*/d" setup.py
-  sed -i "s/python-bitcoinlib==.*/python-bitcoinlib'/" setup.py
-  sed -i "s/json-rpc==.*/json-rpc'/" setup.py
-  sed -i "s/python-dateutil==.*/python-dateutil'/" setup.py
+  sed -i "/cmd.run_command('install_serpent')/d" setup.py
 }
 
 build() {
   cd ${pkgname%-git}
 
   msg 'Building...'
-  python setup.py build
+  vex --path "$srcdir/${pkgname%-git}/vex" --always-copy -mr <<EOF
+install -dm 755 "$srcdir/${pkgname%-git}/vex/lib/python3.4/site-packages"
+PYTHONPATH="$srcdir/${pkgname%-git}/vex/lib/python3.4/site-packages" \
+python setup.py install --prefix="$srcdir/${pkgname%-git}/vex" --optimize=1
+cp -dpr --no-preserve=owner "$srcdir/${pkgname%-git}/vex" "$srcdir/${pkgname%-git}/vex.bak"
+EOF
 }
 
 package() {
   cd ${pkgname%-git}
 
   msg 'Installing...'
-  python setup.py install --root="$pkgdir" --optimize=1
+  install -dm 755 "$pkgdir/usr/share/counterparty-lib"
+  find vex.bak -mindepth 1 -maxdepth 1 -exec \
+    cp -dpr --no-preserve=owner '{}' "$pkgdir/usr/share/counterparty-lib" \;
+
+  msg 'Cleaning up Python dist info...'
+  find "$pkgdir" -type f -print0 | xargs -0 sed -i "s@$srcdir/${pkgname%-git}/vex@/usr/share/counterparty-lib@g"
+  sed -i 's@^VIRTUAL_ENV=.*@VIRTUAL_ENV="/usr/share/counterparty-lib"@' "$pkgdir/usr/share/counterparty-lib/bin/activate"
+  sed -i 's@^setenv VIRTUAL_ENV.*@setenv VIRTUAL_ENV "/usr/share/counterparty-lib"@' "$pkgdir/usr/share/counterparty-lib/bin/activate.csh"
+  sed -i 's@^set -gx VIRTUAL_ENV.*@set -gx VIRTUAL_ENV "/usr/share/counterparty-lib"@' "$pkgdir/usr/share/counterparty-lib/bin/activate.fish"
 
   msg 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +

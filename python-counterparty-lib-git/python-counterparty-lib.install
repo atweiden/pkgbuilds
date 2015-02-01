@@ -1,0 +1,24 @@
+post_install() {
+  printf "$counterpartylib\n"
+}
+
+post_upgrade() {
+  post_install
+}
+
+read -d '' counterpartylib <<'EOF'
+python-counterparty-lib
+=======================
+
+To import counterpartylib, you must activate the virtualenv in
+/usr/share/counterparty-lib, e.g.:
+
+    $ cd /usr/share/counterparty-lib && source bin/activate
+
+    (or)
+
+    $ vex --path /usr/share/counterparty-lib python -c "import counterpartylib"
+    $ vex --path /usr/share/counterparty-lib
+
+vex README: https://github.com/sashahart/vex
+EOF

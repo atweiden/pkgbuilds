@@ -1,6 +1,7 @@
 post_install() {
   _mkuser
   chown -R counterblock:counterblock /etc/counterblock /usr/share/counterblock /var/log/counterblock
+  printf "$cblock\n"
 }
 
 post_upgrade() {
@@ -26,3 +27,20 @@ _rmuser() {
   userdel -rf counterblock 2>/dev/null
   echo "done"
 }
+
+read -d '' cblock <<'EOF'
+counterblock
+============
+
+To run counterblock, you must activate the virtualenv in
+/usr/share/counterblock, e.g.:
+
+    $ cd /usr/share/counterblock && source bin/activate
+    $ ./bin/counterblock --help
+
+    (or)
+
+    $ vex --path /usr/share/counterblock /usr/share/counterblock/bin/counterblock --help
+
+vex README: https://github.com/sashahart/vex
+EOF
