@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=counterblock-git
-pkgver=20150206
+pkgname=counterblock
+pkgver=1.1.0
 pkgrel=1
 pkgdesc="Extended functionality for Counterparty"
 arch=('any')
@@ -43,41 +43,33 @@ depends=('cython2'
          'redis'
          'sqlite'
          'zeromq')
-makedepends=('git'
-             'python2-setuptools')
+makedepends=('python2-setuptools')
 optdepends=('armory-git: for armory_utxsvr'
             'counterparty-cli-git: Counterparty server')
 groups=('counterparty')
 url="https://github.com/CounterpartyXCP/counterblock"
 license=('MIT')
-source=(git+https://github.com/CounterpartyXCP/counterblock
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/CounterpartyXCP/counterblock/tar.gz/$pkgver
         counterblock.conf
         counterblock.logrotate
         counterblock.service
         counterblock-reparse.service)
-sha256sums=('SKIP'
+sha256sums=('c4a86a300011e53708ac17f669c4554c5c3467723f5ee9acc9084cec984fb9bd'
             '1a569067a0bb0172d36654f70321fb331733d27bc3c45f22fdfd8767a3b926aa'
             'efc4901376dbb89a506112e92ea257d536a0e7d3f056de12d7dd2e7adf6e14f1'
             '92c829cb42d643072e6fe88eb6f4745fc7a96aef7da412d197d0f2ec9024337e'
             'f8504dce5eb8909f2312765ed777bdbc503b141cf42bf0ac0dc2b64be7485d3d')
-provides=('counterblock')
-conflicts=('counterblock')
 install=counterblock.install
 
-pkgver() {
-  cd ${pkgname%-git}
-  git log -1 --format="%cd" --date=short | sed "s|-||g"
-}
-
 build() {
-  cd ${pkgname%-git}
+  cd "$srcdir/$pkgname-$pkgver"
 
   msg 'Building...'
   python2 setup.py build
 }
 
 package() {
-  cd ${pkgname%-git}
+  cd "$srcdir/$pkgname-$pkgver"
 
   msg 'Installing...'
   python2 setup.py install --root="$pkgdir" --optimize=1
@@ -96,8 +88,4 @@ package() {
   msg 'Installing counterblock directories...'
   install -dm 755 "$pkgdir/usr/share/counterblock"
   install -dm 700 "$pkgdir/var/log/counterblock"
-
-  msg 'Cleaning up pkgdir...'
-  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
-  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }
