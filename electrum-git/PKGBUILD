@@ -7,7 +7,7 @@
 #
 
 pkgname=electrum-git
-pkgver=20150206
+pkgver=20150211
 pkgrel=1
 pkgdesc="Lightweight Bitcoin wallet"
 arch=('any')
@@ -45,6 +45,8 @@ source=(git+https://github.com/spesmilo/electrum
         setup.py.patch)
 sha256sums=('SKIP'
             '7ae9cca8b03e4c804ba5f1d22fee6d0e62d4ec8030693ed6004afec2a017676f')
+provides=('electrum')
+conflicts=('electrum')
 install=electrum.install
 
 pkgver() {
