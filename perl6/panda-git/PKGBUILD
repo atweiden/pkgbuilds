@@ -41,7 +41,6 @@ package() {
               panda-fetch \
               panda-install \
               panda-test \
-              panda.bat \
               redpanda; do
     install -Dm 755 bin/$_bin "$pkgdir/usr/bin/$_bin"
   done
