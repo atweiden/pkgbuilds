@@ -1,0 +1,40 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=rakudo-git
+pkgver=20150220
+pkgrel=1
+pkgdesc="Perl 6 compiler for the MoarVM and JVM"
+arch=('i686' 'x86_64')
+depends=('java-runtime' 'moarvm')
+makedepends=('git' 'make')
+groups=('perl6')
+url="https://github.com/rakudo/rakudo"
+license=('PerlArtistic')
+source=(git+https://github.com/rakudo/rakudo)
+sha256sums=('SKIP')
+provides=('rakudo')
+conflicts=('rakudo')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg 'Building...'
+  perl Configure.pl --prefix=/usr --backends=moar,jvm
+  make
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+
+  msg 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}

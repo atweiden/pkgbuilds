@@ -1,0 +1,46 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=moarvm
+pkgver=2015.02
+pkgrel=1
+pkgdesc="6model-based VM for NQP and Rakudo Perl 6"
+arch=('i686' 'x86_64')
+depends=('readline')
+makedepends=('clang' 'git' 'llvm' 'make' 'pkg-config')
+groups=('perl6')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
+        dynasm::git+https://github.com/MoarVM/dynasm
+        dyncall::git+https://github.com/MoarVM/dyncall
+        libuv::git+https://github.com/libuv/libuv
+        linenoise::git+https://github.com/MoarVM/linenoise)
+sha256sums=('1a60ebd3bc7f912574e8affe831c7f945850940100b011bc141ccb3a6a57d42d'
+            'SKIP' 'SKIP' 'SKIP' 'SKIP')
+
+prepare() {
+  cd "$srcdir/MoarVM-$pkgver"
+
+  msg 'Copying Git submodules...'
+  for _submodule in dynasm dyncall libuv linenoise; do
+    rm -rf 3rdparty/$_submodule
+    cp -dpr --no-preserve=owner "$srcdir/$_submodule" 3rdparty
+  done
+}
+
+build() {
+  cd "$srcdir/MoarVM-$pkgver"
+
+  msg 'Building...'
+  perl Configure.pl --prefix=/usr \
+                    --toolchain=gnu \
+                    --compiler=clang \
+                    --optimize \
+                    --use-readline
+  make
+}
+
+package() {
+  cd "$srcdir/MoarVM-$pkgver"
+
+  msg 'Installing...'
+  make DESTDIR="$pkgdir" install
+}

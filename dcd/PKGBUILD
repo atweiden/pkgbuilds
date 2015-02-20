@@ -10,7 +10,7 @@ url="https://github.com/Hackerpilot/DCD"
 license=('GPL3')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/Hackerpilot/$pkgname/tar.gz/v$pkgver
         containers::git+https://github.com/economicmodeling/containers
-	      datapicked::git+https://github.com/blackwhale/datapicked
+        datapicked::git+https://github.com/blackwhale/datapicked
         ktexteditor::git+https://github.com/Dav1dde/lumen
         libdparse::git+https://github.com/Hackerpilot/libdparse
         msgpack-d::git+https://github.com/msgpack/msgpack-d)
