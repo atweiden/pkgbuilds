@@ -7,7 +7,7 @@
 #
 
 pkgname=electrum-git
-pkgver=20150218
+pkgver=20150221
 pkgrel=1
 pkgdesc="Lightweight Bitcoin wallet"
 arch=('any')
@@ -65,6 +65,7 @@ build() {
   cd ${pkgname%-git}
 
   msg 'Building...'
+  python2 contrib/mki18n.py
   pyrcc4 icons.qrc -o gui/qt/icons_rc.py
   python2 setup.py build
 }
