@@ -65,7 +65,7 @@ build() {
   cd ${pkgname%-git}
 
   msg 'Building...'
-  python2 contrib/mki18n.py
+  python2 contrib/make_locale
   pyrcc4 icons.qrc -o gui/qt/icons_rc.py
   python2 setup.py build
 }
