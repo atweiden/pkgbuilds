@@ -6,7 +6,7 @@ pkgrel=1
 pkgdesc="Bitcoin Full Node"
 arch=('i686' 'x86_64')
 depends=('boost' 'boost-libs' 'libbitcoin-blockchain-git' 'secp256k1-git')
-makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'make' 'pkg-config')
+makedepends=('autoconf' 'automake' 'clang' 'git' 'libtool' 'make' 'pkg-config')
 groups=('libbitcoin')
 url="https://github.com/libbitcoin/libbitcoin-node"
 license=('AGPL3')
@@ -25,15 +25,17 @@ build() {
 
   msg 'Building...'
   ./autogen.sh
-  ./configure \
+  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --libexecdir=/usr/lib/libbitcoin-node \
     --sysconfdir=/etc \
     --sharedstatedir=/usr/share/libbitcoin-node \
     --localstatedir=/var/lib/libbitcoin-node \
-    --with-gnu-ld
-  make
+    --with-bash-completion-dir=/usr/share/bash-completion/completions \
+    --with-gnu-ld \
+    --without-tests
+  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ make
 }
 
 package() {

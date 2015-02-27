@@ -3,12 +3,12 @@
 # Contributor: William Giokas (KaiSforza) <1007380@gmail.com>
 
 pkgname=libbitcoin-git
-pkgver=20150209
+pkgver=20150227
 pkgrel=1
 pkgdesc="Bitcoin Cross-Platform C++ Development Toolkit"
 arch=('i686' 'x86_64')
 depends=('boost' 'boost-libs' 'curl' 'leveldb' 'openssl' 'secp256k1-git')
-makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'make' 'pkg-config')
+makedepends=('autoconf' 'automake' 'clang' 'git' 'libtool' 'make' 'pkg-config')
 groups=('libbitcoin')
 url="https://github.com/libbitcoin/libbitcoin"
 license=('AGPL3')
@@ -27,15 +27,16 @@ build() {
 
   msg 'Building...'
   ./autogen.sh
-  ./configure \
+  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --libexecdir=/usr/lib/libbitcoin \
     --sysconfdir=/etc \
     --sharedstatedir=/usr/share/libbitcoin \
     --localstatedir=/var/lib/libbitcoin \
-    --with-gnu-ld
-  make
+    --with-gnu-ld \
+    --without-tests
+  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ make
 }
 
 package() {
