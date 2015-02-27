@@ -7,7 +7,7 @@ pkgrel=1
 pkgdesc="C++ wrapper for czmq"
 arch=('i686' 'x86_64')
 depends=('czmq-git' 'zeromq')
-makedepends=('autoconf' 'clang' 'git' 'make' 'pkg-config')
+makedepends=('autoconf' 'gcc' 'git' 'make' 'pkg-config')
 url="https://github.com/zeromq/czmqpp"
 license=('LGPL3')
 source=(git+https://github.com/zeromq/czmqpp)
@@ -25,7 +25,7 @@ build() {
 
   msg 'Building...'
   ./autogen.sh
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ ./configure \
+  ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --libexecdir=/usr/lib/czmqpp \
@@ -33,7 +33,7 @@ build() {
     --sharedstatedir=/usr/share/czmqpp \
     --localstatedir=/var/lib/czmqpp \
     --with-gnu-ld
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ make
+  make
 }
 
 package() {

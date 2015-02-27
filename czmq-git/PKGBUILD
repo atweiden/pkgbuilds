@@ -2,12 +2,12 @@
 # Contributor: Brian Knox <taotetek at gmail.com>
 
 pkgname=czmq-git
-pkgver=20150225
+pkgver=20150227
 pkgrel=1
 pkgdesc="High-level C binding for ØMQ"
 arch=('i686' 'x86_64')
 depends=('gcc-libs' 'libsodium' 'zeromq')
-makedepends=('autoconf' 'automake' 'clang' 'git' 'libtool' 'make' 'pkg-config')
+makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'make' 'pkg-config')
 url="https://github.com/zeromq/czmq"
 license=('LGPL3')
 source=(git+https://github.com/zeromq/czmq)
@@ -25,7 +25,7 @@ build() {
 
   msg 'Building...'
   ./autogen.sh
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ ./configure \
+  ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --libexecdir=/usr/lib/czmq \
@@ -33,7 +33,7 @@ build() {
     --sharedstatedir=/usr/share/czmq \
     --localstatedir=/var/lib/czmq \
     --with-gnu-ld
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ make
+  make
 }
 
 package() {

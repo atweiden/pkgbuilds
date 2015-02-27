@@ -6,7 +6,7 @@ pkgrel=1
 pkgdesc="Bitcoin Blockchain Query Privacy Protocol"
 arch=('i686' 'x86_64')
 depends=('boost' 'boost-libs' 'czmq-git' 'czmqpp-git' 'libbitcoin-git' 'libsodium' 'protobuf' 'zeromq')
-makedepends=('autoconf' 'automake' 'clang' 'git' 'libtool' 'make' 'pkg-config')
+makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'make' 'pkg-config')
 groups=('libbitcoin')
 url="https://github.com/libbitcoin/libbitcoin-protocol"
 license=('AGPL3')
@@ -25,7 +25,7 @@ build() {
 
   msg 'Building...'
   ./autogen.sh
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ ./configure \
+  ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --libexecdir=/usr/lib/libbitcoin-protocol \
@@ -34,7 +34,7 @@ build() {
     --localstatedir=/var/lib/libbitcoin-protocol \
     --with-gnu-ld \
     --without-tests
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ make
+  make
 }
 
 package() {

@@ -1,12 +1,12 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=libbitcoin-blockchain-git
-pkgver=20150211
+pkgver=20150226
 pkgrel=1
 pkgdesc="Bitcoin Blockchain Implementation"
 arch=('i686' 'x86_64')
 depends=('boost' 'boost-libs' 'libbitcoin-git' 'secp256k1-git')
-makedepends=('autoconf' 'automake' 'clang' 'git' 'libtool' 'make' 'pkg-config')
+makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'make' 'pkg-config')
 groups=('libbitcoin')
 url="https://github.com/libbitcoin/libbitcoin-blockchain"
 license=('AGPL3')
@@ -25,7 +25,7 @@ build() {
 
   msg 'Building...'
   ./autogen.sh
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ ./configure \
+  ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --libexecdir=/usr/lib/libbitcoin-blockchain \
@@ -35,7 +35,7 @@ build() {
     --with-gnu-ld \
     --without-tests \
     --without-tools
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ make
+  make
 }
 
 package() {

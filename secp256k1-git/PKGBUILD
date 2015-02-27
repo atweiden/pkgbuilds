@@ -7,7 +7,7 @@ pkgdesc="Elliptic Curve Library for libbitcoin"
 arch=('i686' 'x86_64')
 url="https://github.com/libbitcoin/secp256k1"
 depends=('openssl')
-makedepends=('clang' 'git' 'make' 'pkg-config' 'yasm')
+makedepends=('gcc' 'git' 'make' 'pkg-config' 'yasm')
 groups=('libbitcoin')
 license=('MIT')
 source=(git+https://github.com/libbitcoin/secp256k1)
@@ -25,7 +25,7 @@ build() {
 
   msg 'Building...'
   ./autogen.sh
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ ./configure \
+  ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \
     --libexecdir=/usr/lib/secp256k1 \
@@ -35,7 +35,7 @@ build() {
     --with-bignum=no \
     --enable-tests=no \
     --with-gnu-ld
-  CC=clang CXX=clang CXXFLAGS=-stdlib=libstdc++ LDLIBS=-lstdc++ make
+  make
 }
 
 package() {
