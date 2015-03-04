@@ -8,6 +8,8 @@ arch=('i686' 'x86_64')
 depends=('readline')
 makedepends=('clang' 'git' 'llvm' 'make' 'pkg-config')
 groups=('perl6')
+url="https://github.com/MoarVM/MoarVM"
+license=('PerlArtistic')
 source=(${pkgname%-git}::git+https://github.com/MoarVM/MoarVM
         dynasm::git+https://github.com/MoarVM/dynasm
         dyncall::git+https://github.com/MoarVM/dyncall
