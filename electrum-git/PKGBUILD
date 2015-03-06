@@ -35,7 +35,9 @@ makedepends=('gettext'
              'python2-setuptools')
 optdepends=('desktop-file-utils: update desktop icon'
             'gtk-update-icon-cache: update desktop icon'
+            'python2-amodem: air-gapped transaction signing over audio modem'
             'python2-btchip: BTChip hardware wallet support'
+            'python2-matplotlib: plot transaction history in graphical mode'
             'python2-rpyc: send commands to Electrum Python console from an external script'
             'python2-trezor: TREZOR hardware wallet support'
             'python2-zbar: QR code reading support'
@@ -85,4 +87,5 @@ package() {
 
   msg 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }
