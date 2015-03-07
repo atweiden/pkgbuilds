@@ -1,6 +1,6 @@
 post_install() {
   update-desktop-database -q
-  printf "$ecdsa\n"
+  printf "%b\n" "$ecdsa"
 }
 
 post_upgrade() {

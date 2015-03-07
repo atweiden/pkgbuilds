@@ -1,7 +1,7 @@
 post_install() {
   _mkuser
   chown -R copay:copay /etc/copay /usr/share/copay
-  printf "$copay\n"
+  printf "%b\n" "$copay"
 }
 
 post_upgrade() {

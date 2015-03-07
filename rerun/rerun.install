@@ -1,5 +1,5 @@
 post_install() {
-  printf "$rerunit\n"
+  printf "%b\n" "$rerunit"
 }
 
 read -d '' rerunit <<'EOF'

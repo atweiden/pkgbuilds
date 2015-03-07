@@ -1,5 +1,5 @@
 post_install() {
-  printf "$pybm\n"
+  printf "%b\n" "$pybm"
 }
 
 post_upgrade() {

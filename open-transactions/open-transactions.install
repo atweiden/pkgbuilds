@@ -1,5 +1,5 @@
 post_install() {
-  printf "$opentxs\n"
+  printf "%b\n" "$opentxs"
 }
 
 read -d '' opentxs <<'EOF'

@@ -1,5 +1,5 @@
 post_install() {
-  printf "$grunt\n"
+  printf "%b\n" "$grunt"
   echo "************************************************************************"
   echo "*"
   echo "* Starting with grunt v0.4, you should never install grunt itself"
@@ -19,7 +19,7 @@ post_install() {
 }
 
 post_upgrade() {
-  printf "$grunt\n"
+  printf "%b\n" "$grunt"
 }
 
 read -d '' grunt <<'EOF'

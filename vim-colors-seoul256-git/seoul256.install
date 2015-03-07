@@ -1,5 +1,5 @@
 post_install() {
-  printf "$seoul256\n"
+  printf "%b\n" "$seoul256"
 }
 
 post_upgrade() {

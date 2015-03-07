@@ -3,7 +3,7 @@ post_install() {
   _rmsymlink
   _mksymlink
   chown -R counterpartyd:counterpartyd /etc/counterpartyd /usr/share/counterpartyd /var/log/counterpartyd
-  printf "$counterparty\n"
+  printf "%b\n" "$counterparty"
 }
 
 post_upgrade() {

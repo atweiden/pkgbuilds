@@ -1,5 +1,5 @@
 post_install() {
-  printf "$scmindent\n"
+  printf "%b\n" "$scmindent"
 }
 
 post_upgrade() {

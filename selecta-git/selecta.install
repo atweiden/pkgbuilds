@@ -1,5 +1,5 @@
 post_install() {
-  printf "$selecta\n"
+  printf "%b\n" "$selecta"
 }
 
 post_upgrade() {

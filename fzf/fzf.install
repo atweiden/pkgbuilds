@@ -1,5 +1,5 @@
 post_install() {
-  printf "$fuzzy\n"
+  printf "%b\n" "$fuzzy"
 }
 
 read -d '' fuzzy <<'EOF'

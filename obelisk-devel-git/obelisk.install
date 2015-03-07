@@ -1,7 +1,7 @@
 post_install() {
   _mkuser
   chown -R obelisk:obelisk /srv/blockchain /usr/share/obelisk /var/log/obelisk
-  printf "$obelisk\n"
+  printf "%b\n" "$obelisk"
 }
 
 post_install() {

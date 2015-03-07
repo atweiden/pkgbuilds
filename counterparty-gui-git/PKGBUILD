@@ -12,6 +12,10 @@ depends=('counterparty-cli-git'
          'python-requests')
 makedepends=('git'
              'python-setuptools')
+optdepends=('bitcoin-headless-addrindex: Bitcoin headless wallet with addrindex'
+            'bitcoin-qt-addrindex: Bitcoin QT wallet with addrindex'
+            'btcwallet: HD Bitcoin thin client written in Go'
+            'electrum: HD Bitcoin thin client written in Python')
 groups=('counterparty')
 url="https://github.com/CounterpartyXCP/counterparty-gui"
 license=('MIT')

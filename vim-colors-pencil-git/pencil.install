@@ -1,5 +1,5 @@
 post_install() {
-  printf "$pencil\n"
+  printf "%b\n" "$pencil"
 }
 
 post_upgrade() {

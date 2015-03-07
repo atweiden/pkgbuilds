@@ -5,7 +5,7 @@ post_install() {
                                            /etc/electrum-server.banner \
                                            /usr/share/electrum-server  \
                                            /var/log/electrum-server
-  printf "$ecdsa\n"
+  printf "%b\n" "$ecdsa"
 }
 
 post_upgrade() {

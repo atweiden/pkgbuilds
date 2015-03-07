@@ -1,5 +1,5 @@
 post_install() {
-  printf "$ledger\n"
+  printf "%b\n" "$ledger"
   echo -n "Symlinking /usr/share/ledger.py/ledger.py to /usr/bin/ledger.py... "
   ln -s /usr/share/ledger.py/ledger.py /usr/bin/ledger.py
   echo "done"

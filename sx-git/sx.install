@@ -1,5 +1,5 @@
 post_install() {
-  printf "$unsystem\n"
+  printf "%b\n" "$unsystem"
   _rmsymlink
   _mksymlink
 }

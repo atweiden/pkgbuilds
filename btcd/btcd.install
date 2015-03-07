@@ -1,5 +1,5 @@
 post_install() {
-  printf "$btcd\n"
+  printf "%b\n" "$btcd"
 }
 
 read -d '' btcd <<'EOF'
