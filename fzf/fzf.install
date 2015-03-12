@@ -10,7 +10,7 @@ read -d '' fuzzy <<'EOF'
 fzf
 ===
 
-2015-03-10
+2015-03-12
 
 Keybindings are up to date with:
 
