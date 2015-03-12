@@ -25,7 +25,7 @@ source=($pkgname-0.9.4-1.tar.gz::https://codeload.github.com/junegunn/$pkgname/t
 sha256sums=('77ca5c50838d522b50fb863dd85cb9e907907b8af6cc378463d3cd5aface2fdb'
             '883966a94ecf4e3121be08e8db29399080e075afdc27359445bb2ebe73b87967'
             '5b0e6cfe3a25eed53252cbbb3bcd6359ab41fefbd42388da76c9439f6b885fc3'
-            '94ea64f0f576db16d8741b77bf93f3810cb9bd1b213b34af0b22560f77f81e13')
+            '071fd703bd12688f2987274387d6207c6ce0e58aded60d9856872c0e189ee795')
 install=fzf.install
 
 #_no_bash=1 # uncomment to save optional bash keybindings as fzf.sh.pacaur
