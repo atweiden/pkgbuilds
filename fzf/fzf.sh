@@ -29,7 +29,7 @@ __fsel_tmux() {
   else
     height="-l $height"
   fi
-  tmux split-window $height "bash -c 'tmux send-keys -t $TMUX_PANE \"\$(__fsel)\"'"
+  tmux split-window $height "cd $(printf %q "$PWD");bash -c 'tmux send-keys -t $TMUX_PANE \"\$(__fsel)\"'"
 }
 
 __fcd() {

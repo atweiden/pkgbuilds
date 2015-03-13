@@ -29,7 +29,7 @@ if [ -n "$TMUX_PANE" -a ${FZF_TMUX:-1} -ne 0 -a ${LINES:-40} -gt 15 ]; then
     else
       height="-l $height"
     fi
-    tmux split-window $height "zsh -c 'tmux send-keys -t $TMUX_PANE \"\$(__fsel)\"'"
+    tmux split-window $height "cd $(printf %q "$PWD");zsh -c 'tmux send-keys -t $TMUX_PANE \"\$(__fsel)\"'"
   }
 else
   fzf-file-widget() {

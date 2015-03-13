@@ -23,9 +23,9 @@ source=($pkgname-0.9.4-1.tar.gz::https://codeload.github.com/junegunn/$pkgname/t
         fzf.sh
         fzf.zsh)
 sha256sums=('77ca5c50838d522b50fb863dd85cb9e907907b8af6cc378463d3cd5aface2fdb'
-            '883966a94ecf4e3121be08e8db29399080e075afdc27359445bb2ebe73b87967'
-            '5b0e6cfe3a25eed53252cbbb3bcd6359ab41fefbd42388da76c9439f6b885fc3'
-            'df3d9c53d84aa0361325dfe257ba7f3a7187ee18ec166c807151f58e321dacf2')
+            '0b981560aa4d86a4853f5194550a96f8a63503f7fc479fb7a41210b15692cd66'
+            '5d1102032d9b12b129f4d878b0a7ac01bb53435a09615a5599d674054b854f2b'
+            '2e74c3a21c947b8cbfcdfa609e6101f5b494756f15ff4482fb732359e074f574')
 install=fzf.install
 
 #_no_bash=1 # uncomment to save optional bash keybindings as fzf.sh.pacaur
@@ -58,12 +58,12 @@ package() {
 
   # bash
   if [[ "$_no_bash" == 1 ]]; then
-    install -Dm 644 fzf-completion.bash "$pkgdir/usr/share/bash-completion/completions/fzf.pacaur"
+    install -Dm 644 shell/completion.bash "$pkgdir/usr/share/bash-completion/completions/fzf.pacaur"
     install -Dm 755 "$srcdir/fzf.sh" "$pkgdir/etc/profile.d/fzf.sh.pacaur"
   elif [[ "$_no_bash" == 2 ]]; then
     msg2 'Removing bash support'
   else
-    install -Dm 644 fzf-completion.bash "$pkgdir/usr/share/bash-completion/completions/fzf"
+    install -Dm 644 shell/completion.bash "$pkgdir/usr/share/bash-completion/completions/fzf"
     install -Dm 755 "$srcdir/fzf.sh" "$pkgdir/etc/profile.d/fzf.sh"
   fi
 
