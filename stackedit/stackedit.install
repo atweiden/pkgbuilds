@@ -1,0 +1,49 @@
+post_install() {
+  _mkuser
+  chown -R stackedit:stackedit /etc/stackedit /usr/share/stackedit
+  printf "%b\n" "$stackedit"
+}
+
+post_upgrade() {
+  post_install
+}
+
+post_remove() {
+  _rmuser
+  rm -rf /etc/stackedit /usr/share/stackedit
+}
+
+_mkuser() {
+  getent passwd stackedit &>/dev/null || {
+    echo -n "Creating stackedit user... "
+    grep -E "^stackedit:" /etc/group >/dev/null || groupadd stackedit
+    useradd -m -d /etc/stackedit -g stackedit -s /usr/bin/nologin stackedit
+    echo "done"
+  }
+}
+
+_rmuser() {
+  echo -n "Removing stackedit user... "
+  userdel -rf stackedit 2>/dev/null
+  echo "done"
+}
+
+read -d '' stackedit <<'EOF'
+#####################################################################
+#####################################################################
+##                                                                 ##
+##   StackEdit                                                     ##
+##   _________                                                     ##
+##                                                                 ##
+##   Run the main application:                                     ##
+##                                                                 ##
+##      # systemctl start stackedit                                ##
+##                                                                 ##
+##   Then open a browser and go to:                                ##
+##                                                                 ##
+##      http://localhost:3000                                      ##
+##                                                                 ##
+##                                                                 ##
+#####################################################################
+#####################################################################
+EOF
