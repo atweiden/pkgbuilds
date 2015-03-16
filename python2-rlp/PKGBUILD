@@ -20,8 +20,6 @@ prepare() {
 
   msg 'Fixing setup.py...'
   sed -i -e '11,12d;26d' setup.py
-  #perl -i -n -e 'print if $. != 11 || $. != 12' setup.py
-  #perl -i -n -e 'print if $. != 26' setup.py
 }
 
 build() {
