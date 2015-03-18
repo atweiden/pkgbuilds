@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=python-counterparty-lib-git
-pkgver=20150215
+pkgver=20150318
 pkgrel=1
 pkgdesc="Reference implementation of the Counterparty protocol"
 arch=('any')
