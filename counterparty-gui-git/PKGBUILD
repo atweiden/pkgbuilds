@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=counterparty-gui-git
-pkgver=20150107
+pkgver=20150310
 pkgrel=1
 pkgdesc="An open marketplace, built on Bitcoin"
 arch=('any')
