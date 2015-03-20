@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=nqp-git
-pkgver=20150219
+pkgver=20150319
 pkgrel=1
 pkgdesc="Lightweight Perl 6-like environment for virtual machines, with MoarVM and JVM support"
 arch=('i686' 'x86_64')
