@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=counterwallet-git
-pkgver=20150123
+pkgver=20150326
 pkgrel=1
 pkgdesc="Web wallet for Bitcoin and Counterparty, the world’s first protocol for decentralized financial tools"
 arch=('any')
