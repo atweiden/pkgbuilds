@@ -19,9 +19,8 @@ install=counterwallet.install
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
 
-  msg 'Configuring counterwallet.conf.json for no Transifex or remote server lookups...'
+  msg 'Configuring counterwallet.conf.json for no Transifex lookups...'
   cp -dpr --no-preserve=ownership counterwallet.conf.json.example counterwallet.conf.json
-  sed -i "/\"AVAIL.*/i \ \ \ \ \"servers\": []," counterwallet.conf.json
   sed -i 's@"AVAIL.*@"AVAILABLE_LANGUAGES": ["en"],@' counterwallet.conf.json
 }
 
