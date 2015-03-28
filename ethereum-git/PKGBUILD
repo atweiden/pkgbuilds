@@ -76,7 +76,9 @@ build() {
   cmake .. -DCMAKE_INSTALL_PREFIX=/usr \
            -DCMAKE_BUILD_TYPE=Release \
            -DVMTRACE=0 \
+           -DFATDB=1 \
            -DEVMJIT=0
+  #make -j $(cat /proc/cpuinfo | grep processor | wc -l)
   make
   popd
 }
