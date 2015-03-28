@@ -39,29 +39,33 @@ url="https://github.com/ethereum/cpp-ethereum"
 license=('GPL')
 source=(${pkgname%-git}::git+https://github.com/ethereum/cpp-ethereum)
 sha256sums=('SKIP')
-provides=('alethzero'
+provides=('abi'
+          'alethzero'
           'cpp-ethereum'
           'eth'
+          'ethrpctest'
           'ethereum'
           'lllc'
           'mix'
           'neth'
+          'rlp'
           'sc'
-          'solc'
-          'third')
-conflicts=('alethzero'
+          'solc')
+conflicts=('abi'
+           'alethzero'
            'cpp-ethereum'
            'elixir'
            'eth'
+           'ethrpctest'
            'ethereum'
            'ethereum-serpent'
            'lllc'
            'mix'
            'neth'
+           'rlp'
            'sc'
            'secp256k1'
-           'solc'
-           'third')
+           'solc')
 
 pkgver() {
   cd ${pkgname%-git}
