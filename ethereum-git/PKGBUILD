@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=ethereum-git
-pkgver=20150227
+pkgver=20150327
 pkgrel=1
 pkgdesc="Decentralised Consensus-based Deterministic Transaction Resolution Platform"
 arch=('i686' 'x86_64')
@@ -23,6 +23,7 @@ depends=('boost'
          'qt5-declarative'
          'qt5-quick1'
          'qt5-quickcontrols'
+         'qt5-webengine'
          'qt5-webkit'
          'readline'
          'snappy')
@@ -75,7 +76,7 @@ build() {
   cmake .. -DCMAKE_INSTALL_PREFIX=/usr \
            -DCMAKE_BUILD_TYPE=Release \
            -DVMTRACE=0 \
-           -DEVMJIT=0 # EVMJIT does not compile
+           -DEVMJIT=0
   make
   popd
 }
