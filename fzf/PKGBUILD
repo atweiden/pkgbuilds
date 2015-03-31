@@ -23,7 +23,7 @@ source=($pkgname-0.9.4-1.tar.gz::https://codeload.github.com/junegunn/$pkgname/t
         fzf.zsh)
 sha256sums=('77ca5c50838d522b50fb863dd85cb9e907907b8af6cc378463d3cd5aface2fdb'
             '0b981560aa4d86a4853f5194550a96f8a63503f7fc479fb7a41210b15692cd66'
-            '191196356c8d356660bb8cc90e7c7ac6111d96dd326cd1e05b56696c054c0264'
+            'db8b31da926791f0f6126b26b1aaba1d4d4964778778dd3453443a46b200af41'
             '6d437b73ad79b8df11ef988cb1b6df4074f379b98234a2e5ff5076dc9771bad2')
 install=fzf.install
 
