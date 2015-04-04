@@ -3,7 +3,7 @@
 # Contributor: jebaum <jebaum at ucla dot edu>
 
 pkgname=fzf
-pkgver=0.9.7
+pkgver=0.9.7.1
 pkgrel=1
 pkgdesc="Command-line fuzzy finder"
 arch=('i686' 'x86_64')
@@ -17,11 +17,11 @@ optdepends=('ctags: fzf && select tags'
             'zsh: zsh compatible keybindings')
 url="https://github.com/junegunn/fzf"
 license=('MIT')
-source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/$pkgver
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/0.9.7-1
         fzf.fish
         fzf.sh
         fzf.zsh)
-sha256sums=('f7eede4c30ce79aded4112ea989ad6bc87fa7e6930b003e6bd9a1ba841e83aba'
+sha256sums=('38fa16c41e861af6ad87e7ff655188559775a2979254d76198c435d198e15fb4'
             '874f4fa169436876c60b6eff28cbff03e4f95c87e5795107a4c290efcf21303e'
             '3795a44955288a1f39af5d705984ec95a1ca97b4edbaaad940708ef01a45276f'
             'efd1652b9c8e26f623ebc62bd4623f46b3a76a73a7701cd91ec04379b24e8980')
@@ -35,14 +35,14 @@ install=fzf.install
 #_no_zsh=2 # uncomment to remove support for zsh
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-0.9.7-1"
 
   msg2 'Building...'
   GOPATH="$srcdir" TMPDIR=/tmp go get -u github.com/junegunn/fzf/...
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-0.9.7-1"
 
   msg2 'Installing documentation...'
   for _doc in install uninstall README.md; do
