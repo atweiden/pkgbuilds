@@ -4,7 +4,7 @@
 
 pkgname=fzf
 pkgver=0.9.7.1
-pkgrel=2
+pkgrel=3
 pkgdesc="Command-line fuzzy finder"
 arch=('i686' 'x86_64')
 depends=('ncurses' 'tmux')
@@ -15,16 +15,28 @@ optdepends=('fish: fish keybindings'
             'zsh: zsh keybindings')
 url="https://github.com/junegunn/fzf"
 license=('MIT')
-source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/0.9.7-1)
-sha256sums=('38fa16c41e861af6ad87e7ff655188559775a2979254d76198c435d198e15fb4')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/0.9.7-1
+        key-bindings.bash.patch
+        key-bindings.zsh.patch)
+sha256sums=('38fa16c41e861af6ad87e7ff655188559775a2979254d76198c435d198e15fb4'
+            'fae015d42244211c13655539240fcff6118c466ec9aaf3c136d3e70d733c90d0'
+            'efbd3abb647dffc75a3da5ce759e5b8f1a20c2e8addf4c1bb8964befdbb1916b')
 install=fzf.install
 
 prepare() {
   cd "$srcdir/$pkgname-0.9.7-1"
 
-  msg2 'Fixing key bindings...'
+  msg2 'Fixing bash and zsh key bindings...'
+
+  msg2 'Making fzf key-bindings.bash source bash completions...'
+  patch -p1 < "$srcdir/key-bindings.bash.patch"
+
+  msg2 'Making fzf key-bindings.zsh source zsh completions...'
+  patch -p1 < "$srcdir/key-bindings.zsh.patch"
+
   msg2 'Removing instances of "source ~/.fzf.bash"...'
   sed -i 's@source ~/.fzf.bash;\s@@' shell/key-bindings.bash
+
   msg2 'Removing instances of "source ~/.fzf.zsh"...'
   sed -i 's@source ~/.fzf.zsh;\s@@' shell/key-bindings.zsh
 }
