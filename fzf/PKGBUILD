@@ -22,12 +22,10 @@ source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/t
         fzf.sh
         fzf.zsh)
 sha256sums=('f7eede4c30ce79aded4112ea989ad6bc87fa7e6930b003e6bd9a1ba841e83aba'
-            '0b981560aa4d86a4853f5194550a96f8a63503f7fc479fb7a41210b15692cd66'
-            '185885ec7aaa62d7341982443b75390df478a7e8e03d90ce24c7c7f4fee471d4'
-            'c2003375af1c0fda1e99dc4d41a548e4695e77d15809f8edcc97ed867c89e6b0')
+            '874f4fa169436876c60b6eff28cbff03e4f95c87e5795107a4c290efcf21303e'
+            '3795a44955288a1f39af5d705984ec95a1ca97b4edbaaad940708ef01a45276f'
+            'efd1652b9c8e26f623ebc62bd4623f46b3a76a73a7701cd91ec04379b24e8980')
 install=fzf.install
-
-_fzf=src/github.com/junegunn/fzf
 
 #_no_bash=1 # uncomment to save optional bash keybindings as fzf.sh.pacaur
 #_no_bash=2 # uncomment to remove support for bash
@@ -52,7 +50,7 @@ package() {
   done
 
   msg2 'Installing manual...'
-  install -Dm 644 "$srcdir/$_fzf/man/man1/fzf.1" "$pkgdir/usr/share/man/man1/fzf.1"
+  install -Dm 644 "man/man1/fzf.1" "$pkgdir/usr/share/man/man1/fzf.1"
 
   msg2 'Installing executables...'
   install -Dm 755 "$srcdir/bin/fzf" "$pkgdir/usr/bin/fzf"
@@ -62,12 +60,12 @@ package() {
 
   # bash
   if [[ "$_no_bash" == 1 ]]; then
-    install -Dm 644 "$srcdir/$_fzf/shell/completion.bash" "$pkgdir/usr/share/bash-completion/completions/fzf.pacaur"
+    install -Dm 644 "shell/completion.bash" "$pkgdir/usr/share/bash-completion/completions/fzf.pacaur"
     install -Dm 755 "$srcdir/fzf.sh" "$pkgdir/etc/profile.d/fzf.sh.pacaur"
   elif [[ "$_no_bash" == 2 ]]; then
     msg2 'Removing bash support'
   else
-    install -Dm 644 "$srcdir/$_fzf/shell/completion.bash" "$pkgdir/usr/share/bash-completion/completions/fzf"
+    install -Dm 644 "shell/completion.bash" "$pkgdir/usr/share/bash-completion/completions/fzf"
     install -Dm 755 "$srcdir/fzf.sh" "$pkgdir/etc/profile.d/fzf.sh"
   fi
 

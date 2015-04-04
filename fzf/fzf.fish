@@ -1,3 +1,5 @@
+# Key bindings
+# ------------
 function fzf_key_bindings
   # Due to a bug of fish, we cannot use command substitution,
   # so we use temporary file instead
@@ -41,16 +43,8 @@ function fzf_key_bindings
     rm -f $TMPDIR/fzf.result
   end
 
-  function __fzf_reverse
-    if which tac > /dev/null
-      tac $argv
-    else
-      tail -r $argv
-    end
-  end
-
   function __fzf_ctrl_r
-    history | __fzf_reverse | fzf +s --tac +m > $TMPDIR/fzf.result
+    history | fzf +s +m --toggle-sort=ctrl-r > $TMPDIR/fzf.result
     and commandline (cat $TMPDIR/fzf.result)
     commandline -f repaint
     rm -f $TMPDIR/fzf.result

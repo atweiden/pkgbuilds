@@ -53,7 +53,7 @@ if [ -z "$(set -o | \grep '^vi.*on')" ]; then
   fi
 
   # CTRL-R - Paste the selected command from history into the command line
-  bind '"\C-r": " \C-e\C-u$(HISTTIMEFORMAT= history | fzf +s --tac +m -n2..,.. | sed \"s/ *[0-9]* *//\")\e\C-e\er"'
+  bind '"\C-r": " \C-e\C-u$(HISTTIMEFORMAT= history | fzf +s --tac +m -n2..,.. --toggle-sort=ctrl-r | sed \"s/ *[0-9]* *//\")\e\C-e\er"'
 
   # ALT-C - cd into the selected directory
   bind '"\ec": " \C-e\C-u$(__fcd)\e\C-e\er\C-m"'
@@ -144,12 +144,13 @@ fkill() {
   fi
 }
 
-# fbr - checkout git branch
+# fbr - checkout git branch (including remote branches)
 fbr() {
   local branches branch
-  branches=$(git branch) &&
-  branch=$(echo "$branches" | fzf-tmux +s +m -h 15) &&
-  git checkout $(echo "$branch" | sed "s/.* //")
+  branches=$(git branch --all | grep -v HEAD) &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
 # fco - checkout git commit
@@ -220,4 +221,13 @@ ftpane () {
     tmux select-pane -t ${target_window}.${target_pane} &&
     tmux select-window -t $target_window
   fi
+}
+
+# v - open files in ~/.viminfo
+v() {
+  local files
+  files=$(grep '^>' ~/.viminfo | cut -c3- |
+          while read line; do
+            [ -f "${line/\~/$HOME}" ] && echo "$line"
+          done | fzf-tmux -d -m -q "$*" -1) && vim ${files//\~/$HOME}
 }
