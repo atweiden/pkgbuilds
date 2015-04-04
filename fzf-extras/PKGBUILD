@@ -1,0 +1,29 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=fzf-extras
+pkgver=0.0.1
+pkgrel=1
+pkgdesc="Extra keybindings for fzf"
+arch=('any')
+depends=('fzf')
+optdepends=('ctags: select tags'
+            'git: git checkout fuzzy commits, branches'
+            'vim-fzf: fzf.vim'
+            'xdg-utils: open files'
+            'zsh: zsh keybindings')
+url="https://github.com/atweiden/fzf-extras"
+license=('MIT')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/atweiden/$pkgname/tar.gz/$pkgver)
+sha256sums=('1d18cca4244ba5abd04136e7523ff6d1e6dca348010f99aa05316d65f0f39074')
+install=fzf-extras.install
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 README.md "$pkgdir/usr/share/doc/fzf-extras/README.md"
+
+  msg2 'Installing...'
+  install -Dm 755 fzf-extras.sh "$pkgdir/etc/profile.d/fzf-extras.sh"
+  install -Dm 755 fzf-extras.zsh "$pkgdir/etc/profile.d/fzf-extras.zsh"
+}

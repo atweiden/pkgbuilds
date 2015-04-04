@@ -4,35 +4,30 @@
 
 pkgname=fzf
 pkgver=0.9.7.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Command-line fuzzy finder"
 arch=('i686' 'x86_64')
 depends=('ncurses' 'tmux')
 makedepends=('git' 'go' 'make')
-optdepends=('ctags: fzf && select tags'
-            'fish: fish compatible keybindings'
-            'git: fzf && checkout git commits, branches'
-            'vim-fzf: fzf vim plugin'
-            'xdg-utils: fzf && open files'
-            'zsh: zsh compatible keybindings')
+optdepends=('fish: fish keybindings'
+            'fzf-extras: fzf keybindings from junegunn wiki and dotfiles'
+            'vim-fzf: fzf.vim'
+            'zsh: zsh keybindings')
 url="https://github.com/junegunn/fzf"
 license=('MIT')
-source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/0.9.7-1
-        fzf.fish
-        fzf.sh
-        fzf.zsh)
-sha256sums=('38fa16c41e861af6ad87e7ff655188559775a2979254d76198c435d198e15fb4'
-            '874f4fa169436876c60b6eff28cbff03e4f95c87e5795107a4c290efcf21303e'
-            '3795a44955288a1f39af5d705984ec95a1ca97b4edbaaad940708ef01a45276f'
-            'efd1652b9c8e26f623ebc62bd4623f46b3a76a73a7701cd91ec04379b24e8980')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/0.9.7-1)
+sha256sums=('38fa16c41e861af6ad87e7ff655188559775a2979254d76198c435d198e15fb4')
 install=fzf.install
 
-#_no_bash=1 # uncomment to save optional bash keybindings as fzf.sh.pacaur
-#_no_bash=2 # uncomment to remove support for bash
-#_no_fish=1 # uncomment to save optional fish keybindings as fzf.fish.pacaur
-#_no_fish=2 # uncomment to remove support for fish
-#_no_zsh=1 # uncomment to save optional zsh keybindings as fzf.zsh.pacaur
-#_no_zsh=2 # uncomment to remove support for zsh
+prepare() {
+  cd "$srcdir/$pkgname-0.9.7-1"
+
+  msg2 'Fixing key bindings...'
+  msg2 'Removing instances of "source ~/.fzf.bash"...'
+  sed -i 's@source ~/.fzf.bash;\s@@' shell/key-bindings.bash
+  msg2 'Removing instances of "source ~/.fzf.zsh"...'
+  sed -i 's@source ~/.fzf.zsh;\s@@' shell/key-bindings.zsh
+}
 
 build() {
   cd "$srcdir/$pkgname-0.9.7-1"
@@ -56,34 +51,13 @@ package() {
   install -Dm 755 "$srcdir/bin/fzf" "$pkgdir/usr/bin/fzf"
   install -Dm 755 "bin/fzf-tmux" "$pkgdir/usr/bin/fzf-tmux"
 
-  msg2 'Placing optional completion and keybindings...'
+  msg2 'Installing bash completion and keybindings...'
+  install -Dm 644 "shell/completion.bash" "$pkgdir/usr/share/bash-completion/completions/fzf"
+  install -Dm 755 "shell/key-bindings.bash" "$pkgdir/etc/profile.d/fzf.sh"
 
-  # bash
-  if [[ "$_no_bash" == 1 ]]; then
-    install -Dm 644 "shell/completion.bash" "$pkgdir/usr/share/bash-completion/completions/fzf.pacaur"
-    install -Dm 755 "$srcdir/fzf.sh" "$pkgdir/etc/profile.d/fzf.sh.pacaur"
-  elif [[ "$_no_bash" == 2 ]]; then
-    msg2 'Removing bash support'
-  else
-    install -Dm 644 "shell/completion.bash" "$pkgdir/usr/share/bash-completion/completions/fzf"
-    install -Dm 755 "$srcdir/fzf.sh" "$pkgdir/etc/profile.d/fzf.sh"
-  fi
+  msg2 'Installing fish keybindings...'
+  install -Dm 644 "shell/key-bindings.fish" "$pkgdir/usr/share/fish/functions/fzf.fish"
 
-  # fish
-  if [[ "$_no_fish" == 1 ]]; then
-    install -Dm 644 "$srcdir/fzf.fish" "$pkgdir/usr/share/fish/functions/fzf.fish.pacaur"
-  elif [[ "$_no_fish" == 2 ]]; then
-    msg2 'Removing fish support'
-  else
-    install -Dm 644 "$srcdir/fzf.fish" "$pkgdir/usr/share/fish/functions/fzf.fish"
-  fi
-
-  # zsh
-  if [[ "$_no_zsh" == 1 ]]; then
-    install -Dm 755 "$srcdir/fzf.zsh" "$pkgdir/etc/profile.d/fzf.zsh.pacaur"
-  elif [[ "$_no_zsh" == 2 ]]; then
-    msg2 'Removing zsh support'
-  else
-    install -Dm 755 "$srcdir/fzf.zsh" "$pkgdir/etc/profile.d/fzf.zsh"
-  fi
+  msg2 'Installing zsh completion and keybindings...'
+  install -Dm 755 "shell/key-bindings.zsh" "$pkgdir/etc/profile.d/fzf.zsh"
 }
