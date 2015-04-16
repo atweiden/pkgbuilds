@@ -3,7 +3,7 @@
 pkgname=python-counterparty-lib
 pkgver=9.51.0
 pkgrel=1
-pkgdesc="Reference implementation of the Counterparty protocol"
+pkgdesc="Counterparty Protocol Reference Implementation"
 arch=('any')
 depends=('python'
          'python-appdirs'

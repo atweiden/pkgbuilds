@@ -7,8 +7,8 @@ post_upgrade() {
 }
 
 read -d '' counterpartycli <<'EOF'
-Counterparty Client
-===================
+Counterparty CLI
+================
 
 1) Sync Bitcoin blockchain
 2) Sync Counterparty server
@@ -58,8 +58,8 @@ Step 2. Sync server
   rpc-port = 4000
   rpc-user = counterpartyd
   rpc-password = predictions
-  log-file = .counterparty/server.log
-  api-log-file = .counterparty/api.log
+  log-file = ~/.counterparty/server.log
+  api-log-file = ~/.counterparty/api.log
   EOF
 
   $ counterparty-server kickstart &
@@ -85,7 +85,7 @@ Step 3. Setup client
   counterparty-rpc-port = 4000
   counterparty-rpc-user = counterpartyd
   counterparty-rpc-password = predictions
-  log-file = .counterparty/client.log
+  log-file = ~/.counterparty/client.log
   EOF
 
 

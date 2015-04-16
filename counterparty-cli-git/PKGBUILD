@@ -3,7 +3,7 @@
 pkgname=counterparty-cli-git
 pkgver=20150401
 pkgrel=1
-pkgdesc="An open marketplace, built on Bitcoin"
+pkgdesc="Counterparty Protocol Command‐Line Interface"
 arch=('any')
 depends=('python'
          'python-appdirs'

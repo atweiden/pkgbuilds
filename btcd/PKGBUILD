@@ -2,7 +2,7 @@
 
 pkgbase=btcd
 pkgname=('btcd' 'btcwallet' 'btcgui')
-pkgver=20150307
+pkgver=20150416
 pkgrel=1
 arch=('i686' 'x86_64')
 makedepends=('git' 'go')
@@ -11,20 +11,14 @@ url="https://github.com/btcsuite"
 license=('ISC')
 options=('!strip' '!emptydirs')
 
-build() {
-  [[ -f /etc/profile.d/go.sh ]] && source /etc/profile.d/go.sh
-
-  GOPATH="$srcdir" go get -fix -v -x github.com/btcsuite/btcd
-  GOPATH="$srcdir" go get -fix -v -x github.com/btcsuite/btcwallet
-  GOPATH="$srcdir" go get -fix -v -x github.com/btcsuite/btcgui
+pkgver() {
+  date +%Y%m%d
 }
 
-check() {
-  [[ -f /etc/profile.d/go.sh ]] && source /etc/profile.d/go.sh
-
-  GOPATH="$GOPATH:$srcdir" go test -v -x github.com/btcsuite/btcd || return 0
-  GOPATH="$GOPATH:$srcdir" go test -v -x github.com/btcsuite/btcwallet || return 0
-  GOPATH="$GOPATH:$srcdir" go test -v -x github.com/btcsuite/btcgui || return 0
+build() {
+  GOPATH="$srcdir" go get -u github.com/btcsuite/btcd/...
+  GOPATH="$srcdir" go get -u github.com/btcsuite/btcwallet/...
+  GOPATH="$srcdir" go get -u github.com/btcsuite/btcgui/...
 }
 
 package_btcd() {
@@ -45,7 +39,15 @@ package_btcd() {
     "$pkgdir/usr/share/doc/btcd/sample-btcd.conf"
 
   msg2 'Installing btcd...'
-  install -Dm 755 "$srcdir/bin/btcd" "$pkgdir/usr/bin/btcd"
+  for _bin in addblock \
+              btcctl \
+              btcd \
+              dbtest \
+              dropafter \
+              findcheckpoint \
+              gencerts; do
+    install -Dm 755 "$srcdir/bin/$_bin" "$pkgdir/usr/bin/$_bin"
+  done
 
   msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
