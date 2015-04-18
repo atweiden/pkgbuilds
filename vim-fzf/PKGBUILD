@@ -2,7 +2,7 @@
 
 pkgname=vim-fzf
 pkgver=0.9.10
-pkgrel=1
+pkgrel=2
 pkgdesc="Fuzzy finder for Vim, inspired by ctrlp.vim and the likes"
 arch=('any')
 depends=('fzf' 'vim')
@@ -13,6 +13,14 @@ source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/${pkgname#
 sha256sums=('f5492ec1f8cce4c78d480ad3edd4e077df17109cde7bf5ade6f11135ce65aee3')
 install=vimdoc.install
 
+prepare() {
+  cd "$srcdir/${pkgname##vim-}-$pkgver"
+
+  msg2 'Setting fzf and fzf-tmux binary locations to /usr/bin...'
+  sed -i "s@^let s:fzf_go = .*@let s:fzf_go = '/usr/bin/fzf'@" plugin/fzf.vim
+  sed -i "s@^let s:fzf_tmux = .*@let s:fzf_tmux = '/usr/bin/fzf-tmux'@" plugin/fzf.vim
+}
+
 package() {
   cd "$srcdir/${pkgname##vim-}-$pkgver"
 
@@ -21,7 +29,7 @@ package() {
 
   msg 'Installing plugin...'
   install -dm 755 "$pkgdir/usr/share/vim/vimfiles"
-  cp -dpr --no-preserve=ownership plugin "$pkgdir/usr/share/vim/vimfiles/$_appdir"
+  cp -dpr --no-preserve=ownership plugin "$pkgdir/usr/share/vim/vimfiles"
 
   msg 'Cleaning up pkgdir...'
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
