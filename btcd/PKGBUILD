@@ -2,7 +2,7 @@
 
 pkgbase=btcd
 pkgname=('btcd' 'btcwallet' 'btcgui')
-pkgver=20150416
+pkgver=20150420
 pkgrel=1
 arch=('i686' 'x86_64')
 makedepends=('git' 'go')
@@ -16,9 +16,11 @@ pkgver() {
 }
 
 build() {
+  msg2 'Building btcd and dependencies...'
   GOPATH="$srcdir" go get -u github.com/btcsuite/btcd/...
+
+  msg2 'Building btcwallet and dependencies...'
   GOPATH="$srcdir" go get -u github.com/btcsuite/btcwallet/...
-  GOPATH="$srcdir" go get -u github.com/btcsuite/btcgui/...
 }
 
 package_btcd() {
@@ -52,8 +54,6 @@ package_btcd() {
   msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
-  find "$pkgdir" -type d -name .hg -exec rm -r '{}' +
-  find "$pkgdir" -type f -name .hgignore -exec rm -r '{}' +
 }
 
 package_btcwallet() {
@@ -75,14 +75,16 @@ package_btcwallet() {
   msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
-  find "$pkgdir" -type d -name .hg -exec rm -r '{}' +
-  find "$pkgdir" -type f -name .hgignore -exec rm -r '{}' +
 }
 
 package_btcgui() {
   pkgdesc="Graphical frontend to btcwallet and btcd written using gotk3"
+  makedepends+=('cairo' 'glib2' 'gtk3')
   provides=('btcgui')
   conflicts=('btcgui')
+
+  msg2 'Building btcgui and dependencies...'
+  GOPATH="$srcdir" go get -u github.com/btcsuite/btcgui/...
 
   msg2 'Installing btcgui docs...'
   install -Dm 644 "$srcdir/src/github.com/btcsuite/btcgui/CHANGES" \
@@ -98,6 +100,4 @@ package_btcgui() {
   msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
-  find "$pkgdir" -type d -name .hg -exec rm -r '{}' +
-  find "$pkgdir" -type f -name .hgignore -exec rm -r '{}' +
 }
