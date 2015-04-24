@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=counterparty-cli-git
-pkgver=20150420
+pkgver=20150424
 pkgrel=1
 pkgdesc="Counterparty Protocol Command‐Line Interface"
 arch=('any')
@@ -23,7 +23,7 @@ groups=('counterparty')
 url="https://github.com/CounterpartyXCP/counterparty-cli"
 license=('MIT')
 options=(!emptydirs)
-source=(${pkgname%-git}::git+https://github.com/CounterpartyXCP/counterparty-cli)
+source=(${pkgname%-git}::git+https://github.com/CounterpartyXCP/counterparty-cli#branch=develop)
 sha256sums=('SKIP')
 provides=('counterparty-cli' 'counterparty-client' 'counterparty-server')
 conflicts=('counterparty-cli' 'counterparty-client' 'counterparty-server')

@@ -1,11 +1,11 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm
-pkgver=2015.03
+pkgver=2015.04
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl 6"
 arch=('i686' 'x86_64')
-depends=('readline')
+depends=('readline') # shouldn't be needed
 makedepends=('clang' 'git' 'llvm' 'make' 'pkg-config')
 groups=('perl6')
 url="https://github.com/MoarVM/MoarVM"
@@ -13,10 +13,8 @@ license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
         dynasm::git+https://github.com/MoarVM/dynasm
         dyncall::git+https://github.com/MoarVM/dyncall
-        libuv::git+https://github.com/libuv/libuv
-        linenoise::git+https://github.com/MoarVM/linenoise)
-sha256sums=('f73a8f3b9f95ddb2a9ee71474d9621e3d675c07ec43d1b8d82bd3c4505be1844'
-            'SKIP'
+        libuv::git+https://github.com/libuv/libuv)
+sha256sums=('b73a6fa90e24cc1f4d5249665c26e53d69473a66e015e0efb24884b0bad1ac15'
             'SKIP'
             'SKIP'
             'SKIP')
@@ -25,7 +23,7 @@ prepare() {
   cd "$srcdir/MoarVM-$pkgver"
 
   msg 'Copying Git submodules...'
-  for _submodule in dynasm dyncall libuv linenoise; do
+  for _submodule in dynasm dyncall libuv; do
     rm -rf 3rdparty/$_submodule
     cp -dpr --no-preserve=owner "$srcdir/$_submodule" 3rdparty
   done
@@ -39,7 +37,7 @@ build() {
                     --toolchain=gnu \
                     --compiler=clang \
                     --optimize \
-                    --use-readline
+                    --use-readline # skip check for <linenoise.h>, not needed in git version
   make
 }
 

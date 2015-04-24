@@ -1,11 +1,10 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm-git
-pkgver=20150319
+pkgver=20150424
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl 6"
 arch=('i686' 'x86_64')
-depends=('readline')
 makedepends=('clang' 'git' 'llvm' 'make' 'pkg-config')
 groups=('perl6')
 url="https://github.com/MoarVM/MoarVM"
@@ -13,9 +12,8 @@ license=('PerlArtistic')
 source=(${pkgname%-git}::git+https://github.com/MoarVM/MoarVM
         dynasm::git+https://github.com/MoarVM/dynasm
         dyncall::git+https://github.com/MoarVM/dyncall
-        libuv::git+https://github.com/libuv/libuv
-        linenoise::git+https://github.com/MoarVM/linenoise)
-sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP' 'SKIP')
+        libuv::git+https://github.com/libuv/libuv)
+sha256sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
 provides=('moarvm')
 conflicts=('moarvm')
 
@@ -28,7 +26,7 @@ prepare() {
   cd ${pkgname%-git}
 
   msg 'Copying Git submodules...'
-  for _submodule in dynasm dyncall libuv linenoise; do
+  for _submodule in dynasm dyncall libuv; do
     rm -rf 3rdparty/$_submodule
     cp -dpr --no-preserve=owner "$srcdir/$_submodule" 3rdparty
   done
@@ -41,8 +39,7 @@ build() {
   perl Configure.pl --prefix=/usr \
                     --toolchain=gnu \
                     --compiler=clang \
-                    --optimize \
-                    --use-readline
+                    --optimize
   make
 }
 
