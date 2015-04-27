@@ -67,10 +67,10 @@ read -d '' bitcoin <<'EOF'
 ########################################################################
 ########################################################################
 ##                                                                    ##
-##  Bitcoin Core                                                      ##
-##  ____________                                                      ##
+##  Bitcoin Core (with addrindex)                                     ##
+##  _____________________________                                     ##
 ##                                                                    ##
-##  To start bitcoin-core:                                            ##
+##  To start bitcoin-core-addrindex:                                  ##
 ##                                                                    ##
 ##      # systemctl start bitcoin                                     ##
 ##                                                                    ##
