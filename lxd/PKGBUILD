@@ -1,0 +1,53 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=lxd
+pkgver=0.7
+pkgrel=1
+pkgdesc="Daemon based on liblxc offering a REST API to manage containers"
+arch=('i686' 'x86_64')
+depends=('acl'
+         'curl'
+         'gettext'
+         'gnupg'
+         'jq'
+         'lxc'
+         'python'
+         'sqlite'
+         'xz')
+makedepends=('git'
+             'go'
+             'go-protobuf'
+             'mercurial'
+             'pkg-config'
+             'protobuf')
+optdepends=('pxz: import images in parallel')
+url="https://github.com/lxc/lxd"
+license=('Apache')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/lxc/$pkgname/tar.gz/$pkgname-$pkgver)
+sha256sums=('848efaf14c2f3cad428ac1888a8234152238f797682eacaabe0771edb7f7691f')
+backup=('etc/subgid'
+        'etc/subuid')
+install=lxd.install
+
+build() {
+  cd "$srcdir/$pkgname-$pkgname-$pkgver"
+
+  msg2 'Building...'
+  # imports code.google.com/p/go-uuid/uuid: https://code.google.com/p/go-uuid/source/checkout?repo=: 502 Bad Gateway
+  GOPATH="$srcdir" TMPDIR=/tmp go get -v -u github.com/lxc/lxd/...
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgname-$pkgver"
+
+  msg2 'Installing documentation...'
+  install -dm 755 "$pkgdir/usr/share/doc/lxd"
+  for _doc in CONTRIBUTING.md README.md specs; do
+    cp -dpr --no-preserve=owner $_doc "$pkgdir/usr/share/doc/lxd"
+  done
+
+  msg2 'Installing...'
+  install -Dm 755 "$srcdir/bin/lxc" "$pkgdir/usr/bin/lxc"
+  install -Dm 755 "$srcdir/bin/lxd" "$pkgdir/usr/bin/lxd"
+  install -Dm 755 "scripts/lxd-images" "$pkgdir/usr/bin/lxd-images"
+}
