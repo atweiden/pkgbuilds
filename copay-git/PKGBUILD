@@ -1,12 +1,12 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=copay-git
-pkgver=20140425
+pkgver=20150508
 pkgrel=1
 pkgdesc="Multisignature Bitcoin wallet"
 arch=('i686' 'x86_64')
 depends=('nodejs')
-makedepends=('git' 'nodejs-bower' 'nodejs-grunt-cli')
+makedepends=('git' 'npm' 'nodejs-bower' 'nodejs-grunt-cli')
 optdepends=('insight-bitcore-git: Bitcoin blockchain API'
             'peerjs-server: peer-to-peer API built on top of WebRTC')
 url="https://github.com/bitpay/copay"

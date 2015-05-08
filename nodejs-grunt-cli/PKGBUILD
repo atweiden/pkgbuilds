@@ -8,6 +8,7 @@ pkgrel=1
 pkgdesc="The grunt command line interface"
 arch=('any')
 depends=('nodejs')
+makedepends=('npm')
 url="http://gruntjs.com/"
 license=('MIT')
 provides=('grunt' 'nodejs-grunt-cli')

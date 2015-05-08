@@ -7,6 +7,7 @@ pkgrel=1
 pkgdesc="Higher-order functions and common patterns for asynchronous code"
 arch=('any')
 depends=('nodejs')
+makedepends=('npm')
 url="https://github.com/caolan/async"
 license=('MIT')
 provides=('nodejs-async')

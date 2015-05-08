@@ -7,6 +7,7 @@ pkgrel=1
 pkgdesc="Client-side framework for structured applications"
 arch=('any')
 depends=('nodejs')
+makedepends=('npm')
 url="http://friendcode.github.io/yapp.js/"
 license=('MIT')
 provides=('nodejs-yapp.js')

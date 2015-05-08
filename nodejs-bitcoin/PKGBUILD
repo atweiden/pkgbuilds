@@ -7,6 +7,7 @@ pkgrel=1
 pkgdesc="Communicate with bitcoind via JSON-RPC"
 arch=('any')
 depends=('nodejs')
+makedepends=('npm')
 url="https://github.com/freewil/node-bitcoin"
 license=('MIT')
 provides=('nodejs-bitcoin')
