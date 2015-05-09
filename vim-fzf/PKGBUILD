@@ -2,7 +2,7 @@
 
 pkgname=vim-fzf
 pkgver=0.9.11
-pkgrel=1
+pkgrel=2
 pkgdesc="Fuzzy finder for Vim, inspired by ctrlp.vim and the likes"
 arch=('any')
 depends=('fzf' 'vim')
