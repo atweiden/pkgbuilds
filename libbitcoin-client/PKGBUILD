@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=libbitcoin-client-git
-pkgver=20150430
+pkgname=libbitcoin-client
+pkgver=2.1.0
 pkgrel=1
 pkgdesc="The Bitcoin Client Protocol Implementation"
 arch=('i686' 'x86_64')
@@ -15,25 +15,17 @@ depends=('boost'
 makedepends=('autoconf'
              'automake'
              'gcc'
-             'git'
              'libtool'
              'make'
              'pkg-config')
 groups=('libbitcoin')
 url="https://github.com/libbitcoin/libbitcoin-client"
 license=('AGPL3')
-source=(git+https://github.com/libbitcoin/libbitcoin-client)
-sha256sums=('SKIP')
-provides=('libbitcoin-client')
-conflicts=('libbitcoin-client')
-
-pkgver() {
-  cd ${pkgname%-git}
-  git log -1 --format="%cd" --date=short | sed "s|-||g"
-}
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/libbitcoin/$pkgname/tar.gz/v$pkgver)
+sha256sums=('49d776b9c4c7d0b9978f91bd01ea305c5ac1d5eb881cb17a126056ee1e54fe7f')
 
 build() {
-  cd ${pkgname%-git}
+  cd "$srcdir/$pkgname-$pkgver"
 
   msg2 'Building...'
   ./autogen.sh
@@ -50,15 +42,11 @@ build() {
 }
 
 package() {
-  cd ${pkgname%-git}
+  cd "$srcdir/$pkgname-$pkgver"
 
   msg2 'Installing license...'
   install -Dm 644 COPYING "$pkgdir/usr/share/licenses/libbitcoin-client/COPYING"
 
   msg2 'Installing...'
   make DESTDIR="$pkgdir" install
-
-  msg2 'Cleaning up pkgdir...'
-  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
-  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }
