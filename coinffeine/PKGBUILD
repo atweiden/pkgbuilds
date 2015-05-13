@@ -1,0 +1,37 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=coinffeine
+pkgver=0.8.1
+pkgrel=1
+pkgdesc="P2P FIAT-Bitcoin exchange implementation"
+arch=('i686' 'x86_64')
+depends=('java-environment')
+makedepends=('protobuf' 'sbt')
+url="https://github.com/Coinffeine/coinffeine"
+license=('custom')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/Coinffeine/$pkgname/tar.gz/v$pkgver)
+sha256sums=('c6123b45c1da5ff1df7b80c601f8b357e13c49b8bbaefc5f6166b2ed88014065')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Building...'
+  sbt release
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Installing license...'
+  install -Dm 644 COPYING "$pkgdir/usr/share/licenses/coinffeine/COPYING"
+
+  msg2 'Installing documentation...'
+  for _doc in README Changelog doc; do
+    cp -dpr --no-preserve-ownership $_doc "$pkgdir/usr/share/doc/coinffeine"
+  done
+
+  msg2 'Installing...'
+  install -dm 755 "$pkgdir/usr/share/coinffeine"
+  find . -mindepth 1 -maxdepth 1 -exec \
+    cp -dpr --no-preserve-ownership '{}' "$pkgdir/usr/share/coinffeine" \;
+}
