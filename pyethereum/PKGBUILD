@@ -11,7 +11,8 @@ depends=('python2'
          'python2-pysha3'
          'python2-repoze.lru'
          'python2-rlp'
-         'python2-structlog')
+         'python2-structlog'
+         'python2-yaml')
 makedepends=('python2-setuptools')
 groups=('ethereum')
 url="https://github.com/ethereum/pyethereum"
