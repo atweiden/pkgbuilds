@@ -4,7 +4,7 @@ _bs_group=bs
 post_install() {
   _disable_cow
   _mkuser
-  chown -R $_bs_user:$_bs_user /etc/bs.cfg /srv/bs /var/log/bs
+  chown -R $_bs_user:$_bs_group /etc/bs.cfg /srv/bs /var/log/bs
   printf "%b\n" "$xx"
 }
 
