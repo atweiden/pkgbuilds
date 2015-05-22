@@ -2,14 +2,10 @@ _bs_user=bs
 _bs_group=bs
 
 post_install() {
-  _disable_cow
   _mkuser
+  _disable_cow
   chown -R $_bs_user:$_bs_group /etc/bs /srv/bs /var/log/bs
   printf "%b\n" "$xx"
-}
-
-post_upgrade() {
-  post_install
 }
 
 post_remove() {
