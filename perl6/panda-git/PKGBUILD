@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=panda-git
-pkgver=20150423
+pkgver=20150518
 pkgrel=1
 pkgdesc="Module management solution for Rakudo Perl 6"
 arch=('i686' 'x86_64')

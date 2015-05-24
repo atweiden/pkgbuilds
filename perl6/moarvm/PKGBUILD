@@ -1,11 +1,10 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm
-pkgver=2015.04
+pkgver=2015.05
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl 6"
 arch=('i686' 'x86_64')
-depends=('readline') # shouldn't be needed
 makedepends=('clang' 'git' 'llvm' 'make' 'pkg-config')
 groups=('perl6')
 url="https://github.com/MoarVM/MoarVM"
@@ -14,7 +13,7 @@ source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.g
         dynasm::git+https://github.com/MoarVM/dynasm
         dyncall::git+https://github.com/MoarVM/dyncall
         libuv::git+https://github.com/libuv/libuv)
-sha256sums=('b73a6fa90e24cc1f4d5249665c26e53d69473a66e015e0efb24884b0bad1ac15'
+sha256sums=('abbc9abd7ddf3939f10ee29c703e1bc95ea65e362b2b0a16ab2415dc08574a17'
             'SKIP'
             'SKIP'
             'SKIP')
@@ -36,8 +35,7 @@ build() {
   perl Configure.pl --prefix=/usr \
                     --toolchain=gnu \
                     --compiler=clang \
-                    --optimize \
-                    --use-readline # skip check for <linenoise.h>, not needed in git version
+                    --optimize
   make
 }
 
