@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=python2-humanfriendly
-pkgver=1.23.1
+pkgver=1.24
 pkgrel=1
 pkgdesc="Human friendly output for text interfaces using Python"
 arch=('any')
@@ -11,8 +11,8 @@ url="https://humanfriendly.readthedocs.org"
 license=('MIT')
 options=(!emptydirs)
 source=(https://pypi.python.org/packages/source/h/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
-md5sums=('f6d8aff8b0a5ea32af1a73f1d345158b')
-sha256sums=('f13b25747950c8568f4b12536238caf5bf83049ace2ea27c3dc03f6c7ae6d809')
+md5sums=('ba1631c39da6b4d50f1832f7235e9539')
+sha256sums=('2c11e956d32c97ae073632509aae5909fd1a84219be078616ff2b069f0996fc0')
 
 package() {
   cd "$srcdir/${pkgname#python2-}-$pkgver"
