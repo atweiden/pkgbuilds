@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=python2-utilitybelt
-pkgver=0.2.3
+pkgver=0.2.6
 pkgrel=1
 pkgdesc="Miscellaneous Python utilities"
 arch=('any')
@@ -11,8 +11,8 @@ url="https://github.com/onenameio/utilitybelt"
 license=('MIT')
 options=(!emptydirs)
 source=(https://pypi.python.org/packages/source/u/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
-md5sums=('78f175bd7d26adb213585d01f43bb427')
-sha256sums=('bf3ad07be64f645a2e40b0d65f861e4623f4b9c8e36698f2cef3d1200708cc2a')
+md5sums=('0dcb26400774975a6fdd65e3b13b9bb3')
+sha256sums=('dafdb6a2dbb32e71d67a9cd35afd7c2e4993ec094e7ddb547df4cf46788770a4')
 
 build() {
   cd "$srcdir/${pkgname#python2-}-$pkgver"
