@@ -1,21 +1,17 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=python2-buildozer-git
-pkgver=20140922
+pkgver=20150601
 pkgrel=1
 pkgdesc="Generic Python packager for Android / iOS and Desktop"
 arch=('any')
-depends=('python2')
+depends=('python2' 'python2-colorama' 'python2-pexpect')
 makedepends=('cmake' 'git' 'libusb' 'python2-setuptools')
-optdepends=('kivy-git')
+optdepends=('python2-paramiko: remote builds')
 url="https://github.com/kivy/buildozer"
 license=('MIT')
-source=(${pkgname%-git}::git+https://github.com/kivy/buildozer
-        android.py.patch
-        ios.py.patch)
-sha256sums=('SKIP'
-            'd06af3adb27fb6311b6310beac7cf59653c3e7d596bed54df03564b65bc7bad1'
-            '400c8d481c179eccd77971ea1b5da8b4df8f46371fd068235a625f45301c934f')
+source=(${pkgname%-git}::git+https://github.com/kivy/buildozer)
+sha256sums=('SKIP')
 provides=('buildozer' 'python2-buildozer')
 conflicts=('buildozer' 'python2-buildozer')
 
@@ -27,22 +23,29 @@ pkgver() {
 prepare() {
   cd ${pkgname%-git}
 
-  msg 'Fixing Cython version...'
-  patch -p1 < ${srcdir}/android.py.patch
-  patch -p1 < ${srcdir}/ios.py.patch
+  msg2 'Fixing Cython version...'
+  find . -type f -print0 | xargs -0 sed -i 's#Cython#Cython2#g'
+  find . -type f -print0 | xargs -0 sed -i 's#cython#cython2#g'
 
-  msg 'Fixing Python version...'
+  msg2 'Fixing Python version...'
   find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/python#/usr/bin/python2#g'
   find . -type f -print0 | xargs -0 sed -i 's#/usr/bin/env python#/usr/bin/env python2#g'
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg2 'Building...'
+  python2 setup.py build
 }
 
 package() {
   cd ${pkgname%-git}
 
-  msg 'Installing...'
+  msg2 'Installing...'
   python2 setup.py install --root="$pkgdir" --optimize=1
 
-  msg 'Cleaning up pkgdir...'
+  msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }
