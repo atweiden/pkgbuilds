@@ -13,7 +13,7 @@ depends=('protobuf'
          'python2-protobuf')
 makedepends=('python2-setuptools')
 url="https://github.com/trezor/python-trezor"
-license=('GPL3')
+license=('LGPL3')
 options=(!emptydirs)
 source=(https://pypi.python.org/packages/source/t/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
 md5sums=('b19619e82bce7f47a58f7fa91509881b')
