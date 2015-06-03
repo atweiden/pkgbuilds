@@ -18,6 +18,8 @@ options=(!emptydirs)
 source=(https://pypi.python.org/packages/source/t/${pkgname#python2-}/${pkgname#python2-}-$pkgver.tar.gz)
 md5sums=('b19619e82bce7f47a58f7fa91509881b')
 sha256sums=('3f1b001cbc58384997b7b406990b6245bce3ac10d8c0d11210780aad42528a17')
+provides=('trezorctl' 'python2-trezor')
+conflicts=('trezorctl')
 
 build() {
   cd "$srcdir/${pkgname#python2-}-$pkgver"
