@@ -2,12 +2,12 @@
 # Contributor: yar
 
 pkgname=stlviewer-git
-pkgver=20140116
+pkgver=20150602
 pkgrel=1
 pkgdesc="Simple command line tool to view STL files"
-arch=('any')
-depends=('python2')
-makedepends=('freeglut' 'gcc' 'git' 'glu')
+arch=('i686' 'x86_64')
+depends=('freeglut')
+makedepends=('gcc' 'git' 'glu' 'python2')
 url="https://github.com/vishpat/stlviewer/wiki"
 license=('custom')
 source=(git+https://github.com/vishpat/stlviewer

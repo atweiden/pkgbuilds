@@ -13,7 +13,7 @@ md5sums=('eeb48378dfc067cd72dd7179d0aca13b')
 sha256sums=('e4f709506396d5dfb9f5cc6599984cc40ecf8c13bf09b7e87347cf01fd5e0273')
 
 build() {
-  cd $pkgname-$pkgver-alpha10
+  cd "$pkgname-$pkgver-alpha10"
 
   msg 'Building...'
   ./configure \
@@ -28,7 +28,7 @@ build() {
 }
 
 package() {
-  cd $pkgname-$pkgver-alpha10
+  cd "$pkgname-$pkgver-alpha10"
 
   msg 'Installing...'
   make DESTDIR="$pkgdir" install

@@ -6,7 +6,7 @@
 pkgname=zeromq-git
 pkgver=20150519
 pkgrel=1
-pkgdesc="ØMQ libzmq core library -- development trunk"
+pkgdesc="ZeroMQ core engine in C++"
 arch=('i686' 'x86_64')
 depends=('gcc-libs' 'libpgm' 'libsodium' 'util-linux')
 makedepends=('autoconf' 'automake' 'gcc' 'git' 'libtool' 'make' 'pkg-config')

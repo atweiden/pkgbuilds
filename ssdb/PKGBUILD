@@ -1,27 +1,26 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=ssdb
-pkgver=1.6.8.4
+pkgver=1.9.0
 pkgrel=1
-pkgdesc="A fast NoSQL database for storing big list of data"
+pkgdesc="A fast NoSQL database, an alternative to Redis"
 arch=('i686' 'x86_64')
-depends=('leveldb' 'snappy')
-makedepends=('gcc' 'jemalloc' 'make')
-url="http://www.ideawu.com/ssdb/"
+depends=('leveldb' 'python' 'readline' 'snappy')
+makedepends=('autoconf' 'gcc' 'jemalloc' 'make' 'pkg-config' 'zlib')
+url="http://ssdb.io"
 license=('BSD')
-source=($pkgname-$pkgver.tar.gz::https://github.com/ideawu/ssdb/archive/stable-$pkgver.tar.gz)
-sha256sums=('6ee6b288805eb592bfd45935700f91c213680c1753ea923ea7e726460f30ccd7')
-install=ssdb.install
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/ideawu/$pkgname/tar.gz/$pkgver)
+sha256sums=('61937e6a9ff9add0d84ef1cbe08d1b7306d10843b523eb1fed811c8c5366f374')
 
 build() {
-  cd $pkgname-stable-$pkgver
+  cd "$pkgname-$pkgver"
 
   msg 'Building...'
   make
 }
 
 package() {
-  cd $pkgname-stable-$pkgver
+  cd "$pkgname-$pkgver"
 
   msg 'Installing...'
   install -dm 755 $pkgdir/usr/share/ssdb
