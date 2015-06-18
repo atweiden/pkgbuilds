@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=rakudo-git
-pkgver=20150525
+pkgver=20150618
 pkgrel=1
 pkgdesc="Perl 6 compiler for the MoarVM and JVM"
 arch=('i686' 'x86_64')
