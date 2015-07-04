@@ -1,18 +1,16 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=ruby-sequel
-pkgver=4.24.0
+pkgname=ruby-parser
+pkgver=2.2.2.6
 pkgrel=1
-pkgdesc="The Database Toolkit for Ruby"
+pkgdesc="A Ruby parser written in pure Ruby"
 arch=('any')
-url="http://sequel.jeremyevans.net"
+url="https://github.com/whitequark/parser"
 license=('MIT')
-depends=('ruby')
+depends=('ruby' 'ruby-ast')
 source=(https://rubygems.org/downloads/${pkgname#*-}-${pkgver}.gem)
-sha256sums=('b2d091c22d2728ec71504eb9e0ebfe79e9b6de17857491604200349dcfcc0918')
+sha256sums=('1016f97e594d9abc92936e8b9ac0444438cf91df46afcf1fe607415cb227b066')
 noextract=("${pkgname#*-}-${pkgver}.gem")
-provides=('sequel' 'ruby-sequel')
-conflicts=('sequel')
 
 package() {
   cd "$srcdir"
