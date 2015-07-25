@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=panda-git
-pkgver=20150613
+pkgver=20150719
 pkgrel=1
 pkgdesc="Module management solution for Rakudo Perl 6"
 arch=('i686' 'x86_64')
@@ -23,18 +23,18 @@ pkgver() {
 build() {
   cd ${pkgname%-git}
 
-  msg 'Building...'
+  msg2 'Building...'
   perl6 bootstrap.pl
 }
 
 package() {
   cd ${pkgname%-git}
 
-  msg 'Installing...'
+  msg2 'Installing...'
   install -dm 755 "$pkgdir/usr/share/panda"
   tar -c . | tar -x -C "$pkgdir/usr/share/panda"
 
-  msg 'Installing executables...'
+  msg2 'Installing executables...'
   for _bin in panda \
               panda-build \
               panda-cpanize \
@@ -45,7 +45,7 @@ package() {
     install -Dm 755 bin/$_bin "$pkgdir/usr/bin/$_bin"
   done
 
-  msg 'Cleaning up pkgdir...'
+  msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }

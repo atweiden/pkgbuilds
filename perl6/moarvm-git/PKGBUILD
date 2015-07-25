@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm-git
-pkgver=20150618
+pkgver=20150724
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl 6"
 arch=('i686' 'x86_64')
@@ -25,7 +25,7 @@ pkgver() {
 prepare() {
   cd ${pkgname%-git}
 
-  msg 'Copying Git submodules...'
+  msg2 'Copying Git submodules...'
   for _submodule in dynasm dyncall libuv; do
     rm -rf 3rdparty/$_submodule
     cp -dpr --no-preserve=owner "$srcdir/$_submodule" 3rdparty
@@ -35,7 +35,7 @@ prepare() {
 build() {
   cd ${pkgname%-git}
 
-  msg 'Building...'
+  msg2 'Building...'
   perl Configure.pl --prefix=/usr \
                     --toolchain=gnu \
                     --compiler=clang \
@@ -46,10 +46,10 @@ build() {
 package() {
   cd ${pkgname%-git}
 
-  msg 'Installing...'
+  msg2 'Installing...'
   make DESTDIR="$pkgdir" install
 
-  msg 'Cleaning up pkgdir...'
+  msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }
