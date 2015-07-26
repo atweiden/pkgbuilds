@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=rakudo
-pkgver=2015.07.1
+pkgver=2015.07.2
 pkgrel=1
 pkgdesc="Perl 6 compiler for the MoarVM and JVM"
 arch=('i686' 'x86_64')
@@ -11,7 +11,7 @@ groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/rakudo/$pkgname/tar.gz/$pkgver)
-sha256sums=('fc8bd343353d483718559ae3d719601c88653a88597e98be4a1b6913b7ade3f0')
+sha256sums=('97dd10748091e1fdc83b045c2f6df6f3d2bfe8a714633e5f07e9bb092947d348')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
