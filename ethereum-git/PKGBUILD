@@ -39,6 +39,7 @@ makedepends=('autoconf'
              'gcc'
              'git'
              'libtool'
+             'npm'
              'v8-3.15'
              'yasm')
 groups=('ethereum')
@@ -88,7 +89,7 @@ pkgver() {
 build() {
   cd ${pkgname%-git}
 
-  msg 'Building...'
+  msg2 'Building...'
   mkdir -p build && pushd build
   cmake .. -DCMAKE_INSTALL_PREFIX=/usr \
            -DCMAKE_BUILD_TYPE=Release \
@@ -106,10 +107,10 @@ build() {
 package() {
   cd ${pkgname%-git}
 
-  msg 'Installing...'
+  msg2 'Installing...'
   make DESTDIR="$pkgdir" install -C build
 
-  msg 'Cleaning up pkgdir...'
+  msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }
