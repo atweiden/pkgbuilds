@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=panda-git
-pkgver=20150719
+pkgver=20150917
 pkgrel=1
 pkgdesc="Module management solution for Rakudo Perl 6"
 arch=('i686' 'x86_64')
@@ -35,13 +35,7 @@ package() {
   tar -c . | tar -x -C "$pkgdir/usr/share/panda"
 
   msg2 'Installing executables...'
-  for _bin in panda \
-              panda-build \
-              panda-cpanize \
-              panda-fetch \
-              panda-install \
-              panda-test \
-              redpanda; do
+  for _bin in $(find bin -maxdepth 1 -type f -printf '%f\n'); do
     install -Dm 755 bin/$_bin "$pkgdir/usr/bin/$_bin"
   done
 
