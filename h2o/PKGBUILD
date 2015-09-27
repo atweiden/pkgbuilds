@@ -1,34 +1,35 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 # Contributor: Paul Préfontaine <paul+archlinuxaur@prefontaine.name>
+# Contributor: HLFH <gaspard.dhautefeuille+archlinuxaur@outlook.com>
 
 pkgname=h2o
-pkgver=1.4.2
+pkgver=1.5.0.beta4
 pkgrel=1
 pkgdesc="Optimized HTTP server with support for HTTP/1.x and HTTP/2"
 arch=('i686' 'x86_64')
-depends=('libuv' 'libyaml' 'openssl' 'wslay')
-makedepends=('cmake' 'make')
+depends=('libuv' 'libyaml' 'wslay' 'zlib')
+makedepends=('cmake' 'libtool' 'make' 'pkg-config')
 url="https://github.com/h2o/h2o"
 license=('MIT')
-source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/h2o/$pkgname/tar.gz/v$pkgver
+source=($pkgname-1.5.0-beta4.tar.gz::https://codeload.github.com/h2o/$pkgname/tar.gz/v1.5.0-beta4
         h2o.service)
-sha256sums=('3024e6a8b704d119570551db2cbca701cb6c2fa7126336239044674ee02ea09c'
-            'dadc4d08e8149ac0f9f2156251a639380795d1fed2068958b487da88161d4bb7')
+sha256sums=('d6e31bc90dfd7f99152597d76bd63598ccf5e0b6fda5b6e83a76480610064ae6'
+            '63cd9134cdf47ca2b69bb0bf2a4ccd8b4fd3fd5c79e2a791bdec9a8d1691679b')
 backup=('etc/h2o.conf')
 provides=('h2o' 'libh2o')
 conflicts=('libh2o')
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-1.5.0-beta4"
 
   msg2 'Building...'
-  cmake -DCMAKE_INSTALL_PREFIX=/usr .
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DWITH_BUNDLED_SSL=on .
   make
   make libh2o
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-1.5.0-beta4"
 
   msg2 'Installing license...'
   install -Dm 644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
