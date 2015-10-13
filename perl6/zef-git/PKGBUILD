@@ -1,0 +1,38 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=zef-git
+pkgver=20151011
+pkgrel=1
+pkgdesc="Perl6 Module Management"
+arch=('i686' 'x86_64')
+depends=('rakudo')
+makedepends=('git')
+url="https://github.com/ugexe/zef"
+license=('Artistic2.0')
+source=(git+https://github.com/ugexe/zef)
+sha256sums=('SKIP')
+provides=('zef')
+conflicts=('zef')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg2 'Installing...'
+  perl6 -Ilib bin/zef --no-build -v install .
+  # install -dm 755 "$pkgdir/usr/share/panda"
+  # tar -c . | tar -x -C "$pkgdir/usr/share/panda"
+
+  # msg2 'Installing executables...'
+  # for _bin in $(find bin -maxdepth 1 -type f -printf '%f\n'); do
+  #   install -Dm 755 bin/$_bin "$pkgdir/usr/bin/$_bin"
+  # done
+
+  msg2 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}
