@@ -1,0 +1,26 @@
+--- ./cmd-select-pane.c	2015-10-20 08:22:13.884910049 -0700
++++ ./cmd-select-pane.c	2015-10-20 08:24:26.244917381 -0700
+@@ -120,14 +120,19 @@
+ 		return (CMD_RETURN_NORMAL);
+ 	}
+ 
+-	if (args_has(self->args, 'L'))
++	if (args_has(self->args, 'L')) {
++		server_unzoom_window(wp->window);
+ 		wp = window_pane_find_left(wp);
+-	else if (args_has(self->args, 'R'))
++	} else if (args_has(self->args, 'R')) {
++		server_unzoom_window(wp->window);
+ 		wp = window_pane_find_right(wp);
+-	else if (args_has(self->args, 'U'))
++	} else if (args_has(self->args, 'U')) {
++		server_unzoom_window(wp->window);
+ 		wp = window_pane_find_up(wp);
+-	else if (args_has(self->args, 'D'))
++	} else if (args_has(self->args, 'D')) {
++		server_unzoom_window(wp->window);
+ 		wp = window_pane_find_down(wp);
++	}
+ 	if (wp == NULL)
+ 		return (CMD_RETURN_NORMAL);
+ 
