@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=nqp
-pkgver=2015.09.1
+pkgver=2015.10
 pkgrel=1
 pkgdesc="Lightweight Perl 6-like environment for virtual machines, with MoarVM and JVM support"
 arch=('i686' 'x86_64')
@@ -11,7 +11,7 @@ groups=('perl6')
 url="https://github.com/perl6/nqp"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/perl6/$pkgname/tar.gz/$pkgver)
-sha256sums=('750f8f3b837372b278785d41c41c8f7543b40b3e2600fd1c6bd258be0590e70d')
+sha256sums=('7ec619fc4e4a99dc27f6a9f1f185dc1742e093be3e2e3153ebe55fa9b7c67d63')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"

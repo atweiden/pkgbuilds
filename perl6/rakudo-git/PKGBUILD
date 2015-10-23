@@ -7,6 +7,8 @@ pkgdesc="Perl 6 on MoarVM and the JVM"
 arch=('i686' 'x86_64')
 depends=('java-runtime' 'moarvm' 'nqp')
 makedepends=('git' 'make')
+optdepends=('gdb: GDB runner'
+            'valgrind: Valgrind runner')
 groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')

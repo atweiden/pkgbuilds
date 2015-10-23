@@ -1,20 +1,22 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=rakudo
-pkgver=2015.09
+pkgver=v6.b
 pkgrel=1
 pkgdesc="Perl 6 on MoarVM and the JVM"
 arch=('i686' 'x86_64')
 depends=('java-runtime' 'moarvm' 'nqp')
 makedepends=('make')
+optdepends=('gdb: GDB runner'
+            'valgrind: Valgrind runner')
 groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/rakudo/$pkgname/tar.gz/$pkgver)
-sha256sums=('d0e31a67fa1decffbfbf04f73e08825fd6ffcdc285091c97be97f6669a3d3f5c')
+sha256sums=('c6e6d0db6c3681ceb3b0527c1c79c1b29a33c036022a6e8aa8e7f591967b8a90')
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-${pkgver#v}"
 
   msg2 'Building...'
   perl Configure.pl --prefix=/usr --backends=moar,jvm
@@ -22,7 +24,7 @@ build() {
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver"
+  cd "$srcdir/$pkgname-${pkgver#v}"
 
   msg2 'Installing...'
   make DESTDIR="$pkgdir" install
