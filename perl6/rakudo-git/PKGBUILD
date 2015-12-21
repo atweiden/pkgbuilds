@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=rakudo-git
-pkgver=20151015
+pkgver=20151111
 pkgrel=1
 pkgdesc="Perl 6 on MoarVM and the JVM"
 arch=('i686' 'x86_64')
@@ -14,8 +14,8 @@ url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=(git+https://github.com/rakudo/rakudo)
 sha256sums=('SKIP')
-provides=('rakudo')
-conflicts=('rakudo')
+provides=('perl6' 'rakudo')
+conflicts=('perl6' 'rakudo')
 
 pkgver() {
   cd ${pkgname%-git}
