@@ -12,22 +12,14 @@ optdepends=('gdb: GDB runner'
 groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
-source=(git+https://github.com/rakudo/rakudo
-        install.diff::https://github.com/flussence/rakudo/commit/fb00ed3d71f9407a776c82f03855d1242997878c.diff)
-sha256sums=('SKIP' 'SKIP')
+source=(git+https://github.com/rakudo/rakudo)
+sha256sums=('SKIP')
 provides=('perl6' 'rakudo')
 conflicts=('perl6' 'rakudo')
 
 pkgver() {
   cd ${pkgname%-git}
   git log -1 --format="%cd" --date=short | sed "s|-||g"
-}
-
-prepare() {
-  cd ${pkgname%-git}
-
-  msg2 'Fixing install...'
-  git apply "$srcdir/install.diff"
 }
 
 build() {
