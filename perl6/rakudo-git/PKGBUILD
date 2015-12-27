@@ -1,19 +1,20 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=rakudo-git
-pkgver=20151111
+pkgver=20151227
 pkgrel=1
-pkgdesc="Perl 6 on MoarVM and the JVM"
+pkgdesc="Perl 6 on MoarVM"
 arch=('i686' 'x86_64')
-depends=('java-runtime' 'moarvm' 'nqp')
+depends=('moarvm' 'nqp')
 makedepends=('git' 'make')
 optdepends=('gdb: GDB runner'
             'valgrind: Valgrind runner')
 groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
-source=(git+https://github.com/rakudo/rakudo)
-sha256sums=('SKIP')
+source=(git+https://github.com/rakudo/rakudo
+        install.diff::https://github.com/flussence/rakudo/commit/fb00ed3d71f9407a776c82f03855d1242997878c.diff)
+sha256sums=('SKIP' 'SKIP')
 provides=('perl6' 'rakudo')
 conflicts=('perl6' 'rakudo')
 
@@ -22,11 +23,18 @@ pkgver() {
   git log -1 --format="%cd" --date=short | sed "s|-||g"
 }
 
+prepare() {
+  cd ${pkgname%-git}
+
+  msg2 'Fixing install...'
+  git apply "$srcdir/install.diff"
+}
+
 build() {
   cd ${pkgname%-git}
 
   msg2 'Building...'
-  perl Configure.pl --prefix=/usr --backends=moar,jvm
+  perl Configure.pl --prefix=/usr --backends=moar
   make
 }
 
