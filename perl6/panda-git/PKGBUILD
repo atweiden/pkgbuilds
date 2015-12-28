@@ -1,12 +1,12 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=panda-git
-pkgver=20151225
+pkgver=20151227
 pkgrel=1
 pkgdesc="Module management solution for Rakudo Perl 6"
 arch=('i686' 'x86_64')
 depends=('rakudo')
-makedepends=('git')
+makedepends=('git' 'perl')
 groups=('perl6')
 url="https://github.com/tadzik/panda"
 license=('MIT')
@@ -24,7 +24,7 @@ build() {
   cd ${pkgname%-git}
 
   msg2 'Building...'
-  perl6 bootstrap.pl
+  perl6 bootstrap.pl --prefix="$pkgdir/usr/share/perl6/vendor"
 }
 
 package() {
@@ -40,6 +40,8 @@ package() {
   done
 
   msg2 'Cleaning up pkgdir...'
+  find "$pkgdir" -type f -name "*.deps" -print0 \
+    | xargs -0 sed -i "s,$srcdir,/usr/share,g"
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }

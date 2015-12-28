@@ -1,4 +1,6 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: spider-mario <spidermario@free.fr>
+# JVM build disabled 2015-12-27 (Missing serialize function for REPR ContextRef)
 
 pkgname=rakudo-git
 pkgver=20151227
@@ -6,7 +8,7 @@ pkgrel=1
 pkgdesc="Perl 6 on MoarVM"
 arch=('i686' 'x86_64')
 depends=('moarvm' 'nqp')
-makedepends=('git' 'make')
+makedepends=('git' 'make' 'perl')
 optdepends=('gdb: GDB runner'
             'valgrind: Valgrind runner')
 groups=('perl6')
@@ -35,6 +37,10 @@ package() {
 
   msg2 'Installing...'
   make DESTDIR="$pkgdir" install
+
+  msg2 'Fixing precomp references...'
+  find "$pkgdir/usr/share/perl6/precomp" -type f -exec \
+    env _pkgdir="$pkgdir" perl -pe 's/\Q$ENV{_pkgdir}//g' -i '{}' '+'
 
   msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +

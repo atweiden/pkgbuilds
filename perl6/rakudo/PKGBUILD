@@ -1,4 +1,5 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: spider-mario <spidermario@free.fr>
 
 pkgname=rakudo
 pkgver=2015.12
@@ -6,7 +7,7 @@ pkgrel=1
 pkgdesc="Perl 6 on MoarVM and the JVM"
 arch=('i686' 'x86_64')
 depends=('java-runtime' 'moarvm' 'nqp')
-makedepends=('make')
+makedepends=('make' 'perl')
 optdepends=('gdb: GDB runner'
             'valgrind: Valgrind runner')
 groups=('perl6')
@@ -30,4 +31,8 @@ package() {
 
   msg2 'Installing...'
   make DESTDIR="$pkgdir" install
+
+  msg2 'Fixing precomp references...'
+  find "$pkgdir/usr/share/perl6/precomp" -type f -exec \
+    env _pkgdir="$pkgdir" perl -pe 's/\Q$ENV{_pkgdir}//g' -i '{}' '+'
 }
