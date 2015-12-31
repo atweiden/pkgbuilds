@@ -43,6 +43,7 @@ package() {
     env _pkgdir="$pkgdir" perl -pe 's/\Q$ENV{_pkgdir}//g' -i '{}' '+'
 
   msg2 'Cleaning up pkgdir...'
+  find "$pkgdir" -type f -name "*.lock" -exec rm '{}' \;
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
   find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
 }

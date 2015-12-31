@@ -35,4 +35,7 @@ package() {
   msg2 'Fixing precomp references...'
   find "$pkgdir/usr/share/perl6/precomp" -type f -exec \
     env _pkgdir="$pkgdir" perl -pe 's/\Q$ENV{_pkgdir}//g' -i '{}' '+'
+
+  msg2 'Cleaning up pkgdir...'
+  find "$pkgdir" -type f -name "*.lock" -exec rm '{}' \;
 }
