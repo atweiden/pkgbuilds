@@ -3,7 +3,7 @@
 # JVM build disabled 2015-12-27 (Missing serialize function for REPR ContextRef)
 
 pkgname=rakudo-git
-pkgver=20160103
+pkgver=20160104
 pkgrel=1
 pkgdesc="Perl 6 on MoarVM"
 arch=('i686' 'x86_64')
