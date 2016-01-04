@@ -30,7 +30,7 @@ package() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg2 'Installing...'
-  make DESTDIR="$pkgdir" install
+  RAKUDO_LOG_PRECOMP=1 make DESTDIR="$pkgdir" install
 
   msg2 'Fixing precomp references...'
   find "$pkgdir/usr/share/perl6/precomp" -type f -exec \

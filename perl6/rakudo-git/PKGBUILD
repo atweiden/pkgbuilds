@@ -3,7 +3,7 @@
 # JVM build disabled 2015-12-27 (Missing serialize function for REPR ContextRef)
 
 pkgname=rakudo-git
-pkgver=20151227
+pkgver=20160103
 pkgrel=1
 pkgdesc="Perl 6 on MoarVM"
 arch=('i686' 'x86_64')
@@ -36,7 +36,7 @@ package() {
   cd ${pkgname%-git}
 
   msg2 'Installing...'
-  make DESTDIR="$pkgdir" install
+  RAKUDO_LOG_PRECOMP=1 make DESTDIR="$pkgdir" install
 
   msg2 'Fixing precomp references...'
   find "$pkgdir/usr/share/perl6/precomp" -type f -exec \
