@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20151221
+pkgver=20160102
 pkgrel=1
 pkgdesc="A terminal multiplexer with select-pane -LDUR support patch"
 arch=('i686' 'x86_64')
@@ -55,10 +55,6 @@ package() {
   msg2 'Installing Bash completions...'
   install -Dm 644 examples/bash_completion_tmux.sh \
     "$pkgdir/usr/share/bash-completion/completions/tmux"
-
-  msg2 'Installing Vim syntax...'
-  install -Dm 644 examples/tmux.vim \
-    "$pkgdir/usr/share/vim/vimfiles/syntax/tmux.vim"
 
   msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
