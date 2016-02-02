@@ -1,23 +1,24 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# JVM build disabled 2016-02-02 "Missing serialize function for REPR ContextRef"
 
 pkgname=nqp
-pkgver=2015.12
+pkgver=2016.01
 pkgrel=1
-pkgdesc="Lightweight Perl 6-like environment for virtual machines, with MoarVM and JVM support"
+pkgdesc="Lightweight Perl 6-like environment for virtual machines, with MoarVM support"
 arch=('i686' 'x86_64')
-depends=('java-runtime' 'moarvm')
+depends=('moarvm')
 makedepends=('make')
 groups=('perl6')
 url="https://github.com/perl6/nqp"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/perl6/$pkgname/tar.gz/$pkgver)
-sha256sums=('9bc0f7284a8bb9e4df558496df39dd741e958973f9a5c63adf5d4e55b7ae7443')
+sha256sums=('451e9d2f24029dfd261183a59d2b36a383c9c50e65bc038193d85cad1ab1fd54')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg2 'Building...'
-  perl Configure.pl --prefix=/usr --backends=moar,jvm
+  perl Configure.pl --prefix=/usr --backends=moar
   make
 }
 

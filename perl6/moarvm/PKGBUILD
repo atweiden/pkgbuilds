@@ -1,28 +1,25 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm
-pkgver=2015.12
+pkgver=2016.01
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl 6"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
-makedepends=('clang' 'git' 'llvm' 'make' 'pkg-config')
+depends=('dyncall' 'libatomic_ops' 'libuv' 'llvm')
+makedepends=('clang' 'git' 'make' 'perl' 'pkg-config')
 groups=('perl6')
 url="https://github.com/MoarVM/MoarVM"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
-        dynasm::git+https://github.com/MoarVM/dynasm
-        dyncall::git+https://github.com/MoarVM/dyncall
-        libuv::git+https://github.com/libuv/libuv)
-sha256sums=('a7e01835b16283618300e62d88670fe0e5d2e611090662a491f2d688f2c292b7'
-            'SKIP'
-            'SKIP'
+        dynasm::git+https://github.com/MoarVM/dynasm)
+sha256sums=('eeb67e854393df2c032b2b21bc4de57f6d8806cb12809edcc51807f38fc31573'
             'SKIP')
 
 prepare() {
   cd "$srcdir/MoarVM-$pkgver"
 
   msg2 'Copying Git submodules...'
-  for _submodule in dynasm dyncall libuv; do
+  for _submodule in dynasm; do
     rm -rf 3rdparty/$_submodule
     cp -dpr --no-preserve=owner "$srcdir/$_submodule" 3rdparty
   done
@@ -32,10 +29,18 @@ build() {
   cd "$srcdir/MoarVM-$pkgver"
 
   msg2 'Building...'
-  perl Configure.pl --prefix=/usr \
-                    --toolchain=gnu \
-                    --compiler=clang \
-                    --optimize
+  perl Configure.pl \
+    --prefix=/usr \
+    --toolchain=gnu \
+    --compiler=clang \
+    --has-dyncall \
+    --has-libatomic_ops \
+    --has-libuv \
+    --optimize
+    # Note that the bundled libtommath has patches that have been sent
+    # upstream, but aren't in any released version; 0.42 will compile
+    # but causes slight bugs. (credit: flussence)
+    #--has-libtommath
   make
 }
 
@@ -44,4 +49,7 @@ package() {
 
   msg2 'Installing...'
   make DESTDIR="$pkgdir" install
+
+  msg2 'Cleaning up pkgdir...'
+  rm -rf "$pkgdir/usr/include/libuv"
 }
