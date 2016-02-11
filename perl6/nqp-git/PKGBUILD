@@ -3,7 +3,7 @@
 pkgname=nqp-git
 pkgver=20160104
 pkgrel=1
-pkgdesc="Lightweight Perl 6-like environment for virtual machines, with MoarVM and JVM support"
+pkgdesc="Lightweight Perl6-like environment for virtual machines, with MoarVM and JVM support"
 arch=('i686' 'x86_64')
 depends=('java-runtime' 'moarvm')
 makedepends=('git' 'make')

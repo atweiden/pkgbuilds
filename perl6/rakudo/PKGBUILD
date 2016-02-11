@@ -5,7 +5,7 @@
 pkgname=rakudo
 pkgver=2016.01.1
 pkgrel=1
-pkgdesc="Perl 6 on MoarVM"
+pkgdesc="Perl6 on MoarVM"
 arch=('i686' 'x86_64')
 depends=('moarvm' 'nqp')
 makedepends=('make' 'perl')

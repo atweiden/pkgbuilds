@@ -3,7 +3,7 @@
 pkgname=panda-git
 pkgver=20151227
 pkgrel=1
-pkgdesc="Module management solution for Rakudo Perl 6"
+pkgdesc="Module management solution for Rakudo Perl6"
 arch=('i686' 'x86_64')
 depends=('rakudo')
 makedepends=('git' 'perl')
