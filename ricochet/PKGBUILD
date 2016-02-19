@@ -1,0 +1,63 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: Mario Finelli <mario at finel dot li>
+# Contributor: Boohbah <boohbah at gmail dot com>
+# Contributor: Mikkel Kroman <mk at maero dot dk>
+# Contributor: Mikkel Kroman <mk@maero.dk>
+# Contributor: AlexTalker <alextalker at openmailbox.org>
+# https://github.com/ricochet-im/ricochet/blob/master/BUILDING.md
+
+pkgname=ricochet
+pkgver=1.1.2
+pkgrel=1
+pkgdesc="Anonymous peer-to-peer instant messaging"
+arch=('i686' 'x86_64')
+depends=('openssl'
+         'qt5-base'
+         'qt5-declarative'
+         'qt5-multimedia'
+         'qt5-quick1'
+         'qt5-quickcontrols'
+         'qt5-translations'
+         'tor')
+makedepends=('gcc'
+             'gcc-libs'
+             'git'
+             'make'
+             'pkg-config'
+             'qt5-tools'
+             'protobuf')
+url="https://ricochet.im"
+license=('custom:BSD')
+source=(https://ricochet.im/releases/$pkgver/$pkgname-$pkgver-src.tar.bz2{,.asc}
+        git+https://github.com/ricochet-im/ricochet.wiki)
+sha256sums=('97c78d088892e84c95a3e3a4a982883d8e44028848a513a5d7e0231d36325cc3'
+            'SKIP' 'SKIP')
+validpgpkeys=('9032CAE4CBFA933A5A2145D5FF97C53F183C045D')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Building...'
+  QT_SELECT=5 qmake CONFIG+=release DEFINES+=RICOCHET_NO_PORTABLE
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Installing license...'
+  install -Dm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 *.md -t "$pkgdir/usr/share/doc/$pkgname"
+  cp -dpr --no-preserve=ownership doc/* contrib "$pkgdir/usr/share/doc/$pkgname"
+  cp -dpr --no-preserve=ownership "$srcdir/$pkgname.wiki" \
+    "$pkgdir/usr/share/doc/$pkgname/wiki"
+
+  msg2 'Installing...'
+  make INSTALL_ROOT="$pkgdir" install
+
+  msg2 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+}
