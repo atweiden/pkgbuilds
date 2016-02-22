@@ -1,13 +1,12 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 # Contributor: spider-mario <spidermario@free.fr>
-# JVM build disabled 2016-02-02 "Missing serialize function for REPR ContextRef"
 
 pkgname=rakudo
-pkgver=2016.01.1
+pkgver=2016.02
 pkgrel=1
-pkgdesc="Perl6 on MoarVM"
+pkgdesc="Perl6 on MoarVM and the JVM"
 arch=('i686' 'x86_64')
-depends=('moarvm' 'nqp')
+depends=('java-runtime' 'moarvm' 'nqp')
 makedepends=('make' 'perl')
 optdepends=('gdb: GDB runner'
             'valgrind: Valgrind runner')
@@ -15,7 +14,7 @@ groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/rakudo/$pkgname/tar.gz/$pkgver)
-sha256sums=('e3ebd74cd4476311801d9069b8b83018ccf635ac9a53e2593a398fdce583a462')
+sha256sums=('f3ac8969fc71bc6123956b2078ae0b4869f1698097848101ef75caebcd7fb1cc')
 provides=('perl6' 'rakudo')
 conflicts=('perl6' 'rakudo')
 
@@ -23,7 +22,7 @@ build() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg2 'Building...'
-  perl Configure.pl --prefix=/usr --backends=moar
+  perl Configure.pl --prefix=/usr --backends=moar,jvm
   make
 }
 
