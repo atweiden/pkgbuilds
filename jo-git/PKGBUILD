@@ -1,0 +1,51 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=jo-git
+pkgver=20160311
+pkgrel=1
+pkgdesc="JSON output from a shell"
+arch=('i686' 'x86_64')
+makedepends=('autoconf' 'automake' 'git' 'm4' 'make')
+optdepends=('pandoc: man pages rebuild')
+url="https://github.com/jpmens/jo"
+license=('custom:GPL3')
+source=(git+https://github.com/jpmens/jo)
+sha256sums=('SKIP')
+provides=('jo')
+conflicts=('jo')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg2 "Building..."
+  autoreconf -i
+  ./configure \
+    --prefix=/usr \
+    --sbindir=/usr/bin \
+    --libexecdir=/usr/lib/jo \
+    --sysconfdir=/etc \
+    --sharedstatedir=/usr/share/jo \
+    --localstatedir=/var/lib/jo
+  make
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg2 'Installing license...'
+  install -Dm 644 {AUTHORS,COPYING} -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 *.md jo-logo.png -t "$pkgdir/usr/share/doc/${pkgname%-git}"
+
+  msg2 'Installing...'
+  make DESTDIR="$pkgdir" install
+
+  msg2 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}

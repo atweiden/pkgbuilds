@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20160207
+pkgver=20160219
 pkgrel=1
 pkgdesc="A terminal multiplexer with select-pane -LDUR support patch"
 arch=('i686' 'x86_64')

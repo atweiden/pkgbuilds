@@ -5,7 +5,7 @@ pkgver=2016.02
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl6"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('dyncall' 'libatomic_ops' 'libuv' 'llvm')
+depends=('dyncall' 'libatomic_ops' 'libtommath' 'libuv' 'llvm')
 makedepends=('clang' 'git' 'make' 'perl' 'pkg-config')
 groups=('perl6')
 url="https://github.com/MoarVM/MoarVM"
@@ -35,12 +35,9 @@ build() {
     --compiler=clang \
     --has-dyncall \
     --has-libatomic_ops \
+    --has-libtommath \
     --has-libuv \
     --optimize
-    # Note that the bundled libtommath has patches that have been sent
-    # upstream, but aren't in any released version; 0.42 will compile
-    # but causes slight bugs. (credit: flussence)
-    #--has-libtommath
   make
 }
 
