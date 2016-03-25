@@ -1,0 +1,60 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=cryfs-git
+pkgver=20160324
+pkgrel=1
+pkgdesc="Cryptographic filesystem for the cloud"
+arch=('i686' 'x86_64')
+depends=('boost'
+         'boost-libs'
+         'crypto++'
+         'curl'
+         'fuse'
+         'openssl'
+         'python2')
+makedepends=('cmake' 'git' 'make')
+url="https://www.cryfs.org"
+license=('LGPL3')
+source=(git+https://github.com/cryfs/cryfs
+        git+https://github.com/cryfs/cryfs.wiki)
+sha256sums=('SKIP' 'SKIP')
+provides=('cryfs')
+conflicts=('cryfs')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg2 'Building...'
+  mkdir cmake && cd cmake
+  cmake \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_TESTING=off \
+    ..
+  make
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg2 'Installing license...'
+  install -Dm 644 LICENSE -t "$pkgdir/usr/share/licenses/${pkgname%-git}"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 README.md -t "$pkgdir/usr/share/doc/${pkgname%-git}"
+
+  msg2 'Installing wiki...'
+  cp -dpr --no-preserve=ownership "$srcdir/${pkgname%-git}.wiki" \
+    "$pkgdir/usr/share/doc/${pkgname%-git}/wiki"
+
+  msg2 'Installing...'
+  make DESTDIR="$pkgdir" install -C cmake
+
+  msg2 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}
