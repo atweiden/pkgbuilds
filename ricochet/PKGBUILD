@@ -8,7 +8,7 @@
 
 pkgname=ricochet
 pkgver=1.1.2
-pkgrel=1
+pkgrel=3
 pkgdesc="Anonymous peer-to-peer instant messaging"
 arch=('i686' 'x86_64')
 depends=('openssl'

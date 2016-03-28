@@ -6,9 +6,9 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20160320
+pkgver=20160326
 pkgrel=1
-pkgdesc="A terminal multiplexer with select-pane -LDUR support patch"
+pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
 depends=('libevent' 'libutempter' 'ncurses')
 makedepends=('autoconf' 'automake' 'git' 'make' 'pkg-config')
