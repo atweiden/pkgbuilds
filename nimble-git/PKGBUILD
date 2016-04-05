@@ -1,0 +1,46 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: Alexander F Rødseth <xyproto@archlinux.org>
+
+pkgname=nimble-git
+pkgver=20160318
+pkgrel=1
+pkgdesc="Package manager for the Nim programming language"
+arch=('i686' 'x86_64')
+makedepends=('git' 'nim')
+groups=('nim')
+url="https://github.com/nim-lang/nimble"
+license=('BSD')
+source=(${pkgname%-git}::git+https://github.com/nim-lang/nimble)
+sha256sums=('SKIP')
+provides=('nimble')
+conflicts=('nimble')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  nim c -d:release src/nimble
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  # Does not work. Also not separating compilation from installation.
+  # nim c -r src/nimble install
+
+  install -Dm 755 src/nimble -t "$pkgdir/usr/bin"
+  install -Dm 644 license.txt -t "$pkgdir/usr/share/licenses/nimble"
+
+  # Nimble looks for nimscriptapi.nim in /usr/bin/nimblepkg/, of all places.
+  install -dm 755 "$pkgdir/usr/share/nimble"
+  cp -dpr --no-preserve=ownership src/nimblepkg "$pkgdir/usr/share/nimble"
+  ln -s "/usr/share/nimble" "$pkgdir/usr/bin/nimblepkg"
+
+  # This solves nothing.
+  #cp -r src/nimcache "$pkgdir/usr/share/$pkgname/nimcache"
+  #ln -s "/usr/share/$pkgname/nimcache" "$pkgdir/usr/bin/nimcache"
+}
