@@ -1,0 +1,38 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=nimsuggest-git
+pkgver=20160321
+pkgrel=1
+pkgdesc="Tool for providing auto completion data for Nim source code"
+arch=('i686' 'x86_64')
+depends=('nim')
+makedepends=('git' 'nimble')
+groups=('nim')
+url="https://github.com/nim-lang/nimsuggest"
+license=('MIT')
+source=(${pkgname%-git}::git+https://github.com/nim-lang/nimsuggest)
+sha256sums=('SKIP')
+provides=('nimsuggest')
+conflicts=('nimsuggest')
+
+pkgver() {
+  cd ${pkgname%-git}
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+build() {
+  cd ${pkgname%-git}
+
+  msg2 'Building...'
+  nimble build -y
+}
+
+package() {
+  cd ${pkgname%-git}
+
+  msg2 'Installing documentation...'
+  install -Dm 644 README.md -t "$pkgdir/usr/share/doc/nimsuggest"
+
+  msg2 'Installing...'
+  install -Dm 755 nimsuggest -t "$pkgdir/usr/bin"
+}
