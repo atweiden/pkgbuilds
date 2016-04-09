@@ -1,0 +1,28 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=hurl
+pkgver=20120717
+pkgrel=1
+pkgdesc="Hexadecimal & URL encoder + decoder"
+arch=('any')
+depends=('perl-cgi' 'perl-uri')
+makedepends=('git')
+url="https://github.com/fnord0/hURL"
+license=('PerlArtistic')
+source=($pkgname-$pkgver::git+https://github.com/fnord0/hURL)
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname-$pkgver"
+  git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 README -t "$pkgdir/usr/share/doc/$pkgname"
+
+  msg2 'Installing...'
+  install -Dm 755 hURL -t "$pkgdir/usr/bin"
+}
