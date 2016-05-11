@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=cryfs-git
-pkgver=20160326
+pkgver=20160428
 pkgrel=1
 pkgdesc="Cryptographic filesystem for the cloud"
 arch=('i686' 'x86_64')
