@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20160330
+pkgver=20160505
 pkgrel=1
 pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
@@ -15,15 +15,24 @@ makedepends=('autoconf' 'automake' 'git' 'make' 'pkg-config')
 url="https://tmux.github.io"
 license=('BSD')
 source=(git+https://github.com/tmux/tmux
-        bash_completion_tmux.sh::https://raw.githubusercontent.com/tmux/tmux/8cf1504ba67307ee885c19c12d63a6a22016a582/examples/bash_completion_tmux.sh)
+        bash_completion_tmux.sh::https://raw.githubusercontent.com/tmux/tmux/8cf1504ba67307ee885c19c12d63a6a22016a582/examples/bash_completion_tmux.sh
+        window-copy.c.patch)
 sha256sums=('SKIP'
-            'f1c8650e2351d7ab92e3a0d280281160975b3dbd8c1f0c5d801f2356b7c2141d')
+            'f1c8650e2351d7ab92e3a0d280281160975b3dbd8c1f0c5d801f2356b7c2141d'
+            'a6cf8fa0b303ffc4a03f8cf2d939521288ee4fc6b52dd808c32840a5b95a1e8e')
 provides=('tmux')
 conflicts=('tmux')
 
 pkgver() {
   cd ${pkgname%%-*}
   git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%%-*}
+
+  msg2 'Fixing window copy behavior (prevents losing position in pane)...'
+  patch -p1 < "$srcdir/window-copy.c.patch"
 }
 
 build() {
