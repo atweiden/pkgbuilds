@@ -1,8 +1,8 @@
 diff --git a/window-copy.c b/window-copy.c
-index dfd0dc0..bb8414b 100644
+index dfd0dc0..eea693b 100644
 --- a/window-copy.c
 +++ b/window-copy.c
-@@ -689,17 +689,13 @@ window_copy_key(struct window_pane *wp, struct client *c, struct session *sess,
+@@ -689,8 +689,8 @@ window_copy_key(struct window_pane *wp, struct client *c, struct session *sess,
  	case MODEKEYCOPY_COPYPIPE:
  		if (sess != NULL) {
  			window_copy_copy_pipe(wp, sess, NULL, arg);
@@ -13,12 +13,3 @@ index dfd0dc0..bb8414b 100644
  		}
  		break;
  	case MODEKEYCOPY_COPYSELECTION:
- 		if (sess != NULL) {
- 			window_copy_copy_selection(wp, NULL);
--			if (arg == NULL) {
--				window_pane_reset_mode(wp);
--				return;
--			}
- 			window_copy_clear_selection(wp);
- 			window_copy_redraw_screen(wp);
- 		}

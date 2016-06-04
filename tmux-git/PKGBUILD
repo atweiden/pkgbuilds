@@ -19,7 +19,7 @@ source=(git+https://github.com/tmux/tmux
         window-copy.c.diff)
 sha256sums=('SKIP'
             'SKIP'
-            '33ac0a089772f8686acbe3a159a69a77c9d7af0ed2798b07be43a9d7862fe243')
+            '1f51645012e565f48c52e90576c72716e2ebd1d02063e387a2330bc76de59769')
 provides=('tmux')
 conflicts=('tmux')
 
