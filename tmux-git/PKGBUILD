@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20160505
+pkgver=20160601
 pkgrel=1
 pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
@@ -15,11 +15,11 @@ makedepends=('autoconf' 'automake' 'git' 'make' 'pkg-config')
 url="https://tmux.github.io"
 license=('BSD')
 source=(git+https://github.com/tmux/tmux
-        bash_completion_tmux.sh::https://raw.githubusercontent.com/tmux/tmux/8cf1504ba67307ee885c19c12d63a6a22016a582/examples/bash_completion_tmux.sh
-        window-copy.c.patch)
+        git+https://github.com/imomaliev/tmux-bash-completion
+        window-copy.c.diff)
 sha256sums=('SKIP'
-            'f1c8650e2351d7ab92e3a0d280281160975b3dbd8c1f0c5d801f2356b7c2141d'
-            'a6cf8fa0b303ffc4a03f8cf2d939521288ee4fc6b52dd808c32840a5b95a1e8e')
+            'SKIP'
+            '33ac0a089772f8686acbe3a159a69a77c9d7af0ed2798b07be43a9d7862fe243')
 provides=('tmux')
 conflicts=('tmux')
 
@@ -32,7 +32,7 @@ prepare() {
   cd ${pkgname%%-*}
 
   msg2 'Fixing window copy behavior (prevents losing position in pane)...'
-  patch -p1 < "$srcdir/window-copy.c.patch"
+  git apply "$srcdir/window-copy.c.diff"
 }
 
 build() {
@@ -57,7 +57,7 @@ package() {
   make DESTDIR="$pkgdir" install
 
   msg2 'Installing license...'
-  install -Dm 644 "COPYING" -t "$pkgdir/usr/share/licenses/tmux"
+  install -Dm 644 COPYING -t "$pkgdir/usr/share/licenses/tmux"
 
   msg2 'Installing documentation...'
   install -Dm 644 CHANGES \
@@ -69,8 +69,8 @@ package() {
           -t "$pkgdir/usr/share/doc/tmux"
 
   msg2 'Installing Bash completions...'
-  install -Dm 644 "$srcdir/bash_completion_tmux.sh" \
-    "$pkgdir/usr/share/bash-completion/completions/tmux"
+  install -Dm 644 "$srcdir/tmux-bash-completion/completions/tmux" \
+          -t "$pkgdir/usr/share/bash-completion/completions"
 
   msg2 'Cleaning up pkgdir...'
   find "$pkgdir" -type d -name .git -exec rm -r '{}' +
