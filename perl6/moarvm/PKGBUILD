@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm
-pkgver=2016.05
+pkgver=2016.06
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl6"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
@@ -13,7 +13,7 @@ license=('PerlArtistic')
 options=('!purge')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
         dynasm::git+https://github.com/MoarVM/dynasm)
-sha256sums=('0b76f3ff651c95d17019f602a0281134fa08bf3148964c03a505e840d8fe7412'
+sha256sums=('5482e4001d3f7e6360eb15e30bc4de3975d7f91ae8bae654058e59190c96d16f'
             'SKIP')
 
 prepare() {
