@@ -2,7 +2,7 @@
 # Contributor: Alexander F Rødseth <xyproto@archlinux.org>
 
 pkgname=nimble-git
-pkgver=20160318
+pkgver=20160617
 pkgrel=1
 pkgdesc="Package manager for the Nim programming language"
 arch=('i686' 'x86_64')
@@ -10,8 +10,9 @@ makedepends=('git' 'nim')
 groups=('nim')
 url="https://github.com/nim-lang/nimble"
 license=('BSD')
-source=(${pkgname%-git}::git+https://github.com/nim-lang/nimble)
-sha256sums=('SKIP')
+source=(${pkgname%-git}::git+https://github.com/nim-lang/nimble
+        git+https://github.com/nim-lang/nim)
+sha256sums=('SKIP' 'SKIP')
 provides=('nimble')
 conflicts=('nimble')
 
@@ -20,10 +21,18 @@ pkgver() {
   git log -1 --format="%cd" --date=short | sed "s|-||g"
 }
 
+prepare() {
+  cd ${pkgname%-git}
+
+  msg2 'Copying nim source to vendor/nim...'
+  mkdir -p vendor
+  cp -dpr --no-preserve=ownership "$srcdir/nim" vendor
+}
+
 build() {
   cd ${pkgname%-git}
 
-  nim c -d:release src/nimble
+  nim c -d:release -r src/nimble
 }
 
 package() {
