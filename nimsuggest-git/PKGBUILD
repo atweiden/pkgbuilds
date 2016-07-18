@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=nimsuggest-git
-pkgver=20160321
+pkgver=20160607
 pkgrel=1
 pkgdesc="Tool for providing auto completion data for Nim source code"
 arch=('i686' 'x86_64')

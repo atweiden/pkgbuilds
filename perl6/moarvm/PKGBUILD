@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm
-pkgver=2016.06
+pkgver=2016.07
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl6"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
@@ -14,8 +14,9 @@ options=('!purge')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
         git+https://github.com/MoarVM/dynasm
         git+https://github.com/MoarVM/dyncall)
-sha256sums=('5482e4001d3f7e6360eb15e30bc4de3975d7f91ae8bae654058e59190c96d16f'
-            'SKIP' 'SKIP')
+sha256sums=('8b80053493353494d7d115cad5ac404e928dc1e7e0928f5b7cd0fc3ce12ca5e4'
+            'SKIP'
+            'SKIP')
 
 prepare() {
   cd "$srcdir/MoarVM-$pkgver"
