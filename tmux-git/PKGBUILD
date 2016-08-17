@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20160606
+pkgver=20160715
 pkgrel=1
 pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
