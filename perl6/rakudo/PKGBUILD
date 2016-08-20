@@ -2,7 +2,7 @@
 # Contributor: spider-mario <spidermario@free.fr>
 
 pkgname=rakudo
-pkgver=2016.07.1
+pkgver=2016.08
 pkgrel=1
 pkgdesc="Perl6 on MoarVM"
 arch=('i686' 'x86_64')
@@ -14,7 +14,7 @@ groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/rakudo/$pkgname/tar.gz/$pkgver)
-sha256sums=('2c963ede62b7f759d46fa057ed31934849fe50d00670ff6f849493b537ffd6b0')
+sha256sums=('903958dcba4bd3e4d1debebda8fcee23ec9465e64c834a320d9b7921a134af0b')
 provides=('perl6' 'rakudo')
 conflicts=('perl6' 'rakudo')
 
