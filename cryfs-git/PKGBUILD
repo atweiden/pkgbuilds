@@ -36,7 +36,7 @@ build() {
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_TESTING=off \
     ..
-  make
+  make -j$(($(nproc)/2))
 }
 
 package() {
