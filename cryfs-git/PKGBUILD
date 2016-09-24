@@ -35,6 +35,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_TESTING=off \
+    -DCRYFS_UPDATE_CHECKS=off \
     ..
   make -j$(($(nproc)/2))
 }
