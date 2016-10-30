@@ -1,28 +1,26 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm
-pkgver=2016.10
+pkgver=2016.11
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl6"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('libatomic_ops' 'libffi' 'libtommath' 'libuv' 'llvm')
+depends=('dyncall' 'libatomic_ops' 'libffi' 'libtommath' 'libuv' 'llvm')
 makedepends=('binutils' 'clang' 'git' 'make' 'perl' 'pkg-config')
 groups=('perl6')
 url="https://github.com/MoarVM/MoarVM"
 license=('PerlArtistic')
 options=('!purge')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
-        git+https://github.com/MoarVM/dynasm
-        git+https://github.com/MoarVM/dyncall)
+        git+https://github.com/MoarVM/dynasm)
 sha256sums=('0e36dd4f2cb22afa770eb59217769f4e47c6bf3a4c43ba04714d7b29d128e058'
-            'SKIP'
             'SKIP')
 
 prepare() {
   cd "$srcdir/MoarVM-$pkgver"
 
   msg2 'Copying Git submodules...'
-  for _submodule in dynasm dyncall; do
+  for _submodule in dynasm; do
     rm -rf 3rdparty/$_submodule
     cp -dpr --no-preserve=owner "$srcdir/$_submodule" 3rdparty
   done
@@ -36,6 +34,7 @@ build() {
     --prefix=/usr \
     --toolchain=gnu \
     --compiler=clang \
+    --has-dyncall \
     --has-libatomic_ops \
     --has-libffi \
     --has-libtommath \
