@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20160715
+pkgver=20161104
 pkgrel=1
 pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
@@ -19,7 +19,7 @@ source=(git+https://github.com/tmux/tmux
         window-copy.c.diff)
 sha256sums=('SKIP'
             'SKIP'
-            '1f51645012e565f48c52e90576c72716e2ebd1d02063e387a2330bc76de59769')
+            'e50fd9b89b813859a500651c09249ea502f338b3df1d55733aec01e82c34cd1a')
 provides=('tmux')
 conflicts=('tmux')
 
