@@ -13,7 +13,7 @@ license=('PerlArtistic')
 options=('!purge')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
         git+https://github.com/MoarVM/dynasm)
-sha256sums=('0e36dd4f2cb22afa770eb59217769f4e47c6bf3a4c43ba04714d7b29d128e058'
+sha256sums=('9c5cead0a8b5c521f87fbff9c5ff4e60418cb1cea82ed2b55182a7c87d46902a'
             'SKIP')
 
 prepare() {
