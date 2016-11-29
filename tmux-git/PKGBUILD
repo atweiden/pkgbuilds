@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20161104
+pkgver=20161129
 pkgrel=1
 pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
@@ -15,24 +15,14 @@ makedepends=('autoconf' 'automake' 'git' 'make' 'pkg-config')
 url="https://tmux.github.io"
 license=('BSD')
 source=(git+https://github.com/tmux/tmux
-        git+https://github.com/imomaliev/tmux-bash-completion
-        window-copy.c.diff)
-sha256sums=('SKIP'
-            'SKIP'
-            'e50fd9b89b813859a500651c09249ea502f338b3df1d55733aec01e82c34cd1a')
+        git+https://github.com/imomaliev/tmux-bash-completion)
+sha256sums=('SKIP' 'SKIP')
 provides=('tmux')
 conflicts=('tmux')
 
 pkgver() {
   cd ${pkgname%%-*}
   git log -1 --format="%cd" --date=short | sed "s|-||g"
-}
-
-prepare() {
-  cd ${pkgname%%-*}
-
-  msg2 'Fixing window copy behavior (prevents losing position in pane)...'
-  git apply "$srcdir/window-copy.c.diff"
 }
 
 build() {
