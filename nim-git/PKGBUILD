@@ -77,7 +77,7 @@ package_nim-git() {
   msg2 'Installing Nim...'
   ./koch install "$pkgdir"
   install -Dm 755 bin/{nim,nimgrep} -t "$pkgdir/usr/bin"
-  install -Dm 644 lib/libnimrtl.so -t "$pkgdir/usr/lib"
+
 
   cd "$pkgdir/nim"
   install -dm 755 "$pkgdir/etc" "$pkgdir/usr/lib/nim"
@@ -87,6 +87,16 @@ package_nim-git() {
     cp -dpr --no-preserve=ownership '{}' "$pkgdir/etc/" \;
   cp -dpr --no-preserve=ownership "$srcdir/Nim/lib/packages" \
     "$pkgdir/usr/lib/nim"
+
+  # https://bugs.archlinux.org/task/50252
+  msg2 'Fixing unusual placement of header files...'
+  install -dm 755 "$pkgdir/usr/include"
+  for _header in cycle nimbase; do
+    ln -s "/usr/lib/nim/${_header}.h" "$pkgdir/usr/include/${_header}.h"
+  done
+
+  msg2 'Fixing unusual placement of shared object files...'
+  ln -s "/usr/lib/nim/libnimrtl.so" "$pkgdir/usr/lib/libnimrtl.so"
 
   msg2 'Cleaning up pkgdir...'
   rm -rf "$pkgdir/nim"
