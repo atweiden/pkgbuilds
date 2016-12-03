@@ -10,7 +10,7 @@ pkgver=20161201
 pkgrel=1
 arch=('i686' 'x86_64')
 groups=('nim')
-makedepends=('git')
+makedepends=('git' 'texlive-bin' 'texlive-core')
 source=(git+https://github.com/nim-lang/Nim
         git+https://github.com/nim-lang/csources
         git+https://github.com/nim-lang/nimble
@@ -60,7 +60,6 @@ package_nim-git() {
   pkgdesc="Compiled, garbage-collected systems programming language which has an excellent productivity/performance ratio"
   url="https://github.com/nim-lang/Nim"
   license=('MIT')
-  makedepends+=('texlive-bin' 'texlive-core')
   options=('!emptydirs')
   provides=('nim')
   conflicts=('nim')
