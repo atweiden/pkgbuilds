@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20161129
+pkgver=20161230
 pkgrel=1
 pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
@@ -36,7 +36,8 @@ build() {
     --libexecdir=/usr/lib/tmux \
     --sysconfdir=/etc \
     --sharedstatedir=/usr/share/tmux \
-    --localstatedir=/var/lib/tmux
+    --localstatedir=/var/lib/tmux \
+    --enable-utempter
   make
 }
 
