@@ -1,0 +1,28 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=python-pyrocksdb
+pkgver=0.4
+pkgrel=1
+pkgdesc="Python bindings for RocksDB"
+arch=('i686' 'x86_64')
+depends=('cython' 'python' 'rocksdb')
+makedepends=('gcc' 'make' 'python-setuptools')
+url="https://github.com/stephan-hof/pyrocksdb"
+license=('BSD')
+options=(!emptydirs)
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/stephan-hof/pyrocksdb/tar.gz/v$pkgver)
+sha256sums=('8b47efa387158733f2c0443a14353f0ec5e5a88fbd7459394bdde59510c87dfe')
+
+build() {
+  cd "$srcdir/${pkgname#python-}-$pkgver"
+
+  msg2 'Building...'
+  python setup.py build
+}
+
+package() {
+  cd "$srcdir/${pkgname#python-}-$pkgver"
+
+  msg2 'Installing...'
+  python setup.py install --root="$pkgdir" --optimize=1
+}

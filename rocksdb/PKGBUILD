@@ -1,0 +1,57 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=rocksdb
+pkgver=5.2.1
+pkgrel=1
+pkgdesc="A library that provides an embeddable, persistent key-value store for fast storage"
+arch=('i686' 'x86_64')
+depends=('bzip2'
+         'gcc-libs'
+         'gflags'
+         'jemalloc'
+         'lz4'
+         'snappy'
+         'zlib'
+         'zstd')
+checkdepends=('python2')
+makedepends=('gcc' 'make')
+url="https://rocksdb.org"
+license=('BSD')
+source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/facebook/$pkgname/tar.gz/v$pkgver)
+sha256sums=('cb27afeaa3dea4369e7b982ce336c16ec2848879e7275043b94e9b42570158ec')
+
+prepare() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Fixing Python version...'
+  sed -e 's/\bpython\b/python2/g' -i Makefile
+}
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Building...'
+  make -j$(($(nproc)/2)) shared_lib
+}
+
+# check() {
+#   cd "$srcdir/$pkgname-$pkgver"
+#
+#   msg2 'Testing...'
+#   make -j$(($(nproc)/2)) check
+# }
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Installing license...'
+  install -Dm 644 AUTHORS LICENSE PATENTS \
+          -t "$pkgdir/usr/share/licenses/$pkgname"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 *.md -t "$pkgdir/usr/share/doc/$pkgname"
+  cp -dpr --no-preserve=ownership examples "$pkgdir/usr/share/doc/$pkgname"
+
+  msg2 'Installing...'
+  make install-shared INSTALL_PATH="$pkgdir/usr"
+}
