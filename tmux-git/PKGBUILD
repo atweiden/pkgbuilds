@@ -52,7 +52,6 @@ package() {
 
   msg2 'Installing documentation...'
   install -Dm 644 CHANGES \
-                  FAQ \
                   README \
                   SYNCING \
                   TODO \
