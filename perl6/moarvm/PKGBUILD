@@ -14,7 +14,7 @@ options=('!purge')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
         git+https://github.com/MoarVM/dynasm
         git+https://github.com/MoarVM/libtommath)
-sha256sums=('3c2eb778349b6734a78bed8953271f5adc322f2d70a7147959306e57dd4782ee'
+sha256sums=('3c6b7e6eb817efb36d502bc2fbf95cc6ce8532bc710d22831fde613a4c4dbf8d'
             'SKIP'
             'SKIP')
 

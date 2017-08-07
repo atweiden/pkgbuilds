@@ -14,7 +14,7 @@ groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/rakudo/$pkgname/tar.gz/$pkgver)
-sha256sums=('ad619939476694b37d61cd464fc84f4ca2c22a179e96143c5854b731de237ae1')
+sha256sums=('93c74955bc954eef2e908137537f16f2e1d57e74dcd8097f42e46425914a493c')
 provides=('perl6' 'rakudo')
 conflicts=('perl6' 'rakudo')
 

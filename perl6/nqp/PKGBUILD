@@ -11,7 +11,7 @@ groups=('perl6')
 url="https://github.com/perl6/nqp"
 license=('PerlArtistic')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/perl6/$pkgname/tar.gz/$pkgver)
-sha256sums=('784ea0e5ed8e1c3cb65aa6a5e7ac9613e86acb3faefc6bffd3b67e3c03a0e988')
+sha256sums=('3d23d97a1ae4aec7f287aa4e8dc1bb26922ce235d03da5972f6398053c345558')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
