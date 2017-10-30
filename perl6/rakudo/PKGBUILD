@@ -1,5 +1,6 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 # Contributor: spider-mario <spidermario@free.fr>
+# curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
 pkgname=rakudo
 pkgver=2017.10
@@ -13,8 +14,10 @@ optdepends=('gdb: GDB runner'
 groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
-source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/rakudo/$pkgname/tar.gz/$pkgver)
-sha256sums=('7a161ff1b12be0451d0e6bdabd6271c506015aed3b0969889ab7dd71be8047eb')
+source=(https://rakudo.perl6.org/downloads/$pkgname/$pkgname-$pkgver.tar.gz{,.asc})
+sha256sums=('f32bbc36c6abab220f7695d259f76f9f849d4064e461b2c7b4ad62d472086d2b'
+            'SKIP')
+validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 provides=('perl6' 'rakudo')
 conflicts=('perl6' 'rakudo')
 

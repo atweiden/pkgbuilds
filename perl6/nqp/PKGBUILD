@@ -1,4 +1,5 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
 pkgname=nqp
 pkgver=2017.10
@@ -10,8 +11,10 @@ makedepends=('make' 'perl')
 groups=('perl6')
 url="https://github.com/perl6/nqp"
 license=('PerlArtistic')
-source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/perl6/$pkgname/tar.gz/$pkgver)
-sha256sums=('499cd78f4fb5658ae5f840de706a12ca5f0da14ab71220a2d72fd31ec1419eb9')
+source=(https://rakudo.perl6.org/downloads/$pkgname/$pkgname-$pkgver.tar.gz{,.asc})
+sha256sums=('0ef0cc566d80a41180e6ce9657affc73e5ffacef19873648e0729fd0e736616d'
+            'SKIP')
+validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
