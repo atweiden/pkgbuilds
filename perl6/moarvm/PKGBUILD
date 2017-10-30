@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm
-pkgver=2017.09.1
+pkgver=2017.10
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl6"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
@@ -11,22 +11,8 @@ groups=('perl6')
 url="https://github.com/MoarVM/MoarVM"
 license=('PerlArtistic')
 options=('!purge')
-source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/MoarVM/MoarVM/tar.gz/$pkgver
-        git+https://github.com/MoarVM/dynasm
-        git+https://github.com/MoarVM/libtommath)
-sha256sums=('06a1edac94250c7905f23cd71c5e5f3e423a1dbb0216cb70c779ca4f664c598b'
-            'SKIP'
-            'SKIP')
-
-prepare() {
-  cd "$srcdir/MoarVM-$pkgver"
-
-  msg2 'Copying Git submodules...'
-  for _submodule in dynasm libtommath; do
-    rm -rf 3rdparty/$_submodule
-    cp -dpr --no-preserve=owner "$srcdir/$_submodule" 3rdparty
-  done
-}
+source=(https://moarvm.com/releases/MoarVM-$pkgver.tar.gz)
+sha256sums=('27cddd50db65359aed82bc6a9bd0e52988a52ee89e7e353eb63185c267d22a5b')
 
 build() {
   cd "$srcdir/MoarVM-$pkgver"
