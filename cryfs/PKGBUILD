@@ -1,0 +1,63 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+# Contributor: kaylyn
+# Contributor: Giuseppe Calà <jiveaxe@gmail.com>
+
+pkgname=cryfs
+pkgver=0.9.8
+pkgrel=2
+pkgdesc="Cryptographic filesystem for the cloud"
+arch=('armv7h' 'i686' 'x86_64')
+depends=('boost'
+         'boost-libs'
+         'crypto++'
+         'curl'
+         'fuse2'
+         'openssl'
+         'python2')
+makedepends=('cmake' 'git' 'make')
+url="https://www.cryfs.org"
+license=('LGPL3')
+source=(https://github.com/cryfs/cryfs/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc}
+        git+https://github.com/cryfs/cryfs.wiki)
+sha256sums=('eec3ae7b39dd71d1070ff8dfe09c98f847bae40c3c5456000c6c8b497b87ff1c'
+            'SKIP'
+            'SKIP')
+validpgpkeys=('C3111FE656732704EF6DF059017DC932549E65B2')
+
+# half of available processing units or one if only one is available
+_nproc=$(($(nproc)/2))
+[[ ${_nproc} < 1 ]] && _nproc=1
+
+build() {
+  cd "$srcdir"
+
+  msg2 'Building...'
+  mkdir cmake && cd cmake
+  cmake \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_TESTING=off \
+    -DCRYFS_UPDATE_CHECKS=off \
+    ..
+  make -j$_nproc
+}
+
+package() {
+  cd "$srcdir"
+
+  msg2 'Installing license...'
+  install -Dm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 README.md -t "$pkgdir/usr/share/doc/$pkgname"
+
+  msg2 'Installing wiki...'
+  cp -dpr --no-preserve=ownership "$srcdir/$pkgname.wiki" \
+    "$pkgdir/usr/share/doc/$pkgname/wiki"
+
+  msg2 'Installing...'
+  make DESTDIR="$pkgdir" install -C cmake
+
+  msg2 'Cleaning up pkgdir...'
+  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+}
