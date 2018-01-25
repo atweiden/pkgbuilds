@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=moarvm
-pkgver=2017.12
+pkgver=2018.01
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl6"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
@@ -12,7 +12,7 @@ url="https://github.com/MoarVM/MoarVM"
 license=('PerlArtistic')
 options=('!purge')
 source=(https://moarvm.com/releases/MoarVM-$pkgver.tar.gz)
-sha256sums=('ae7640c9c22fc2b2bad387039b1b784e31de1b9fd2b02890fd2240aa8193b84e')
+sha256sums=('8b5ecabcd0a4eff57c98187cbbc8c20f3da2f9a5fa23abf025b1850f0f495ba0')
 
 build() {
   cd "$srcdir/MoarVM-$pkgver"
