@@ -3,8 +3,8 @@
 # Contributor: Giuseppe Calà <jiveaxe@gmail.com>
 
 pkgname=cryfs
-pkgver=0.9.8
-pkgrel=2
+pkgver=0.9.9
+pkgrel=1
 pkgdesc="Cryptographic filesystem for the cloud"
 arch=('armv7h' 'i686' 'x86_64')
 depends=('boost'
@@ -19,7 +19,7 @@ url="https://www.cryfs.org"
 license=('LGPL3')
 source=(https://github.com/cryfs/cryfs/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc}
         git+https://github.com/cryfs/cryfs.wiki)
-sha256sums=('eec3ae7b39dd71d1070ff8dfe09c98f847bae40c3c5456000c6c8b497b87ff1c'
+sha256sums=('d328ca4379a70f07a3d178e618fe6d40de94db1006508a845ae467f555ecf9a6'
             'SKIP'
             'SKIP')
 validpgpkeys=('C3111FE656732704EF6DF059017DC932549E65B2')
