@@ -2,7 +2,7 @@
 # curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
 pkgname=nqp
-pkgver=2018.01
+pkgver=2018.02
 pkgrel=1
 pkgdesc="Lightweight Perl6-like environment for virtual machines, with MoarVM support"
 arch=('i686' 'x86_64')
@@ -12,7 +12,7 @@ groups=('perl6')
 url="https://github.com/perl6/nqp"
 license=('PerlArtistic')
 source=(https://rakudo.perl6.org/downloads/$pkgname/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('9e10f1abea829a2938dcc3afb25386a8349af7bf5c6b4b7f3544734e86eb561c'
+sha256sums=('b50957559448fefcf819577cea34dc0c3dec45b690142cbd0b21ce8da1c2b6e7'
             'SKIP')
 validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 
