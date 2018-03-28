@@ -6,7 +6,7 @@
 # Contributor: TDY <tdy@gmx.com>
 
 pkgname=tmux-git
-pkgver=20171116
+pkgver=20180323
 pkgrel=1
 pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
@@ -19,7 +19,7 @@ source=(git+https://github.com/tmux/tmux
         jemalloc.patch::https://github.com/tmux/tmux/commit/31b9b80fa76c21aed68d1c921ef70829a84fdfe9.patch)
 sha256sums=('SKIP'
             'SKIP'
-            'asdfdsf')
+            '157252ed489f9f633ac8cafc2cf6cbbbe31103a841a935c9d9a0552410f8d27d')
 provides=('tmux')
 conflicts=('tmux')
 
