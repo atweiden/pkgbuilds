@@ -10,19 +10,30 @@ pkgver=20171116
 pkgrel=1
 pkgdesc="A terminal multiplexer"
 arch=('i686' 'x86_64')
-depends=('libevent' 'libutempter' 'ncurses')
+depends=('jemalloc' 'libevent' 'libutempter' 'ncurses')
 makedepends=('autoconf' 'automake' 'git' 'make' 'pkg-config')
 url="https://tmux.github.io"
 license=('BSD')
 source=(git+https://github.com/tmux/tmux
-        git+https://github.com/imomaliev/tmux-bash-completion)
-sha256sums=('SKIP' 'SKIP')
+        git+https://github.com/imomaliev/tmux-bash-completion
+        jemalloc.patch::https://github.com/tmux/tmux/commit/31b9b80fa76c21aed68d1c921ef70829a84fdfe9.patch)
+sha256sums=('SKIP'
+            'SKIP'
+            'asdfdsf')
 provides=('tmux')
 conflicts=('tmux')
 
 pkgver() {
   cd ${pkgname%%-*}
   git log -1 --format="%cd" --date=short | sed "s|-||g"
+}
+
+prepare() {
+  cd ${pkgname%%-*}
+
+  # https://github.com/tmux/tmux/pull/1294
+  msg2 'Enabling jemalloc...'
+  git apply "$srcdir/jemalloc.patch"
 }
 
 build() {
@@ -37,6 +48,7 @@ build() {
     --sysconfdir=/etc \
     --sharedstatedir=/usr/share/tmux \
     --localstatedir=/var/lib/tmux \
+    --enable-jemalloc \
     --enable-utempter
   make
 }
