@@ -1,18 +1,17 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname=cryfs-git
-pkgver=20160609
+pkgver=20180204
 pkgrel=1
 pkgdesc="Cryptographic filesystem for the cloud"
-arch=('armv7h' 'i686' 'x86_64')
+arch=('armv6h' 'armv7h' 'i686' 'x86_64')
 depends=('boost'
          'boost-libs'
          'crypto++'
          'curl'
-         'fuse'
-         'openssl'
-         'python2')
-makedepends=('cmake' 'git' 'make')
+         'fuse2'
+         'openssl')
+makedepends=('cmake' 'git' 'make' 'python')
 url="https://www.cryfs.org"
 license=('LGPL3')
 source=(git+https://github.com/cryfs/cryfs
@@ -20,6 +19,10 @@ source=(git+https://github.com/cryfs/cryfs
 sha256sums=('SKIP' 'SKIP')
 provides=('cryfs')
 conflicts=('cryfs')
+
+# half of available processing units or one if only one is available
+_nproc=$(($(nproc)/2))
+[[ ${_nproc} < 1 ]] && _nproc=1
 
 pkgver() {
   cd ${pkgname%-git}
@@ -37,7 +40,7 @@ build() {
     -DBUILD_TESTING=off \
     -DCRYFS_UPDATE_CHECKS=off \
     ..
-  make -j$(($(nproc)/2))
+  make -j$_nproc
 }
 
 package() {

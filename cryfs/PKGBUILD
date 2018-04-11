@@ -6,15 +6,14 @@ pkgname=cryfs
 pkgver=0.9.9
 pkgrel=1
 pkgdesc="Cryptographic filesystem for the cloud"
-arch=('armv7h' 'i686' 'x86_64')
+arch=('armv6h' 'armv7h' 'i686' 'x86_64')
 depends=('boost'
          'boost-libs'
          'crypto++'
          'curl'
          'fuse2'
-         'openssl'
-         'python2')
-makedepends=('cmake' 'git' 'make')
+         'openssl')
+makedepends=('cmake' 'git' 'make' 'python')
 url="https://www.cryfs.org"
 license=('LGPL3')
 source=(https://github.com/cryfs/cryfs/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc}
