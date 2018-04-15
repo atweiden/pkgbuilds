@@ -1,0 +1,37 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname=enchive
+pkgver=3.4
+pkgrel=1
+pkgdesc="Encrypted personal archives"
+arch=('i686' 'x86_64')
+makedepends=('make')
+url="https://github.com/skeeto/enchive"
+license=('UNLICENSE')
+source=(https://github.com/skeeto/enchive/releases/download/$pkgver/$pkgname-$pkgver.tar.xz)
+sha256sums=('1e8551df0bb98a4f20930a010b3a6b01f60078af86288370ef93895a3918505e')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 "Building..."
+  CFLAGS='-O3 -D_FILE_OFFSET_BITS=64'
+  LDFLAGS="-DENCHIVE_AGENT_TIMEOUT=420"
+  LDFLAGS="$LDFLAGS -DENCHIVE_FILE_EXTENSION='.enc'"
+  LDFLAGS="$LDFLAGS -DENCHIVE_PINENTRY_DEFAULT='/usr/bin/pinentry-tty'"
+  export CFLAGS LDFLAGS
+  make
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+  msg2 'Installing license...'
+  install -Dm 644 UNLICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 *.md -t "$pkgdir/usr/share/doc/$pkgname"
+
+  msg2 'Installing...'
+  make DESTDIR="$pkgdir" PREFIX='/usr' install
+}
