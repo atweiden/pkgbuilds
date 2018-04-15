@@ -15,12 +15,10 @@ build() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg2 "Building..."
-  CFLAGS='-O3 -D_FILE_OFFSET_BITS=64'
-  LDFLAGS="-DENCHIVE_AGENT_TIMEOUT=420"
-  LDFLAGS="$LDFLAGS -DENCHIVE_FILE_EXTENSION='.enc'"
-  LDFLAGS="$LDFLAGS -DENCHIVE_PINENTRY_DEFAULT='/usr/bin/pinentry-tty'"
-  export CFLAGS LDFLAGS
-  make
+  CFLAGS='-ansi -pedantic -Wall -Wextra -O3 -g3 -D_FILE_OFFSET_BITS=64'
+  CFLAGS="$CFLAGS -DENCHIVE_AGENT_TIMEOUT=420"
+  CFLAGS="$CFLAGS -DENCHIVE_FILE_EXTENSION='.enc'"
+  make CFLAGS="$CFLAGS"
 }
 
 package() {
