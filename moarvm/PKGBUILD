@@ -12,7 +12,7 @@ url="https://github.com/MoarVM/MoarVM"
 license=('PerlArtistic')
 options=('!purge')
 source=(https://moarvm.com/releases/MoarVM-$pkgver.tar.gz{,.asc})
-sha256sums=('575fe8545943c39d083c6f433171bf8411e44204944b49dcf4fe0f31f8645dd5'
+sha256sums=('e3839d25567fd7bc275f51c95493cb24c456df6138636dead24b12898ed96fa3'
             'SKIP')
 validpgpkeys=('E2AEB3D93FB3940B844C9E08A68DF012C3881D62')
 

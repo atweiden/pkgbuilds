@@ -12,7 +12,7 @@ groups=('perl6')
 url="https://github.com/perl6/nqp"
 license=('PerlArtistic')
 source=(https://rakudo.perl6.org/downloads/$pkgname/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('b446795347b2b62125ba422680c2bb98fbfd64c6b20ae04af578c3ce3d39cafc'
+sha256sums=('bac7c007471962e38b3eea13b240df054ff078fac015a2331252fdaa5aec2c73'
             'SKIP')
 validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 

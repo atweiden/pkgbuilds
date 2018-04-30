@@ -15,7 +15,7 @@ groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=(https://rakudo.perl6.org/downloads/$pkgname/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('dd91c7fe00fb674e8ee0b3905865f287dc5b3a3ef527cba68f002ca2f8818c8e'
+sha256sums=('29e1063607b55cdad9404e9cb630a408bbc85d2fbe2326f32369320e4876189c'
             'SKIP')
 validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 provides=('perl6' 'rakudo')
