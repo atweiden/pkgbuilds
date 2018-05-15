@@ -6,7 +6,7 @@ pkgname=cryfs
 pkgver=0.9.9
 pkgrel=1
 pkgdesc="Cryptographic filesystem for the cloud"
-arch=('armv6h' 'armv7h' 'i686' 'x86_64')
+arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
 depends=('boost'
          'boost-libs'
          'crypto++'
