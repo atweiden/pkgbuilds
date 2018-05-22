@@ -10,6 +10,7 @@ depends=('boost'
          'crypto++'
          'curl'
          'fuse2'
+         'openmp'
          'openssl')
 makedepends=('cmake' 'git' 'make' 'python')
 url="https://www.cryfs.org"
