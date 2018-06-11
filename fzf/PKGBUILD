@@ -3,7 +3,7 @@
 # Contributor: jebaum <jebaum at ucla dot edu>
 
 pkgname=fzf
-pkgver=0.17.3
+pkgver=0.17.4
 pkgrel=1
 pkgdesc="Command-line fuzzy finder"
 arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
@@ -20,7 +20,7 @@ source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/t
         git+https://github.com/junegunn/$pkgname.wiki
         key-bindings.bash.patch
         key-bindings.zsh.patch)
-sha256sums=('e843904417adf926613431e4403fded24fade56269446e92aac6ff1db86af81e'
+sha256sums=('a4b009638266b116f422d159cd1e09df64112e6ae3490964db2cd46636981ff0'
             'SKIP'
             'fc981d036d85d0b9a5e6ba65f84b1c0f86bcee2dabb09238e1edfa1f49a85b63'
             '0b89bf1d6d372b9a8d5927e58151157d42848086a252979006b89b72242c52e6')
