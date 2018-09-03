@@ -3,7 +3,7 @@
 # curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
 pkgname=rakudo
-pkgver=2018.06
+pkgver=2018.08
 pkgrel=1
 pkgdesc="Perl6 on MoarVM"
 arch=('i686' 'x86_64')
@@ -15,7 +15,7 @@ groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=(https://rakudo.perl6.org/downloads/$pkgname/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('62d8c9d3485a5a1c35117c52a0d39efdd9acad62d27779affbccc9be776fae65'
+sha256sums=('1f32ab02f1449aa0c8d5e95a868dacbe407c41c2af338555e98624c87fd76f7b'
             'SKIP')
 validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 provides=('perl6' 'rakudo')
@@ -36,5 +36,5 @@ package() {
   export RAKUDO_LOG_PRECOMP=1
   export RAKUDO_RERESOLVE_DEPENDENCIES=0
   make DESTDIR="$pkgdir" install
-  install -Dm 755 tools/install-dist.pl "$pkgdir/usr/bin/perl6-install-dist"
+  install -Dm 755 tools/install-dist.p6 "$pkgdir/usr/bin/perl6-install-dist"
 }
