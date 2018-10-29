@@ -3,7 +3,7 @@
 # Contributor: jebaum <jebaum at ucla dot edu>
 
 pkgname=fzf
-pkgver=0.17.4
+pkgver=0.17.5
 pkgrel=1
 pkgdesc="Command-line fuzzy finder"
 arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
@@ -17,26 +17,10 @@ optdepends=('fish: fish keybindings'
 url="https://github.com/junegunn/fzf"
 license=('MIT')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/$pkgver
-        git+https://github.com/junegunn/$pkgname.wiki
-        key-bindings.bash.patch
-        key-bindings.zsh.patch)
-sha256sums=('a4b009638266b116f422d159cd1e09df64112e6ae3490964db2cd46636981ff0'
-            'SKIP'
-            'fc981d036d85d0b9a5e6ba65f84b1c0f86bcee2dabb09238e1edfa1f49a85b63'
-            '0b89bf1d6d372b9a8d5927e58151157d42848086a252979006b89b72242c52e6')
+        git+https://github.com/junegunn/$pkgname.wiki)
+sha256sums=('de3b39758e01b19bbc04ee0d5107e14052d3a32ce8f40d4a63d0ed311394f7ee'
+            'SKIP')
 install=fzf.install
-
-prepare() {
-  cd "$srcdir/$pkgname-$pkgver"
-
-  msg2 'Fixing bash and zsh key bindings...'
-
-  msg2 'Making fzf key-bindings.bash source bash completions...'
-  patch -p1 < "$srcdir/key-bindings.bash.patch"
-
-  msg2 'Making fzf key-bindings.zsh source zsh completions...'
-  patch -p1 < "$srcdir/key-bindings.zsh.patch"
-}
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
@@ -50,7 +34,7 @@ package() {
 
   msg2 'Installing documentation...'
   for _doc in README.md install uninstall; do
-    install -Dm 644 $_doc -t "$pkgdir/usr/share/doc/fzf"
+    install -Dm 644 "$_doc" -t "$pkgdir/usr/share/doc/fzf"
   done
 
   msg2 'Installing wiki...'
