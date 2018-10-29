@@ -3,7 +3,7 @@
 # curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
 pkgname=rakudo
-pkgver=2018.09
+pkgver=2018.10
 pkgrel=1
 pkgdesc="Perl6 on MoarVM"
 arch=('i686' 'x86_64')
@@ -15,7 +15,7 @@ groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=(https://rakudo.perl6.org/downloads/$pkgname/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('4934b84f844adb61ec949b5f4fd31fbc86a83e2195fb2498a1bc2b77d9d859fb'
+sha256sums=('09f87ea4f869febceffe682f3391495cba829ae3119e7ea2e3d40b88b59cab45'
             'SKIP')
 validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 provides=('perl6' 'rakudo')
