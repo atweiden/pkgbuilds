@@ -3,7 +3,7 @@
 # Contributor: Giuseppe Calà <jiveaxe@gmail.com>
 
 pkgname=cryfs
-pkgver=0.10.0
+pkgver=0.10.1
 pkgrel=1
 pkgdesc="Cryptographic filesystem for the cloud"
 arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
@@ -18,16 +18,8 @@ makedepends=('cmake' 'git' 'make' 'python')
 url="https://www.cryfs.org"
 license=('LGPL3')
 source=(https://github.com/cryfs/cryfs/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc}
-        debugging_test.patch
-        no-locale-on-musl.patch
-        pthread_getname_np_gcompat.patch
-        use-libunwind.patch
         git+https://github.com/cryfs/cryfs.wiki)
-sha256sums=('5f3d621a1a383e44039de4759f6111d5e86f80f9b4b833ffd8cc5ee5dccee878'
-            'dd3834ea211a481b57ee65e5b8add80537ab78bda445115415c56b039fd90f38'
-            '930a0247db180fd7f9f5e90070699c4b56df189a5c29cfc40cd70aed7109b8c8'
-            '5dd8d2c9125ac436793b33e979fb1071ef8012728beb7f5a067a24d250ee299a'
-            '56bd7b27fba12fd9eb9450969c267bf563ee1a893884d115564df701b8518bae'
+sha256sums=('a01e15dd4520a7bb3a040d502b09e43e755f12b35f9eff88dc4d00b6286fbb1a'
             'SKIP'
             'SKIP')
 validpgpkeys=('C3111FE656732704EF6DF059017DC932549E65B2')
@@ -35,17 +27,6 @@ validpgpkeys=('C3111FE656732704EF6DF059017DC932549E65B2')
 # half of available processing units or one if only one is available
 _nproc=$(($(nproc)/2))
 [[ ${_nproc} < 1 ]] && _nproc=1
-
-prepare() {
-  cd "$srcdir"
-
-  for _patch in debugging_test.patch \
-                no-locale-on-musl.patch \
-                pthread_getname_np_gcompat.patch \
-                use-libunwind.patch; do
-    patch -Np1 < $_patch
-  done
-}
 
 build() {
   cd "$srcdir"
