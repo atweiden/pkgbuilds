@@ -7,7 +7,7 @@ pkgdesc="Encrypted personal archives"
 arch=('i686' 'x86_64')
 makedepends=('make')
 url="https://github.com/skeeto/enchive"
-license=('UNLICENSE')
+license=('Unlicense')
 source=(https://github.com/skeeto/enchive/releases/download/$pkgver/$pkgname-$pkgver.tar.xz)
 sha256sums=('1e8551df0bb98a4f20930a010b3a6b01f60078af86288370ef93895a3918505e')
 
