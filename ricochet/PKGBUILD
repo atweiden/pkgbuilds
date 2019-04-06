@@ -24,8 +24,8 @@ makedepends=('gcc'
              'git'
              'make'
              'pkg-config'
-             'qt5-tools'
-             'protobuf')
+             'protobuf'
+             'qt5-tools')
 url="https://ricochet.im"
 license=('custom:BSD')
 source=(https://ricochet.im/releases/$pkgver/$pkgname-$pkgver-src.tar.bz2{,.asc}
