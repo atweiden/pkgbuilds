@@ -3,7 +3,7 @@
 # Contributor: jebaum <jebaum at ucla dot edu>
 
 pkgname=fzf
-pkgver=0.17.5
+pkgver=0.18.0
 pkgrel=1
 pkgdesc="Command-line fuzzy finder"
 arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
@@ -18,7 +18,7 @@ url="https://github.com/junegunn/fzf"
 license=('MIT')
 source=($pkgname-$pkgver.tar.gz::https://codeload.github.com/junegunn/$pkgname/tar.gz/$pkgver
         git+https://github.com/junegunn/$pkgname.wiki)
-sha256sums=('de3b39758e01b19bbc04ee0d5107e14052d3a32ce8f40d4a63d0ed311394f7ee'
+sha256sums=('5406d181785ea17b007544082b972ae004b62fb19cdb41f25e265ea3cc8c2d9d'
             'SKIP')
 install=fzf.install
 
