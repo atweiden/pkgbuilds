@@ -5,7 +5,7 @@ pkgver=2019.07.1
 pkgrel=1
 pkgdesc="6model-based VM for NQP and Rakudo Perl6"
 arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('libatomic_ops' 'libffi' 'libtommath' 'libuv')
+depends=('libatomic_ops' 'libtommath' 'libuv')
 makedepends=('binutils' 'clang' 'git' 'make' 'perl' 'pkg-config')
 groups=('perl6')
 url="https://github.com/MoarVM/MoarVM"
@@ -25,7 +25,6 @@ build() {
     --toolchain=gnu \
     --compiler=clang \
     --has-libatomic_ops \
-    --has-libffi \
     --has-libtommath \
     --has-libuv \
     --optimize
