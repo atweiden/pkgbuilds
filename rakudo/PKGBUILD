@@ -3,11 +3,11 @@
 # curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
 pkgname=rakudo
-pkgver=2019.07.1
+pkgver=2019.11
 pkgrel=1
-pkgdesc="Perl6 on MoarVM"
+pkgdesc="Production-ready, stable implementation of the Perl 6 language"
 arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('moarvm' 'nqp')
+depends=('libatomic_ops' 'libffi' 'libuv' 'moarvm' 'nqp' 'zstd')
 makedepends=('make' 'perl')
 optdepends=('gdb: GDB runner'
             'valgrind: Valgrind runner')
@@ -15,11 +15,11 @@ groups=('perl6')
 url="https://github.com/rakudo/rakudo"
 license=('PerlArtistic')
 source=(https://github.com/rakudo/rakudo/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('d91dce95ec3f6fca1723c7eacfcbcc823269ba73dc945d778f608f0c878444f7'
+sha256sums=('36e19160d7a8b5dd723e5602d851ccef9e4cf0970e1c67589bf88935ceb65531'
             'SKIP')
 validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 provides=('perl6' 'rakudo')
-conflicts=('perl6' 'rakudo')
+conflicts=('perl6')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
