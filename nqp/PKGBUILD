@@ -2,17 +2,17 @@
 # curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
 pkgname=nqp
-pkgver=2019.07.1
+pkgver=2019.11
 pkgrel=1
 pkgdesc="Lightweight Perl6-like environment for virtual machines, with MoarVM support"
 arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('moarvm')
+depends=('libatomic_ops' 'libffi' 'libuv' 'moarvm')
 makedepends=('make' 'perl')
 groups=('perl6')
 url="https://github.com/perl6/nqp"
 license=('PerlArtistic')
 source=(https://github.com/perl6/nqp/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('7324e5b84903c5063303a3c9fb6205bdf5f071c9778cc695ea746e7d41b12224'
+sha256sums=('b47f911def8aafded041b079ac86e5df23b726c190664c3217c567835f481328'
             'SKIP')
 validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
 
