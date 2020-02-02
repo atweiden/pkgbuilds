@@ -1,55 +1,64 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
-# Contributor: WorMzy Tykashi <wormzy.tykashi@gmail.com>
-# Contributor: Dmitry Korzhevin <dkorzhevin AT gmail DOT com>
-# Contributor: C.Coutinho <kikijump[at]gmail[dot]com>
-# Contributor: Grigorios Bouzakis <grbzks[at]gmail[dot]com>
-# Contributor: TDY <tdy@gmx.com>
 
-pkgname=tmux-git
+pkgname='tmux-git'
 pkgver=20190405
 pkgrel=1
-pkgdesc="A terminal multiplexer"
-arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('libevent' 'libutempter' 'ncurses')
-makedepends=('autoconf' 'automake' 'git' 'make' 'pkg-config')
-url="https://tmux.github.io"
+pkgdesc='A terminal multiplexer'
+arch=('aarch64'
+      'armv6h'
+      'armv7h'
+      'i686'
+      'x86_64')
+depends=('libevent'
+         'libutempter'
+         'ncurses')
+makedepends=('autoconf'
+             'automake'
+             'git'
+             'make'
+             'pkg-config')
+url='https://tmux.github.io'
 license=('BSD')
-source=(git+https://github.com/tmux/tmux
-        git+https://github.com/imomaliev/tmux-bash-completion)
+source=('git+https://github.com/tmux/tmux'
+        'git+https://github.com/imomaliev/tmux-bash-completion')
 sha256sums=('SKIP'
             'SKIP')
 provides=('tmux')
 conflicts=('tmux')
 
 pkgver() {
-  cd ${pkgname%%-*}
-  git log -1 --format="%cd" --date=short | sed "s|-||g"
+  cd "${pkgname%%-*}"
+  git log -1 --format='%cd' --date='short' \
+    | sed 's|-||g'
 }
 
 build() {
-  cd ${pkgname%%-*}
+  cd "${pkgname%%-*}"
 
   msg2 'Building...'
   ./autogen.sh
   ./configure \
-    --prefix=/usr \
-    --sbindir=/usr/bin \
-    --libexecdir=/usr/lib/tmux \
-    --sysconfdir=/etc \
-    --sharedstatedir=/usr/share/tmux \
-    --localstatedir=/var/lib/tmux \
+    --prefix='/usr' \
+    --sbindir='/usr/bin' \
+    --libexecdir='/usr/lib/tmux' \
+    --sysconfdir='/etc' \
+    --sharedstatedir='/usr/share/tmux' \
+    --localstatedir='/var/lib/tmux' \
     --enable-utempter
   make
 }
 
 package() {
-  cd ${pkgname%%-*}
+  cd "${pkgname%%-*}"
 
   msg2 'Installing...'
-  make DESTDIR="$pkgdir" install
+  make \
+    DESTDIR="$pkgdir" \
+    install
 
   msg2 'Installing license...'
-  install -Dm 644 COPYING -t "$pkgdir/usr/share/licenses/tmux"
+  install -Dm 644 COPYING \
+          -t "$pkgdir/usr/share/licenses/tmux"
 
   msg2 'Installing documentation...'
   install -Dm 644 CHANGES \
@@ -64,6 +73,12 @@ package() {
           -t "$pkgdir/usr/share/bash-completion/completions"
 
   msg2 'Cleaning up pkgdir...'
-  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
-  find "$pkgdir" -type f -name .gitignore -exec rm -r '{}' +
+  find "$pkgdir" \
+    -type d \
+    -name .git \
+    -exec rm -r '{}' +
+  find "$pkgdir" \
+    -type f \
+    -name .gitignore \
+    -exec rm -r '{}' +
 }
