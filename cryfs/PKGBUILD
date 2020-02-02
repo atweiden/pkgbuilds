@@ -2,22 +2,29 @@
 # Contributor: kaylyn
 # Contributor: Giuseppe Calà <jiveaxe@gmail.com>
 
-pkgname=cryfs
+pkgname='cryfs'
 pkgver=0.10.2
 pkgrel=1
-pkgdesc="Cryptographic filesystem for the cloud"
-arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
+pkgdesc='Cryptographic filesystem for the cloud'
+arch=('aarch64'
+      'armv6h'
+      'armv7h'
+      'i686'
+      'x86_64')
 depends=('boost'
          'boost-libs'
          'curl'
          'fuse2'
          'openmp'
          'openssl')
-makedepends=('cmake' 'git' 'make' 'python')
-url="https://www.cryfs.org"
+makedepends=('cmake'
+             'git'
+             'make'
+             'python')
+url='https://www.cryfs.org'
 license=('LGPL3')
-source=(https://github.com/cryfs/cryfs/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc}
-        git+https://github.com/cryfs/cryfs.wiki)
+source=("https://github.com/cryfs/cryfs/releases/download/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc}
+        'git+https://github.com/cryfs/cryfs.wiki')
 sha256sums=('5531351b67ea23f849b71a1bc44474015c5718d1acce039cf101d321b27f03d5'
             'SKIP'
             'SKIP')
@@ -33,30 +40,38 @@ build() {
   msg2 'Building...'
   mkdir cmake && cd cmake
   cmake \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DBUILD_TESTING=off \
-    -DCRYFS_UPDATE_CHECKS=off \
+    -DCMAKE_INSTALL_PREFIX='/usr' \
+    -DCMAKE_BUILD_TYPE='Release' \
+    -DBUILD_TESTING='off' \
+    -DCRYFS_UPDATE_CHECKS='off' \
     ..
-  make -j$_nproc
+  make -j"$_nproc"
 }
 
 package() {
   cd "$srcdir"
 
   msg2 'Installing license...'
-  install -Dm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+  install -Dm 644 LICENSE \
+          -t "$pkgdir/usr/share/licenses/$pkgname"
 
   msg2 'Installing documentation...'
-  install -Dm 644 README.md -t "$pkgdir/usr/share/doc/$pkgname"
+  install -Dm 644 README.md \
+          -t "$pkgdir/usr/share/doc/$pkgname"
 
   msg2 'Installing wiki...'
-  cp -dpr --no-preserve=ownership "$srcdir/$pkgname.wiki" \
+  cp -dpr --no-preserve='ownership' "$srcdir/$pkgname.wiki" \
     "$pkgdir/usr/share/doc/$pkgname/wiki"
 
   msg2 'Installing...'
-  make DESTDIR="$pkgdir" install -C cmake
+  make \
+    DESTDIR="$pkgdir" \
+    install \
+    -C cmake
 
   msg2 'Cleaning up pkgdir...'
-  find "$pkgdir" -type d -name .git -exec rm -r '{}' +
+  find "$pkgdir" \
+    -type d \
+    -name .git \
+    -exec rm -r '{}' +
 }
