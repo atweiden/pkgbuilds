@@ -1,31 +1,40 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
-# Contributor: spider-mario <spidermario@free.fr>
-# curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
-pkgname=rakudo
-pkgver=2019.11
+pkgname='rakudo'
+pkgver=2020.01
 pkgrel=1
-pkgdesc="Production-ready, stable implementation of the Perl 6 language"
-arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('libatomic_ops' 'libffi' 'libuv' 'moarvm' 'nqp' 'zstd')
-makedepends=('make' 'perl')
+pkgdesc='Mature, production-ready implementation of the Raku language'
+arch=('aarch64'
+      'armv6h'
+      'armv7h'
+      'i686'
+      'x86_64')
+depends=('libatomic_ops'
+         'libffi'
+         'libuv'
+         'moarvm'
+         'nqp'
+         'zstd')
+makedepends=('make'
+             'perl')
 optdepends=('gdb: GDB runner'
             'valgrind: Valgrind runner')
-groups=('perl6')
-url="https://github.com/rakudo/rakudo"
+groups=('raku')
+url='https://github.com/rakudo/rakudo'
 license=('PerlArtistic')
-source=(https://github.com/rakudo/rakudo/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('36e19160d7a8b5dd723e5602d851ccef9e4cf0970e1c67589bf88935ceb65531'
+source=("https://github.com/rakudo/rakudo/releases/download/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc})
+sha256sums=('2e02fcfca2f79ec6bd2dc0f0840ae108ec76f030f3080aa47f23f80f92b6c3b0'
             'SKIP')
-validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
-provides=('perl6' 'rakudo')
-conflicts=('perl6')
+validpgpkeys=('FE750D152426F3E50953176ADE8F8F5E97A8FCDE')
+provides=('raku')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg2 'Building...'
-  perl Configure.pl --prefix=/usr --backends=moar
+  perl Configure.pl \
+    --prefix='/usr' \
+    --backends='moar'
   make
 }
 
@@ -35,6 +44,9 @@ package() {
   msg2 'Installing...'
   export RAKUDO_LOG_PRECOMP=1
   export RAKUDO_RERESOLVE_DEPENDENCIES=0
-  make DESTDIR="$pkgdir" install
-  install -Dm 755 tools/install-dist.p6 "$pkgdir/usr/bin/perl6-install-dist"
+  make \
+    DESTDIR="$pkgdir" \
+    install
+  install -Dm 755 tools/install-dist.p6 \
+    "$pkgdir/usr/bin/raku-install-dist"
 }
