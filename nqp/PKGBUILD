@@ -1,26 +1,35 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
-# curl https://keybase.io/alexdaniel/pgp_keys.asc | gpg --import
 
-pkgname=nqp
-pkgver=2019.11
+pkgname='nqp'
+pkgver=2020.01
 pkgrel=1
-pkgdesc="Lightweight Perl6-like environment for virtual machines, with MoarVM support"
-arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('libatomic_ops' 'libffi' 'libuv' 'moarvm')
-makedepends=('make' 'perl')
-groups=('perl6')
-url="https://github.com/perl6/nqp"
+pkgdesc='Lightweight Raku-like environment for virtual machines'
+arch=('aarch64'
+      'armv6h'
+      'armv7h'
+      'i686'
+      'x86_64')
+depends=('libatomic_ops'
+         'libffi'
+         'libuv'
+         'moarvm')
+makedepends=('make'
+             'perl')
+groups=('raku')
+url='https://github.com/perl6/nqp'
 license=('PerlArtistic')
-source=(https://github.com/perl6/nqp/releases/download/$pkgver/$pkgname-$pkgver.tar.gz{,.asc})
-sha256sums=('b47f911def8aafded041b079ac86e5df23b726c190664c3217c567835f481328'
+source=("https://github.com/perl6/nqp/releases/download/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc})
+sha256sums=('4ccc9c194322c73f4c8ba681e277231479fcc2307642eeeb0f7caa149332965b'
             'SKIP')
-validpgpkeys=('E1A575CCC2D58C7AA5609FE14710D9D434A4A3C6')
+validpgpkeys=('FE750D152426F3E50953176ADE8F8F5E97A8FCDE')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg2 'Building...'
-  perl Configure.pl --prefix=/usr --backends=moar
+  perl Configure.pl \
+    --prefix='/usr' \
+    --backends='moar'
   make
 }
 
@@ -28,5 +37,7 @@ package() {
   cd "$srcdir/$pkgname-$pkgver"
 
   msg2 'Installing...'
-  make DESTDIR="$pkgdir" install
+  make \
+    DESTDIR="$pkgdir" \
+    install
 }
