@@ -1,18 +1,29 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
-pkgname=moarvm
-pkgver=2019.11
+pkgname='moarvm'
+pkgver=2020.01.1
 pkgrel=1
-pkgdesc="VM for NQP and Rakudo Perl 6"
-arch=('aarch64' 'armv6h' 'armv7h' 'i686' 'x86_64')
-depends=('libatomic_ops' 'libffi' 'libuv' 'zstd')
-makedepends=('binutils' 'git' 'make' 'perl' 'pkgconf')
-groups=('perl6')
-url="https://github.com/MoarVM/MoarVM"
+pkgdesc='VM with adaptive optimization and JIT compilation, built for Rakudo'
+arch=('aarch64'
+      'armv6h'
+      'armv7h'
+      'i686'
+      'x86_64')
+depends=('libatomic_ops'
+         'libffi'
+         'libuv'
+         'zstd')
+makedepends=('binutils'
+             'git'
+             'make'
+             'perl'
+             'pkgconf')
+groups=('raku')
+url='https://moarvm.org'
 license=('PerlArtistic')
 options=('!purge')
-source=(https://moarvm.com/releases/MoarVM-$pkgver.tar.gz{,.asc})
-sha256sums=('d882c5114e35800eba2226f2104997052e98b3efdea6463e7edb213a87870201'
+source=("https://moarvm.org/releases/MoarVM-$version.tar.gz"{,.asc})
+sha256sums=('dcb61e44a098e8375c385eb9d52bd6394255a388697b2f6a52d88e6cf4a53587'
             'SKIP')
 validpgpkeys=('E2AEB3D93FB3940B844C9E08A68DF012C3881D62')
 
@@ -25,9 +36,9 @@ build() {
     --has-libffi \
     --has-libuv \
     --optimize \
-    --pkgconfig=/usr/bin/pkgconf \
-    --prefix=/usr \
-    --toolchain=gnu
+    --pkgconfig='/usr/bin/pkgconf' \
+    --prefix='/usr' \
+    --toolchain='gnu'
   make
 }
 
@@ -35,13 +46,18 @@ package() {
   cd "$srcdir/MoarVM-$pkgver"
 
   msg2 'Installing documentation...'
-  install -Dm 644 README.markdown -t "$pkgdir/usr/share/doc/$pkgname"
-  cp -dpr --no-preserve=ownership docs "$pkgdir/usr/share/doc/$pkgname/design"
+  install -Dm 644 README.markdown \
+          -t "$pkgdir/usr/share/doc/$pkgname"
+  cp -dpr --no-preserve='ownership' docs "$pkgdir/usr/share/doc/$pkgname/design"
 
   msg2 'Installing license...'
-  install -Dm 644 Artistic2.txt CREDITS LICENSE \
+  install -Dm 644 Artistic2.txt \
+                  CREDITS \
+                  LICENSE \
           -t "$pkgdir/usr/share/licenses/$pkgname"
 
   msg2 'Installing...'
-  make DESTDIR="$pkgdir" install
+  make \
+    DESTDIR="$pkgdir" \
+    install
 }
