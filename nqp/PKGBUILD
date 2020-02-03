@@ -18,7 +18,7 @@ makedepends=('make'
 groups=('raku')
 url='https://github.com/perl6/nqp'
 license=('PerlArtistic')
-source=("https://github.com/perl6/nqp/releases/download/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc})
+source=("https://rakudo.org/dl/nqp/$pkgname-$version.tar.gz"{,.asc})
 sha256sums=('4ccc9c194322c73f4c8ba681e277231479fcc2307642eeeb0f7caa149332965b'
             'SKIP')
 validpgpkeys=('FE750D152426F3E50953176ADE8F8F5E97A8FCDE')
