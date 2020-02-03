@@ -22,7 +22,7 @@ groups=('raku')
 url='https://moarvm.org'
 license=('PerlArtistic')
 options=('!purge')
-source=("https://moarvm.org/releases/MoarVM-$version.tar.gz"{,.asc})
+source=("https://moarvm.org/releases/MoarVM-$pkgver.tar.gz"{,.asc})
 sha256sums=('dcb61e44a098e8375c385eb9d52bd6394255a388697b2f6a52d88e6cf4a53587'
             'SKIP')
 validpgpkeys=('E2AEB3D93FB3940B844C9E08A68DF012C3881D62')
