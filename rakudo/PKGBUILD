@@ -22,7 +22,7 @@ optdepends=('gdb: GDB runner'
 groups=('raku')
 url='https://github.com/rakudo/rakudo'
 license=('PerlArtistic')
-source=("https://github.com/rakudo/rakudo/releases/download/$pkgver/$pkgname-$pkgver.tar.gz"{,.asc})
+source=("https://rakudo.org/dl/rakudo/$pkgname-$pkgver.tar.gz"{,.asc})
 sha256sums=('2e02fcfca2f79ec6bd2dc0f0840ae108ec76f030f3080aa47f23f80f92b6c3b0'
             'SKIP')
 validpgpkeys=('FE750D152426F3E50953176ADE8F8F5E97A8FCDE')
