@@ -48,7 +48,8 @@ package() {
   msg2 'Installing documentation...'
   install -Dm 644 README.markdown \
           -t "$pkgdir/usr/share/doc/$pkgname"
-  cp -dpr --no-preserve='ownership' docs "$pkgdir/usr/share/doc/$pkgname/design"
+  cp -dpr --no-preserve='ownership' docs \
+    "$pkgdir/usr/share/doc/$pkgname/design"
 
   msg2 'Installing license...'
   install -Dm 644 Artistic2.txt \
