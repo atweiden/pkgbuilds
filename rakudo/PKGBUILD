@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname='rakudo'
-pkgver=2020.01
+pkgver=2020.05
 pkgrel=1
 pkgdesc='Mature, production-ready implementation of the Raku language'
 arch=('aarch64'
@@ -11,11 +11,13 @@ arch=('aarch64'
       'x86_64')
 depends=('libatomic_ops'
          'libffi'
+         'libtommath'
          'libuv'
          'moarvm'
          'nqp'
          'zstd')
-makedepends=('make'
+makedepends=('git'
+             'make'
              'perl')
 optdepends=('gdb: GDB runner'
             'valgrind: Valgrind runner')
@@ -23,7 +25,7 @@ groups=('raku')
 url='https://github.com/rakudo/rakudo'
 license=('PerlArtistic')
 source=("https://rakudo.org/dl/rakudo/$pkgname-$pkgver.tar.gz"{,.asc})
-sha256sums=('2e02fcfca2f79ec6bd2dc0f0840ae108ec76f030f3080aa47f23f80f92b6c3b0'
+sha256sums=('86d1986c9a5ad1c7fe0f8875f16830cd3c4e84a3a3e05ee7e01e5234432aa121'
             'SKIP')
 validpgpkeys=('FE750D152426F3E50953176ADE8F8F5E97A8FCDE')
 provides=('raku')
