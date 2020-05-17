@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname='moarvm'
-pkgver=2020.01.1
+pkgver=2020.05
 pkgrel=1
 pkgdesc='VM with adaptive optimization and JIT compilation, built for Rakudo'
 arch=('aarch64'
@@ -11,6 +11,7 @@ arch=('aarch64'
       'x86_64')
 depends=('libatomic_ops'
          'libffi'
+         'libtommath'
          'libuv'
          'zstd')
 makedepends=('binutils'
@@ -23,7 +24,7 @@ url='https://moarvm.org'
 license=('PerlArtistic')
 options=('!purge')
 source=("https://moarvm.org/releases/MoarVM-$pkgver.tar.gz"{,.asc})
-sha256sums=('dcb61e44a098e8375c385eb9d52bd6394255a388697b2f6a52d88e6cf4a53587'
+sha256sums=('9368d2c691ea8710459a48c323915df6648c4a67d2ce24c27fc74f6b084a824b'
             'SKIP')
 validpgpkeys=('E2AEB3D93FB3940B844C9E08A68DF012C3881D62')
 
@@ -34,6 +35,7 @@ build() {
   perl Configure.pl \
     --has-libatomic_ops \
     --has-libffi \
+    --has-libtommath \
     --has-libuv \
     --optimize \
     --pkgconfig='/usr/bin/pkgconf' \
