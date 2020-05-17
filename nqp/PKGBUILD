@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <archbaum@gmail.com>
 
 pkgname='nqp'
-pkgver=2020.01
+pkgver=2020.05
 pkgrel=1
 pkgdesc='Lightweight Raku-like environment for virtual machines'
 arch=('aarch64'
@@ -11,15 +11,17 @@ arch=('aarch64'
       'x86_64')
 depends=('libatomic_ops'
          'libffi'
+         'libtommath'
          'libuv'
          'moarvm')
-makedepends=('make'
+makedepends=('git'
+             'make'
              'perl')
 groups=('raku')
-url='https://github.com/perl6/nqp'
+url='https://github.com/Raku/nqp'
 license=('PerlArtistic')
 source=("https://rakudo.org/dl/nqp/$pkgname-$pkgver.tar.gz"{,.asc})
-sha256sums=('4ccc9c194322c73f4c8ba681e277231479fcc2307642eeeb0f7caa149332965b'
+sha256sums=('291b92d9db968a691195adb1c9533edc1076d12d6617d6d931e40595e906b577'
             'SKIP')
 validpgpkeys=('FE750D152426F3E50953176ADE8F8F5E97A8FCDE')
 
