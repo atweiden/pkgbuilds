@@ -16,7 +16,7 @@ makedepends=('cargo'
              'git')
 url='https://github.com/myfreeweb/freepass'
 license=('Unlicense')
-source=("git+https://github.com/myfreeweb/freepass#commit=$_gitrev::$pkgname-$_gitrev")
+source=("$pkgname-$_gitrev::git+https://github.com/myfreeweb/freepass#commit=$_gitrev")
 sha256sums=('SKIP')
 
 pkgver() {
