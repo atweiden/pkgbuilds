@@ -1,0 +1,54 @@
+# Maintainer: Andy Weidenbaum <archbaum@gmail.com>
+
+pkgname='freepass'
+pkgver=0.0.0
+pkgrel=1
+_gitrev="7861153baae6f557faacecbda5412b307ca220b8"
+pkgdesc='Free password manager for power users - CLI'
+arch=('aarch64'
+      'armv6h'
+      'armv7h'
+      'i686'
+      'x86_64')
+depends=('clang'
+         'libsodium')
+makedepends=('cargo'
+             'git')
+url='https://github.com/myfreeweb/freepass'
+license=('Unlicense')
+source=("git+https://github.com/myfreeweb/freepass#commit=$_gitrev::$pkgname-$_gitrev")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$pkgname-$_gitrev"
+  git log -1 --format='%cd' --date='short' \
+    | sed 's|-||g'
+}
+
+prepare() {
+  cd "$pkgname-$_gitrev"
+  git submodule update --init --recursive
+}
+
+build() {
+  cd "$pkgname-$_gitrev/cli"
+  cargo build --release
+}
+
+package() {
+  cd "$pkgname-$_gitrev"
+
+  msg2 'Installing license...'
+  install -Dm 644 UNLICENSE \
+          -t "$pkgdir/usr/share/licenses/$pkgname"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 README.md \
+          -t "$pkgdir/usr/share/doc/$pkgname"
+  install -Dm 644 cli/README.md \
+          "$pkgdir/usr/share/doc/$pkgname/README-cli.md"
+
+  msg2 'Installing...'
+  install -Dm 755 "target/release/$pkgname" \
+          "$pkgdir/usr/bin/$pkgname"
+}
