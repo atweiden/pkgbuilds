@@ -49,6 +49,6 @@ package() {
           "$pkgdir/usr/share/doc/$pkgname/README-cli.md"
 
   msg2 'Installing...'
-  install -Dm 755 "target/release/$pkgname" \
+  install -Dm 755 "cli/target/release/$pkgname" \
           "$pkgdir/usr/bin/$pkgname"
 }
