@@ -1,0 +1,47 @@
+# Maintainer: Andy Weidenbaum <atweiden@tutanota.de>
+
+pkgname='twf-git'
+pkgver=20200920
+pkgrel=1
+pkgdesc='Standalone tree view file explorer'
+arch=('aarch64'
+      'armv6h'
+      'armv7h'
+      'i686'
+      'x86_64')
+makedepends=('git'
+             'go')
+url='https://github.com/wvanlint/twf'
+license=('Custom')
+source=('git+https://github.com/wvanlint/twf')
+sha256sums=('SKIP')
+provides=('twf')
+conflicts=('twf')
+
+pkgver() {
+  cd "${pkgname%%-*}"
+  git log -1 --format='%cd' --date='short' \
+    | sed 's|-||g'
+}
+
+build() {
+  cd "${pkgname%%-*}"
+
+  msg2 'Building...'
+  export CGO_CPPFLAGS="$CPPFLAGS"
+  export CGO_CFLAGS="$CFLAGS"
+  export CGO_CXXFLAGS="$CXXFLAGS"
+  export CGO_LDFLAGS="$LDFLAGS"
+  export GOFLAGS="-buildmode=pie -trimpath -mod=readonly -modcacherw"
+  go build ./cmd/twf
+}
+
+package() {
+  cd "${pkgname%%-*}"
+
+  msg2 'Installing...'
+  install -Dm 755 twf "$pkgdir/usr/bin/twf"
+
+  msg2 'Installing documentation...'
+  install -Dm 644 README.md -t "$pkgdir/usr/share/doc/twf"
+}
