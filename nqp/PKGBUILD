@@ -23,6 +23,7 @@ license=('PerlArtistic')
 source=("https://rakudo.org/dl/nqp/$pkgname-$pkgver.tar.gz"{,.asc})
 sha256sums=('25d3c99745cd84f4049a9bd9cf26bb5dc817925abaafe71c9bdb68841cdb18b1'
             'SKIP')
+# https://keys.openpgp.org/vks/v1/by-fingerprint/59E634736AFDCF9C6DBAC382602D51EACA887C01
 validpgpkeys=('59E634736AFDCF9C6DBAC382602D51EACA887C01')
 
 build() {

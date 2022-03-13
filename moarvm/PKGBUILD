@@ -26,6 +26,7 @@ options=('!purge')
 source=("https://moarvm.org/releases/MoarVM-$pkgver.tar.gz"{,.asc})
 sha256sums=('4f93cdce6b8a565a32282bb38cc971cefeb71f5d022c850c338ee8145574ee96'
             'SKIP')
+# https://keys.openpgp.org/vks/v1/by-fingerprint/59E634736AFDCF9C6DBAC382602D51EACA887C01
 validpgpkeys=('59E634736AFDCF9C6DBAC382602D51EACA887C01')
 
 build() {

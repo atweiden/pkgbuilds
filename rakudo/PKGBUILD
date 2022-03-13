@@ -27,6 +27,7 @@ license=('PerlArtistic')
 source=("https://rakudo.org/dl/rakudo/$pkgname-$pkgver.tar.gz"{,.asc})
 sha256sums=('6a6e9dbcc6d9a1610a34c6ec67e2d3f694d7b33e9e0a0f224543089fa7f71332'
             'SKIP')
+# https://keys.openpgp.org/vks/v1/by-fingerprint/59E634736AFDCF9C6DBAC382602D51EACA887C01
 validpgpkeys=('59E634736AFDCF9C6DBAC382602D51EACA887C01')
 provides=('raku')
 
