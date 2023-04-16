@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <atweiden@tutanota.de>
 
 pkgname='rakudo'
-pkgver=2022.12
+pkgver=2023.02
 pkgrel=1
 pkgdesc='Mature, production-ready implementation of the Raku language'
 arch=('aarch64'
@@ -24,7 +24,7 @@ groups=('raku')
 url='https://github.com/rakudo/rakudo'
 license=('PerlArtistic')
 source=("https://rakudo.org/dl/rakudo/$pkgname-$pkgver.tar.gz"{,.asc})
-sha256sums=('8bf95488d89b81ef9254d72c7f6b1235b4796bb465f2800fe3b97bdf74695c9e'
+sha256sums=('fd1686aa2cf32eb9f0eb7d0d6f96dfc897cf53ccf89eda7d225b68738093aa11'
             'SKIP')
 # https://keys.openpgp.org/vks/v1/by-fingerprint/59E634736AFDCF9C6DBAC382602D51EACA887C01
 validpgpkeys=('59E634736AFDCF9C6DBAC382602D51EACA887C01')
