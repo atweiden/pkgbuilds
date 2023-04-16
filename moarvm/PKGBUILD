@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <atweiden@tutanota.de>
 
 pkgname='moarvm'
-pkgver=2022.12
+pkgver=2023.02
 pkgrel=1
 pkgdesc='VM with adaptive optimization and JIT compilation, built for Rakudo'
 arch=('aarch64'
@@ -23,7 +23,7 @@ url='https://moarvm.org'
 license=('PerlArtistic')
 options=('!purge')
 source=("https://moarvm.org/releases/MoarVM-$pkgver.tar.gz"{,.asc})
-sha256sums=('51c3e9c9a7a191c148f213b65ae1f4fcfe5d4b7c16c86300e9ee8e18eaa8becb'
+sha256sums=('67e214d44d5f626787ca7f04424043a639308a43a7777b6fa41926b7240e0dc5'
             'SKIP')
 # https://keys.openpgp.org/vks/v1/by-fingerprint/59E634736AFDCF9C6DBAC382602D51EACA887C01
 validpgpkeys=('59E634736AFDCF9C6DBAC382602D51EACA887C01')
