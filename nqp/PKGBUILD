@@ -1,7 +1,7 @@
 # Maintainer: Andy Weidenbaum <atweiden@tutanota.de>
 
 pkgname='nqp'
-pkgver=2022.12
+pkgver=2023.02
 pkgrel=1
 pkgdesc='Lightweight Raku-like environment for virtual machines'
 arch=('aarch64'
@@ -20,7 +20,7 @@ groups=('raku')
 url='https://github.com/Raku/nqp'
 license=('PerlArtistic')
 source=("https://rakudo.org/dl/nqp/$pkgname-$pkgver.tar.gz"{,.asc})
-sha256sums=('e5f7d13a0a4855be420c071cdaf004c7abd0984977863bd2828a5cf7de8459ad'
+sha256sums=('e35ed5ed94ec32a6d730ee815bf85c5fcf88a867fac6566368c1ad49fe63b53f'
             'SKIP')
 # https://keys.openpgp.org/vks/v1/by-fingerprint/59E634736AFDCF9C6DBAC382602D51EACA887C01
 validpgpkeys=('59E634736AFDCF9C6DBAC382602D51EACA887C01')
